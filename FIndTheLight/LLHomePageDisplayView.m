@@ -16,23 +16,25 @@
     
     
     UIImageView *BackDisplaygroundView = [[UIImageView alloc]init];
-    BackDisplaygroundView.frame = CGRectMake(0, 0, 150, 80);
-    BackDisplaygroundView.image = [UIImage imageNamed:@"Btn_textbox"];
+    BackDisplaygroundView.frame = CGRectMake(0, 0, 117, 60);
+    BackDisplaygroundView.image = [UIImage imageNamed:@"textbox_location"];
     BackDisplaygroundView.backgroundColor = [UIColor clearColor];
     [self addSubview:BackDisplaygroundView];
     
     
     _LLHomeDisplayLabel = [[UILabel alloc]init];
-    _LLHomeDisplayLabel.frame = CGRectMake(25, 10, 120, 30);
-    _LLHomeDisplayLabel.font = [UIFont systemFontOfSize:26];
-    _LLHomeDisplayLabel.textColor = [UIColor whiteColor];
-    _LLHomeDisplayLabel.text = @"未知";
+    _LLHomeDisplayLabel.frame = CGRectMake(18, 10, 100, 20);
+    _LLHomeDisplayLabel.font = [UIFont fontWithName:@"Consolas" size:16];
+    _LLHomeDisplayLabel.textColor = [UIColor colorWithRed:254.0/255.0 green:239.0/255.0 blue:189.0/255.0 alpha:1];
+    _LLHomeDisplayLabel.text = @"定位中…";
+    _LLHomeDisplayLabel.adjustsFontSizeToFitWidth = YES;
     [self addSubview:_LLHomeDisplayLabel];
     
     
     UILabel *LocationLabel = [[UILabel alloc]init];
-    LocationLabel.frame = CGRectMake(25, 50, 120, 30);
-    LocationLabel.font = [UIFont systemFontOfSize:18];
+    LocationLabel.frame = CGRectMake(15, 35, 100, 20);
+    LocationLabel.font = [UIFont fontWithName:@"Consolas" size:16];
+    LocationLabel.adjustsFontSizeToFitWidth = YES;
     LocationLabel.text = @"华中科技大学";
     LocationLabel.textColor = [UIColor colorWithRed:253.0/255.0 green:229.0/255.0 blue:279.0/255.0 alpha:1];
     [self addSubview:LocationLabel];

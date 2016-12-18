@@ -28,9 +28,9 @@
 -(void)FilterLighting{
     [self animationWithName:@"FilterLighting" andImageCount:50];
 }
--(void)FilterLightingBackgroundRain{
-    [self animationWithName:@"FilterLightingBackgroundRain" andImageCount:2];
-}
+//-(void)FilterLightingBackgroundRain{
+//    [self animationWithName:@"FilterLightingBackgroundRain" andImageCount:2];
+//}
 - (void)animationWithName:(NSString *) name andImageCount:(int) imageCount
 {
     //  如果当前正在执行动画，就不要在执行其他动画了
@@ -42,7 +42,7 @@
     NSMutableArray *images = [NSMutableArray arrayWithCapacity:imageCount];
     
     for (int i = 1; i <= imageCount; i++) {
-        NSString *imageName = [NSString stringWithFormat:@"%@-%d@2x",name,i];
+        NSString *imageName = [NSString stringWithFormat:@"%@_%d",name,i];
 //        NSLog(@"%@",imageName);
         NSString *path = [[NSBundle mainBundle] pathForResource:imageName ofType:@"png"];
 //        NSLog(@"%@",path);

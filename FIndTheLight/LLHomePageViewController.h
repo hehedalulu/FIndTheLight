@@ -11,13 +11,13 @@
 
 #import <AMapFoundationKit/AMapFoundationKit.h>
 #import <AMapLocationKit/AMapLocationKit.h>
-#import "iCarousel.h"
 
-@interface LLHomePageViewController : UIViewController<AMapLocationManagerDelegate,iCarouselDataSource, iCarouselDelegate>{
+#import "HintViewDismiss.h"
+#import "HintViewPresent.h"
+#import "LLHintViewController.h"
+
+@interface LLHomePageViewController : UIViewController<AMapLocationManagerDelegate,UIViewControllerTransitioningDelegate>{
     AMapLocationManager *locationManager;
-    
-    iCarousel *icarousel;
-    NSMutableArray *HintImagesArray;
 }
 
 @property (nonatomic, weak) UIView * LLsecondView;

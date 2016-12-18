@@ -20,7 +20,7 @@
 
 -(void)LLfilerAlwaysDraw{
 
-    [self animationWithName:@"FilterLightingBackgroundRain" andImageCount:2];
+    [self animationWithName:@"filter_raining" andImageCount:10];
 }
 
 - (void)animationWithName:(NSString *) name andImageCount:(int) imageCount
@@ -33,12 +33,11 @@
     
     NSMutableArray *images = [NSMutableArray arrayWithCapacity:imageCount];
     for (int i = 1; i <= imageCount; i++) {
-        NSString *imageName = [NSString stringWithFormat:@"%@-%d@2x",name,i];
+        NSString *imageName = [NSString stringWithFormat:@"%@%d",name,i];
         NSString *path = [[NSBundle mainBundle] pathForResource:imageName ofType:@"png"];
 //        NSLog(@"%@",path);
         UIImage *image = [UIImage imageWithContentsOfFile:path];
-//        NSLog(@"%@",image);
-        
+//        NSLog(@"%@",imageName);
         
         //      3、把图片添加到数组中
         [images addObject:image];
@@ -47,7 +46,7 @@
     self.animationImages = images;
     //  设置动画执行的时间
     
-    self.animationDuration = imageCount * 0.08;
+    self.animationDuration = imageCount * 0.1;
     //  设置动画执行的重复次数
     self.animationRepeatCount = 0;
     //  开始动画

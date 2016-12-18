@@ -32,11 +32,15 @@
         
         NSArray *list = [dic objectForKey:@"datas"];
 //        NSLog(@"list is %@",list);
+        if(list){
+            NSDictionary * name = [list objectAtIndex:0];
+            _LLNearestLocation = [name objectForKey:@"_name"];
+//            NSLog(@"名字%@",name);
+        }
+
+
         
-        NSDictionary * name = [list objectAtIndex:0];
-//        NSLog(@"名字%@",name);
-        
-        _LLNearestLocation = [name objectForKey:@"_name"];
+
 //        NSLog(@"%@",_LLNearestLocation);
         
 //        for (NSDictionary *dic in list) {

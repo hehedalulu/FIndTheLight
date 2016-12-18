@@ -20,10 +20,12 @@
 #import "LLChooseView.h"
 #import <POP/POP.h>
 #import "GPUImage.h"
-
+#import "LLWaitingBall.h"
+#import "LLMatureView.h"
 
 #define DefaultLocationTimeout 10
 #define DefaultReGeocodeTimeout 5
+
 
 @interface LLHomePageViewController (){
     BOOL ghostSelfInformationNotShow;
@@ -34,9 +36,6 @@
     
     LLHomePageDisplayView *displayView;
     LLSearchAroundLocation *llsearchAroundLocation;
-    
-    BOOL showTheHintView;
-    UIView *LLHintView;
 
     
     LLFilterBackgroundView *FilterBackgroundView;
@@ -45,6 +44,14 @@
     
     UIButton *ShowFilterBtn;
     UIButton *LLHomeMenubtn;
+    
+    __block UILabel *LLCountTimerLabel;
+    BOOL HasShowtheMatureView;
+    LLMatureView *llmature;
+    
+    UIImageView *LLMatureBackgroudView;
+    UIView *LLDissmissView;
+    LLWaitingBall *waitingBall;
 }
 
 
@@ -66,10 +73,44 @@
 
     [self drawfilterImageView];
     [self drawview];
-    [self ShowHintimage];
+    [self ShowHiddenView];
 
 
+    [NSTimer scheduledTimerWithTimeInterval:30.0 target:self selector:@selector(Location) userInfo:nil repeats:YES];
 }
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        [self configLocationManager];
+    });
+    
+    [self.glView start];
+    NSLog(@"首页将要开始");
+    
+}
+
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.glView stop];
+    NSLog(@"首页将要结束");
+}
+
+
+-(void)viewWillLayoutSubviews{
+    [super viewWillLayoutSubviews];
+    [self.glView resize:self.view.bounds orientation:[UIApplication sharedApplication].statusBarOrientation];
+}
+
+-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
+    [self.glView setOrientation:toInterfaceOrientation];
+}
+
+
+
+//-(BOOL)prefersStatusBarHidden{
+//    
+//    return YES;
+//}
 
 
 #pragma mark - DrawView
@@ -77,10 +118,9 @@
 -(void)drawview{
     //截图
     Screenshotbtn = [[UIButton alloc]init];
-    Screenshotbtn.frame = CGRectMake(369, 190, 40, 37);
+    Screenshotbtn.frame = CGRectMake(12, 180, 50, 50);
     [Screenshotbtn setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
-    Screenshotbtn.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Btn_icon_camera"]];
-    Screenshotbtn.titleLabel.font = [UIFont systemFontOfSize:30];
+    [Screenshotbtn setImage:[UIImage imageNamed:@"btn_camera"] forState:UIControlStateNormal];
     [Screenshotbtn addTarget:self action:@selector(Screenshot) forControlEvents:UIControlEventTouchUpInside];
     [self.glView addSubview:Screenshotbtn];
     
@@ -89,29 +129,47 @@
     
     
     displayView = [[LLHomePageDisplayView alloc]init];
-    displayView.frame = CGRectMake(10, 30, 150, 80);
+    displayView.frame = CGRectMake(12, 33, 117, 60);
     displayView.backgroundColor = [UIColor clearColor];
     [self.glView addSubview:displayView];
     
+//    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTap:)];
+//    tapGesture.delegate = (id <UIGestureRecognizerDelegate>)self;
+//    [displayView addGestureRecognizer:tapGesture];
+    
     LLHomePageInformationView *pageInformationView = [[LLHomePageInformationView alloc]init];
-    pageInformationView.frame = CGRectMake(264, 20, 180, 150);
+    pageInformationView.frame = CGRectMake(264, 33, 234, 150);
     pageInformationView.backgroundColor = [UIColor clearColor];
     [self.glView addSubview:pageInformationView];
     
     
     LLHomeMenubtn = [[UIButton alloc]init];
     LLHomeMenubtn.frame = CGRectMake(350, 650, 50, 50);
-    LLHomeMenubtn.backgroundColor = [UIColor yellowColor];
+    [LLHomeMenubtn setImage:[UIImage imageNamed:@"btn_list"] forState:UIControlStateNormal];
     [self.glView addSubview:LLHomeMenubtn];
     [LLHomeMenubtn addTarget:self action:@selector(showMenu) forControlEvents:UIControlEventTouchUpInside];
 
-    
-    ShowFilterBtn = [[UIButton alloc]initWithFrame:CGRectMake(10, 650, 50, 50)];
-    ShowFilterBtn.backgroundColor = [UIColor orangeColor];
+    ShowFilterBtn = [[UIButton alloc]initWithFrame:CGRectMake(21, 650, 50, 50)];
+    [ShowFilterBtn setImage:[UIImage imageNamed:@"btn_filter"] forState:UIControlStateNormal];
     [ShowFilterBtn addTarget:self action:@selector(showFilterChooseView) forControlEvents:UIControlEventTouchUpInside];
     [self.glView addSubview:ShowFilterBtn];
     
     [self drawChooseView];
+    
+    waitingBall = [[LLWaitingBall alloc]initWithFrame:CGRectMake(330, 180, 70, 70)];
+    [waitingBall LLBallAlwaysDraw];
+    [self.glView addSubview:waitingBall];
+    
+    UITapGestureRecognizer *TapWaitingBall = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(ShortTapWaitingBall:)];
+    [waitingBall addGestureRecognizer:TapWaitingBall];
+    
+    LLCountTimerLabel = [[UILabel alloc]initWithFrame:CGRectMake(340, 250, 100, 30)];
+    LLCountTimerLabel.textColor = [UIColor colorWithDisplayP3Red:212.0/255.0 green:202.0/255.0 blue:255.0/255.0 alpha:1];
+    [self.glView addSubview:LLCountTimerLabel];
+    [self CountTimerAnimation:2];
+//    [self showWaitingBallMatureView];
+
+
 }
 
 
@@ -128,37 +186,47 @@
     [filterAlwaysView LLfilerAlwaysDraw];
     FilterBackgroundView.backgroundColor = [UIColor clearColor];
     [self.glView addSubview:filterAlwaysView];
-    
+
     LLFilterView *filterView = [[LLFilterView alloc]initWithFrame:CGRectMake(0, 0,414,736)];
     filterView.backgroundColor = [UIColor clearColor];
     [filterView LLfilerDraw];
-    [self.glView addSubview:filterView];
+//    [self.glView addSubview:filterView];
 
 }
 
 
--(void)ShowHintimage{
-    LLHintView = [[UIView alloc]init];
-    LLHintView.frame = CGRectMake(-650, -600, 400, 300);
-    LLHintView.backgroundColor = [UIColor clearColor];
-    [self.glView addSubview:LLHintView];
-    
-    
-    UIButton *showthehintBtn = [[UIButton alloc]initWithFrame:CGRectMake(20, 150, 40, 40)];
-    showthehintBtn.backgroundColor =[UIColor yellowColor];
-    showTheHintView = YES;
-    [showthehintBtn addTarget:self action:@selector(addtheView) forControlEvents:UIControlEventTouchUpInside];
+-(void)ShowHiddenView{
+
+    UIButton *showthehintBtn = [[UIButton alloc]initWithFrame:CGRectMake(12, 115,50, 50)];
+//    showthehintBtn.backgroundColor =[UIColor yellowColor];
+    [showthehintBtn setImage:[UIImage imageNamed:@"btn_card"] forState:UIControlStateNormal];
+    [showthehintBtn addTarget:self action:@selector(showHintView) forControlEvents:UIControlEventTouchUpInside];
     [self.glView addSubview:showthehintBtn];
     
-
-    icarousel = [[iCarousel alloc]initWithFrame:CGRectMake(0, 0, 400, 300)];
-    icarousel.delegate = self;
-//    icarousel.dataSource = self;
-    icarousel.type = iCarouselTypeCoverFlow2;
-    [LLHintView addSubview:icarousel];
+    LLDissmissView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
+    LLDissmissView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.7];
+    LLDissmissView.hidden = YES;
+    [self.glView addSubview:LLDissmissView];
+    
+    UITapGestureRecognizer *tapMatureViewToHome = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(dismissMatureView)];
+    [LLDissmissView addGestureRecognizer:tapMatureViewToHome];
+    
+    LLMatureBackgroudView = [[UIImageView alloc]initWithFrame:CGRectMake(self.view.center.x, self.view.center.y, 0, 0)];
+    LLMatureBackgroudView.backgroundColor = [UIColor greenColor];
+    [self.glView addSubview:LLMatureBackgroudView];
+    
+    llmature = [[LLMatureView alloc]init];
+    HasShowtheMatureView = NO;
     
 
+    llmature.backgroundColor = [UIColor greenColor];
+    [llmature drawRect:CGRectMake(0,0, 0, 0)];
+    [LLMatureBackgroudView addSubview:llmature];
+
+    
 }
+
+
 
 
 -(void)drawChooseView{
@@ -184,39 +252,100 @@
 }
 
 
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    icarousel = nil;
+
+#pragma mark - 光体成熟页面动画
+-(void)showWaitingBallMatureView{
+//    NSLog(@"蹦出动画");
+    POPSpringAnimation *PopMatureView = [POPSpringAnimation animation];
+    PopMatureView.property = [POPAnimatableProperty propertyWithName:kPOPViewFrame];
+//    if (!HasShowtheMatureView) {
+        PopMatureView.toValue = [NSValue valueWithCGRect:CGRectMake(self.view.center.x-140, self.view.center.y-190, 280, 380)];
+    
+    LLDissmissView.hidden = NO;
+    [self performSelector:@selector(initMaturethingsView) withObject:nil afterDelay:0.3];
+//        HasShowtheMatureView = YES;
+//    }else{
+//        PopMatureView.toValue = [NSValue valueWithCGSize:CGSizeMake(0,0)];
+//        HasShowtheMatureView = NO;
+//    }
+    PopMatureView.springBounciness = 10.0;
+    PopMatureView.springSpeed      = 10.0;
+    [LLMatureBackgroudView pop_addAnimation:PopMatureView forKey:@"shortDismissView"];
+    
 }
 
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-         [self configLocationManager];
-    });
-
-    [self.glView start];
-    NSLog(@"首页将要开始");
-
-}
-
-- (void)viewWillDisappear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    [self.glView stop];
-    NSLog(@"首页将要结束");
+-(void)initMaturethingsView{
+    llmature.LLMatureImageView.frame = CGRectMake(40, 30, 200,200);
+    llmature.LLGradeImageView.frame = CGRectMake(210, 210, 40, 40);
+    llmature.LLMaturePpImageView.frame = CGRectMake(10, 300, 50, 50);
+    llmature.LLMatureThingsLabel.frame = CGRectMake(80, 255, 80, 30);
+    llmature.LLMaturePpThingsLabel.frame = CGRectMake(70, 315, 60, 20);
+    llmature.LLCollectLabel.frame = CGRectMake(10, 0, 80, 20);
+    llmature.LLProgressBgIMG.frame = CGRectMake(150, 320, 90, 20);
+    llmature.LLProgressIMG.frame = CGRectMake(0, 0, 40, 20);
 }
 
 
--(void)viewWillLayoutSubviews{
-    [super viewWillLayoutSubviews];
-    [self.glView resize:self.view.bounds orientation:[UIApplication sharedApplication].statusBarOrientation];
+-(void)dismissMatureView{
+    NSLog(@"收回动画");
+    POPSpringAnimation *PopMatureView = [POPSpringAnimation animation];
+    PopMatureView.property = [POPAnimatableProperty propertyWithName:kPOPViewFrame];
+
+    PopMatureView.toValue = [NSValue valueWithCGRect:CGRectMake(self.view.center.x, self.view.center.y, 0, 0)];
+    
+    LLDissmissView.hidden = YES;
+    
+    llmature.LLMatureImageView.frame = CGRectMake(40, 30, 0,0);
+    llmature.LLGradeImageView.frame = CGRectMake(210, 210, 0, 0);
+    llmature.LLMaturePpImageView.frame = CGRectMake(10, 300, 0, 0);
+    llmature.LLMatureThingsLabel.frame = CGRectMake(80, 255, 0, 0);
+    llmature.LLMaturePpThingsLabel.frame = CGRectMake(70, 315, 0, 0);
+    llmature.LLCollectLabel.frame = CGRectMake(10, 0, 0, 0);
+    llmature.LLProgressBgIMG.frame = CGRectMake(150, 320, 0,0);
+    llmature.LLProgressIMG.frame = CGRectMake(0, 0, 0, 0);
+    
+    PopMatureView.springBounciness = 10.0;
+    PopMatureView.springSpeed      = 10.0;
+    [LLMatureBackgroudView pop_addAnimation:PopMatureView forKey:@"shortDismissView"];
+}
+#pragma mark - 定时光体计时器和动画
+
+-(void)CountTimerAnimation:(int)StopTime{
+
+    POPAnimatableProperty *prop = [POPAnimatableProperty propertyWithName:@"countdown" initializer:^(POPMutableAnimatableProperty *prop) {
+        
+        prop.writeBlock = ^(id obj, const CGFloat values[]) {
+            LLCountTimerLabel.text = [NSString stringWithFormat:@"%02d:%02d",(int)values[0]/60,(int)values[0]%60];
+        };
+        
+        //        prop.threshold = 0.01f;
+    }];
+    
+    POPBasicAnimation *anBasic = [POPBasicAnimation linearAnimation];   //秒表当然必须是线性的时间函数
+    anBasic.property = prop;    //自定义属性
+    anBasic.fromValue = @(0);   //从0开始
+    anBasic.toValue = @(5);  //180秒
+    anBasic.duration = 5;    //持续3分钟
+    anBasic.beginTime = CACurrentMediaTime() + 1.0f;    //延迟1秒开始
+    [LLCountTimerLabel pop_addAnimation:anBasic forKey:@"countdown"];
+    
+//    [self performSelector:@selector(showWaitingBallMatureView) withObject:self afterDelay:8];
 }
 
--(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
-    [self.glView setOrientation:toInterfaceOrientation];
-}
 
+-(void)ShortTapWaitingBall:(UITapGestureRecognizer *)gesture{
+    NSLog(@"tantantan ");
+    POPSpringAnimation *buttonSizeAnimation = [POPSpringAnimation animation];
+    buttonSizeAnimation.property = [POPAnimatableProperty propertyWithName:kPOPLayerScaleXY];
+    
+    buttonSizeAnimation.toValue = @(10);
+    
+    buttonSizeAnimation.springBounciness = 20.0;
+    buttonSizeAnimation.springSpeed      = 10.0;
+    [waitingBall pop_addAnimation:buttonSizeAnimation forKey:@"sizeAnimation"];
+    
+    
+}
 #pragma mark - 滤镜选择
 -(void)showFilterChooseView{
     
@@ -290,137 +419,39 @@
     [LLHomeMenubtn pop_addAnimation:menubtnUP forKey:@"menubtndown"];
 }
 
+#pragma mark - UIViewControllerTransitioningDelegate
 
-
-#pragma mark - Hint弹框
-
--(void)addtheView{
-    if (showTheHintView) {
-        [self showTheView];
-        showTheHintView = NO;
-    }else{
-        [self closetestView];
-        showTheHintView = YES;
-    }
-}
-
--(void)showTheView{
-    
-    POPSpringAnimation *anim = [POPSpringAnimation animationWithPropertyNamed:kPOPViewCenter];
-    CGFloat centerX = 200;
-    CGFloat centerY = 200;
-    
-    anim.toValue = [NSValue valueWithCGPoint:CGPointMake(centerX, centerY)];
-    anim.springBounciness = 16;
-    anim.springSpeed = 6;
-    [LLHintView pop_addAnimation:anim forKey:@"show"];
-}
-
--(void)closetestView{
-    POPSpringAnimation *anim = [POPSpringAnimation animationWithPropertyNamed:kPOPViewCenter];
-    CGFloat centerX = -500;
-    CGFloat centerY = 200;
-    
-    anim.toValue = [NSValue valueWithCGPoint:CGPointMake(centerX, centerY)];
-    anim.springBounciness = 16;
-    anim.springSpeed = 6;
-    [LLHintView pop_addAnimation:anim forKey:@"close"];
-}
-
-#pragma mark - Hint详情页面
-
-- (void)awakeFromNib
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented
+                                                                  presentingController:(UIViewController *)presenting
+                                                                      sourceController:(UIViewController *)source
 {
-    [super awakeFromNib];
-    //set up data
-    //your carousel should always be driven by an array of
-    //data of some kind - don't store data in your item views
-    //or the recycling mechanism will destroy your data once
-    //your item views move off-screen
-    HintImagesArray = [NSMutableArray array];
-    NSMutableArray *temp = [[NSMutableArray alloc]initWithObjects:
-                            @"WechatIMG246",
-                            @"WechatIMG247",
-                            @"WechatIMG248",
-                            @"WechatIMG249",
-                            @"WechatIMG250",nil];
-    [HintImagesArray addObjectsFromArray:temp];
-    
+
+    return [HintViewPresent new];
 }
 
-//- (void)dealloc
+//- (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented
+//                                                                  presentingController:(UIViewController *)presenting
+//                                                                      sourceController:(UIViewController *)source
 //{
-//    icarousel.delegate = nil;
-//    icarousel.dataSource = nil;
-//    
+//    return [LLMatureViewPresent new];
 //}
 
-
-- (NSInteger)numberOfItemsInCarousel:(iCarousel *)carousel
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed
 {
-    //return the total number of items in the carousel
-    return [HintImagesArray count];
+    return [HintViewDismiss new];
 }
 
-- (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSInteger)index reusingView:(UIView *)view
-{
-    UIButton *button = (UIButton *)view;
-    if (button == nil)
-    {
-//        //        NSString *imageNameString = [NSString stringWithFormat:@"WechatIMG2%@",];
-        NSString *path = [[NSBundle mainBundle] pathForResource:HintImagesArray[index] ofType:@"jpeg"];
-        
-        UIImage *inputimage = [UIImage imageWithContentsOfFile:path];
-//        UIImage *inputimage = [UIImage imageNamed:];
-        GPUImageBoxBlurFilter *passthroughfilter = [[GPUImageBoxBlurFilter alloc]init];
-        passthroughfilter.blurRadiusInPixels = 100.0;
-        
-        [passthroughfilter forceProcessingAtSize:inputimage.size];
-        [passthroughfilter useNextFrameForImageCapture];
-        
-        GPUImagePicture *stillImageSource = [[GPUImagePicture alloc]initWithImage:inputimage];
-        [stillImageSource addTarget:passthroughfilter];
-        [stillImageSource processImage];
-        //渲染结果image
-        UIImage *nearestNeighborImage = [passthroughfilter imageFromCurrentFramebuffer];
-        
-        
-        button = [UIButton buttonWithType:UIButtonTypeCustom];
-        button.frame = CGRectMake(0.0f, 0.0f, 200, 200);
-        [button setBackgroundImage:nearestNeighborImage forState:UIControlStateNormal];
-        button.backgroundColor = [UIColor yellowColor];
-        [button addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
-    }
-    
-    //set button label
-    //    [button setTitle:_items[index] forState:UIControlStateNormal];
-    
-    return button;
-}
-- (void)buttonTapped:(UIButton *)sender
-{
-    //get item index for button
-    //    indexpage = [_icarousel indexOfItemViewOrSubview:sender];
-    //    [self performSegueWithIdentifier:@"Punch" sender:self];
-    //    LLPunchDetailViewController *llPunchDetailViewController = [[LLPunchDetailViewController alloc]init];
-    //    llPunchDetailViewController.detaillocationName = _items[index];
-    
-}
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    //    LLPunchDetailViewController *view = [segue destinationViewController];
-    //    [view passdata:_items[indexpage]];
+-(void)showHintView{
+//    LLDissmissView.hidden = NO;
+    LLHintViewController *testVC = [LLHintViewController new];
+    testVC.transitioningDelegate = self;
+    testVC.modalPresentationStyle = UIModalPresentationCustom;
+    [self.navigationController presentViewController:testVC
+                                            animated:YES
+                                          completion:NULL];
 }
 
 
-- (CGFloat)carousel:(iCarousel *)carousel valueForOption:(iCarouselOption)option withDefault:(CGFloat)value
-{
-    if (option == iCarouselOptionSpacing)
-    {
-        return value * 1.1;
-    }
-    return value;
-}
 
 
 #pragma mark - 截图
@@ -473,43 +504,49 @@
     //设置期望定位精度
     [locationManager setDesiredAccuracy:kCLLocationAccuracyHundredMeters];
     
-    //设置不允许系统暂停定位
-    [locationManager setPausesLocationUpdatesAutomatically:NO];
-    
-    //设置允许在后台定位
-    [locationManager setAllowsBackgroundLocationUpdates:YES];
-    
-    //设置定位超时时间
+//    //设置不允许系统暂停定位
+//    [locationManager setPausesLocationUpdatesAutomatically:NO];
+
+//    //设置允许在后台定位
+//    [locationManager setAllowsBackgroundLocationUpdates:YES];
+//    
+//    //设置定位超时时间
     [locationManager setLocationTimeout:DefaultLocationTimeout];
-
-    [locationManager setLocatingWithReGeocode:YES];
+//
+//    [locationManager setLocatingWithReGeocode:YES];
     
-    [locationManager startUpdatingLocation];
+//    [locationManager startUpdatingLocation];
+    [self Location];
+
     
 }
 
-- (void)amapLocationManager:(AMapLocationManager *)manager didFailWithError:(NSError *)error
-{
-    NSLog(@"%s, amapLocationManager = %@, error = %@", __func__, [manager class], error);
-}
 
-- (void)amapLocationManager:(AMapLocationManager *)manager didUpdateLocation:(CLLocation *)location reGeocode:(AMapLocationReGeocode *)reGeocode
-{
-    //更新同时回调地理逆编码
-    //    NSLog(@"location:{lat:%f; lon:%f; accuracy:%f; reGeocode:%@}", location.coordinate.latitude, location.coordinate.longitude, location.horizontalAccuracy, reGeocode.formattedAddress);
+-(void)Location{
     
-    //    if (reGeocode)
-    //    {
-    //        NSLog(@"reGeocode:%@", reGeocode);
-    //    }
-    
-    
-    NSLog(@"%f,%f", location.coordinate.latitude, location.coordinate.longitude);
-    llsearchAroundLocation = [[LLSearchAroundLocation alloc]init];
-    [llsearchAroundLocation GetRequestionlongitude:location.coordinate.longitude latitude:location.coordinate.latitude];
-//    displayView.LLHomeDisplayLabel.text = @"测试";
-    [self performSelector:@selector(changedisplayLabel) withObject:nil afterDelay:1.0];
-
+    [locationManager requestLocationWithReGeocode:YES completionBlock:^(CLLocation *location, AMapLocationReGeocode *regeocode, NSError *error) {
+        
+        if (error)
+        {
+            NSLog(@"locError:{%ld - %@};", (long)error.code, error.localizedDescription);
+            
+            if (error.code == AMapLocationErrorLocateFailed)
+            {
+                return;
+            }
+        }else{
+            
+            llsearchAroundLocation = [[LLSearchAroundLocation alloc]init];
+            [llsearchAroundLocation GetRequestionlongitude:location.coordinate.longitude latitude:location.coordinate.latitude];
+            
+            if (displayView.LLHomeDisplayLabel.text == nil) {
+                displayView.LLHomeDisplayLabel.text = @"正在定位中";
+            }
+            [self performSelector:@selector(changedisplayLabel) withObject:nil afterDelay:1.0];
+        }
+        
+        NSLog(@"coordinate.latitude:%f,%f", location.coordinate.latitude,location.coordinate.longitude);
+    }];
 }
 
 -(void)changedisplayLabel{
@@ -517,6 +554,7 @@
         NSLog(@"%@",displayView.LLHomeDisplayLabel);
 }
 
+//-(void)
 #pragma mark - 地理围栏
 //-(void)initLocatalFencewithCoordinatelongitude:(float)Coordinatelongitude latitude:(float)Coordinatelatitude{
 //    AMapLocationCircleRegion *cirRegion200 = [[AMapLocationCircleRegion alloc] initWithCenter:coordinate
