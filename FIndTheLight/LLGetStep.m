@@ -62,9 +62,9 @@
     HKSampleQuery *sampleQuery = [[HKSampleQuery alloc]initWithSampleType:sampleType predicate:predicate limit:0 sortDescriptors:@[start,end] resultsHandler:^(HKSampleQuery * _Nonnull query, NSArray<__kindof HKSample *> * _Nullable results, NSError * _Nullable error) {
         //设置一个int型变量来作为步数统计
 //        int allStepCount = 0;
-        
-        for (int i = 0; i < results.count; i ++) {
 //            _LLUserStep = 0 ;
+        for (int i = 0; i < results.count; i ++) {
+
             //把结果转换为字符串类型
             HKQuantitySample *result = results[i];
             HKQuantity *quantity = result.quantity;
@@ -81,10 +81,11 @@
 //            NSString *stepCountString = (NSString *)_LLUserStep;
   
         }
-        [[NSUserDefaults standardUserDefaults] setInteger:_LLUserStep forKey:@"Energy"];
+        NSString *todayEnergy = [[NSString alloc] initWithFormat:@"%d",_LLUserStep];
+        [[NSUserDefaults standardUserDefaults] setValue:todayEnergy forKey:@"Energy"];
 //        id energy = [[NSUserDefaults standardUserDefaults] objectForKey:@"Energy"];
 //        NSLog(@"数据库中的%@",energy);
-//        NSLog(@"%d",_LLUserStep);
+        NSLog(@"%d",_LLUserStep);
        
 //        NSLog(@"在回调中%d",_LLUserStep);
        
@@ -94,11 +95,11 @@
     //执行查询
     [self.HealthStore executeQuery:sampleQuery];
     
-    id energy = [[NSUserDefaults standardUserDefaults] objectForKey:@"Energy"];
-    NSLog(@"数据库中的%@",energy);
+//    id energy = [[NSUserDefaults standardUserDefaults] objectForKey:@"Energy"];
+//    NSLog(@"数据库中的%@",energy);
 //    NSMutableArray *stepCount = [[NSMutableArray alloc]init];
 //    [stepCount insertObject:_LLUserStep atIndex:0];
-//                NSLog(@"回调结束%d",_LLUserStep);
+//    NSLog(@"回调结束%d",_LLUserStep);
     
 
     

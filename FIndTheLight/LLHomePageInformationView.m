@@ -41,22 +41,39 @@
 
     
     UILabel *HomeUsername = [[UILabel alloc]init];
-    HomeUsername.font = [UIFont fontWithName:@"Consolas" size:24];
     HomeUsername.text = @"JULIA";
-    HomeUsername.frame = CGRectMake(56, 42, 150, 32);
+    HomeUsername.frame = CGRectMake(56, 50, 150, 32);
+    HomeUsername.font = [UIFont fontWithName:@"Marker Felt" size:20];
+//    HomeUsername.adjustsLetterSpacingToFitWidth = YES;
+//    LLHomePageInformationView *llhomepageinformationView = [[LLHomePageInformationView alloc]init];
+    
+    [self changeWordSpaceForLabel:HomeUsername WithSpace:2];
     HomeUsername.textColor = [UIColor colorWithRed:212.0/255 green:202.0/255 blue:255.0/255 alpha:1];
     [self addSubview:HomeUsername];
     
     UILabel *HomeLevel = [[UILabel alloc]init];
-    HomeLevel.font = [UIFont fontWithName:@"PTMono-Regular" size:24];
     HomeLevel.text = @"LV7";
-    HomeLevel.frame = CGRectMake(56, 10, 150, 32);
+    HomeLevel.frame = CGRectMake(56, 18, 150, 32);
+//    HomeLevel.adjustsLetterSpacingToFitWidth = YES;
+    [self changeWordSpaceForLabel:HomeLevel WithSpace:2];
+    HomeLevel.font = [UIFont fontWithName:@"Marker Felt" size:20];
     HomeLevel.textColor = [UIColor colorWithRed:212.0/255 green:202.0/255 blue:255.0/255 alpha:1];
     [self addSubview:HomeLevel];
     
     [self initWaitingBallValueImage];
     [self initEnergyValueImage];
 //    [self initLevelValueImage];
+    
+}
+
+- (void)changeWordSpaceForLabel:(UILabel *)label WithSpace:(float)space {
+    
+    NSString *labelText = label.text;
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:labelText attributes:@{NSKernAttributeName:@(space)}];
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [labelText length])];
+    label.attributedText = attributedString;
+    [label sizeToFit];
     
 }
 
@@ -70,9 +87,9 @@
     [self addSubview:HomeIntelligenceBackImg];
     
     UILabel *WaitingMax = [[UILabel alloc]initWithFrame:CGRectMake(111, 82, 28, 20)];
-    WaitingMax.font = [UIFont fontWithName:@"PTmono-regular" size:2];
+    WaitingMax.font = [UIFont fontWithName:@"Marker Felt" size:20];
     WaitingMax.adjustsFontSizeToFitWidth = YES;
-    WaitingMax.text = @"1000";
+    WaitingMax.text = @"3600";
     WaitingMax.textColor = [UIColor colorWithRed:212.0/255.0 green:202.0/255.0 blue:255.0/255.0 alpha:1];
     [self addSubview:WaitingMax];
     
@@ -80,8 +97,8 @@
     int WaitingResult = WaitingValue*0.05;
     
     UILabel *WaitingV = [[UILabel alloc]init];
-    WaitingV.frame = CGRectMake(70, 82, 22, 20);
-    WaitingV.font = [UIFont fontWithName:@"PTmono-regular" size:2];
+    WaitingV.frame = CGRectMake(70, 85, 22, 20);
+    WaitingV.font = [UIFont fontWithName:@"Marker Felt" size:12];
     WaitingV.adjustsFontSizeToFitWidth = YES;
     WaitingV.text = [NSString stringWithFormat: @"%d",WaitingValue];
     WaitingV.textColor = [UIColor colorWithRed:254.0/255.0 green:239.0/255.0 blue:189.0/255.0 alpha:1];
@@ -104,26 +121,38 @@
     [HomePhysicalBackeImage.layer setCornerRadius:5];
     [self addSubview:HomePhysicalBackeImage];
     
-    UILabel *EnergyMax = [[UILabel alloc]initWithFrame:CGRectMake(111, 117, 23, 20)];
-    EnergyMax.font = [UIFont fontWithName:@"PTmono-regular" size:2];
-    EnergyMax.adjustsFontSizeToFitWidth = YES;
-    EnergyMax.text = @"100";
+    UILabel *EnergyMax = [[UILabel alloc]initWithFrame:CGRectMake(111, 117, 28, 20)];
+//    EnergyMax.font = [UIFont fontWithName:@"TrebuchetMS" size:2];
+    EnergyMax.text = @"10000";
+    EnergyMax.font = [UIFont fontWithName:@"Marker Felt" size:12];
+        EnergyMax.adjustsFontSizeToFitWidth = YES;
     EnergyMax.textColor = [UIColor colorWithRed:212.0/255.0 green:202.0/255.0 blue:255.0/255.0 alpha:1];
     [self addSubview:EnergyMax];
     
-    int PhysicalValue = 30;
+    int PhysicalValue = [_LLMainRoleEnergyValue intValue]/200;
     
     UILabel *EnergyV = [[UILabel alloc]init];
-    EnergyV.frame = CGRectMake(70, 116, 16, 20);
-    EnergyV.font = [UIFont fontWithName:@"PTmono-regular" size:2];
+    EnergyV.frame = CGRectMake(70, 118, 22, 20);
+//    EnergyV.font = [UIFont fontWithName:@"TrebuchetMS" size:2];
+    EnergyV.font = [UIFont fontWithName:@"Marker Felt" size:12];
     EnergyV.adjustsFontSizeToFitWidth = YES;
-    EnergyV.text = [NSString stringWithFormat: @"%d",PhysicalValue];
+    if (_LLMainRoleEnergyValue == nil) {
+        EnergyV.text = @"0";
+    }else{
+        EnergyV.text = _LLMainRoleEnergyValue;
+    }
+    
     EnergyV.textColor = [UIColor colorWithRed:254.0/255.0 green:239.0/255.0 blue:189.0/255.0 alpha:1];
     [self addSubview:EnergyV];
     
     UIView *HomePhysicalValueImage = [[UIView alloc]init];
     HomePhysicalValueImage.backgroundColor = [UIColor colorWithRed:82.0/255.0 green:131.0/255.0 blue:192.0/255.0 alpha:1];
-    HomePhysicalValueImage.frame = CGRectMake(0, 0, PhysicalValue, 11);
+    if (_LLMainRoleEnergyValue == nil) {
+        HomePhysicalValueImage.frame = CGRectMake(0, 0, 0, 11);
+    }else{
+        HomePhysicalValueImage.frame = CGRectMake(0, 0, PhysicalValue, 11);
+    }
+
     [HomePhysicalValueImage.layer setMasksToBounds:YES];
     [HomePhysicalValueImage.layer setCornerRadius:3];
     [HomePhysicalBackeImage addSubview:HomePhysicalValueImage];

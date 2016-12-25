@@ -25,7 +25,7 @@
     _active = true;
     [AMapServices sharedServices].apiKey = @"d4ab078d2a2f09d13723b20ec10c6788";
     [Bmob registerWithAppKey:@"4a45d08fb950978f1139c119c32a061b"];
-    
+ /*
     BmobUser *bUser = [BmobUser currentUser];
     if (bUser) {
         //进行操作
@@ -43,7 +43,32 @@
         //        GuideViewController *loginVC = [[GuideViewController alloc]init];
         //        self.window.rootViewController = loginVC;
     }
-
+*/
+   if (![[NSUserDefaults standardUserDefaults]valueForKey:@"isFirst"]) {
+        
+    NSDate *firstOpenAPP = [NSDate date];
+    
+    // 1.创建一个时间格式化对象
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    
+    // 2.设置时间格式化对象的样式
+    formatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+    
+    
+    // 3.利用时间格式化对象对时间进行格式化
+    NSString *firstOpenAPPString = [formatter stringFromDate:firstOpenAPP];
+       
+    NSLog(@"%@",firstOpenAPPString);
+    
+    [[NSUserDefaults standardUserDefaults] setValue:@"YES" forKey:@"isFirst"];
+    [[NSUserDefaults standardUserDefaults] setValue:firstOpenAPPString forKey:@"firstOpenAPPString"];
+    
+    }
+    
+//    NSString *FirstStaus = [[NSUserDefaults standardUserDefaults]valueForKey:@"isFirst"];
+//    NSString *FirstOpenTime = [[NSUserDefaults standardUserDefaults]valueForKey:@"firstOpenAPPString"];
+//    NSLog(@"FirstStaus: %@ \n FistOpenTime: %@",FirstStaus,FirstOpenTime);
+    
     return YES;
 }
 

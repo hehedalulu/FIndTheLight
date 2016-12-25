@@ -9,6 +9,11 @@
 #import <UIKit/UIKit.h>
 
 @interface LLFilterAlwaysView : UIImageView
+
+@property (nonatomic,strong) NSString *LLfilterAlwaysString;
+
+@property (nonatomic) int LLAlwaysFilterCount;
+
 -(void)LLfilerAlwaysDraw;
 
 @end

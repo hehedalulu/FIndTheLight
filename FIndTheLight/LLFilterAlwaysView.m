@@ -20,7 +20,7 @@
 
 -(void)LLfilerAlwaysDraw{
 
-    [self animationWithName:@"filter_raining" andImageCount:10];
+    [self animationWithName:_LLfilterAlwaysString andImageCount:_LLAlwaysFilterCount];
 }
 
 - (void)animationWithName:(NSString *) name andImageCount:(int) imageCount

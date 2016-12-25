@@ -18,21 +18,22 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     LLGetStep *getstep = [[LLGetStep alloc]init];
+    
     [getstep CreatHealth];
     [self initHealthLabel];
 
 }
 
 -(void)initHealthLabel{
-    id energy = [[NSUserDefaults standardUserDefaults] objectForKey:@"Energy"];
-    NSLog(@"vc中获取的额步数%@",energy);
+
 //    if (energy == nil) {
 //        _testHealthLabel.text = @"没有获取步数";
-    [self initHealthLabel];
 //
 //    }else{
 //        NSString *energyint = (NSString *)energy;
-//        _testHealthLabel.text = energyint;
+    NSString *energy = [[NSUserDefaults standardUserDefaults] objectForKey:@"Energy"];
+    NSLog(@"vc中获取的额步数%@",energy);
+        _testHealthLabel.text = energy;
 //    }
 
     

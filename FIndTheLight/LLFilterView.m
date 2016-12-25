@@ -10,27 +10,17 @@
 
 @implementation LLFilterView
 
-/*
- Only override drawRect: if you perform custom drawing.
- An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-     Drawing code
-}
-*/
--(void)LLfilerDraw{
+
+
+//-(void)LLfilerDraw{
 //
-//    [self performSelector:@selector(test) withObject:nil afterDelay:0.0];
-    [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(FilterLighting) userInfo:nil repeats:YES];
-//    [NSTimer scheduledTimerWithTimeInterval:0.0 target:self selector:@selector(FilterLightingBackgroundRain) userInfo:nil repeats:YES];
-    
+//       [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(FilterLighting) userInfo:nil repeats:YES];
+//}
+
+-(void)LLFilterFireDraw{
+    [self animationWithName:_LLFilterName andImageCount:_LLFiltercount];
 }
 
--(void)FilterLighting{
-    [self animationWithName:@"FilterLighting" andImageCount:50];
-}
-//-(void)FilterLightingBackgroundRain{
-//    [self animationWithName:@"FilterLightingBackgroundRain" andImageCount:2];
-//}
 - (void)animationWithName:(NSString *) name andImageCount:(int) imageCount
 {
     //  如果当前正在执行动画，就不要在执行其他动画了

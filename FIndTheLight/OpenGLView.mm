@@ -132,7 +132,7 @@ void HelloARVideo::render()
 //                    video->openStreamingVideo("http://7xl1ve.com5.z0.glb.clouddn.com/sdkvideo/EasyARSDKShow201520.mp4", texid[2]);
 //                    video_renderer = renderer[2];
 //                }
-                else if(frame.targets()[0].target().name() == std::string("WechatIMG246") && texid[1]) {
+                else if(frame.targets()[0].target().name() == std::string("IMG_7365") && texid[1]) {
                     video = new ARVideo;
                     video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[1]);
                     video_renderer = renderer[1];
@@ -318,7 +318,7 @@ EasyAR::samples::HelloARVideo ar;
     ar.initCamera();
     ar.loadAllFromJsonFile("targets.json");
     ar.loadFromImage("IMG_9356.JPG");
-    ar.loadFromImage("WechatIMG246.jpeg");
+    ar.loadFromImage("IMG_7365.JPG");
     ar.loadFromImage("WechatIMG247.jpeg");
     ar.loadFromImage("WechatIMG248.jpeg");
     ar.loadFromImage("WechatIMG249.jpeg");

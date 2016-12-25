@@ -16,6 +16,8 @@
 
 @property(nonatomic,strong) NSString *LLFilterName;
 
--(void)LLfilerDraw;
+@property(nonatomic) int LLFiltercount;
+//@property(nonatomic) BOOL LLfilterStop;
+-(void)LLFilterFireDraw;
 
 @end

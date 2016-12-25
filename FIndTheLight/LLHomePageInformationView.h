@@ -12,6 +12,6 @@
 
 @property(nonatomic , strong) NSString *LLHomeName;
 @property(nonatomic , strong) NSString *LLHomeIntellectualValues;
-@property(nonatomic , strong) NSString *LLHomePhysicalValues;
+@property(nonatomic , strong) NSString *LLMainRoleEnergyValue;
 @property(nonatomic , strong) NSString *LLHomeLevelValues;
 @end

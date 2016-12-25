@@ -14,6 +14,7 @@
 {
     UIScrollView *backgroundScrollView;
 }
-@property (nonatomic,strong) NSMutableArray *LLFilterArray;
-
+@property (nonatomic,strong) NSMutableArray *LLNameFilterArray;
+@property (nonatomic,strong) NSMutableArray *LLFilterImageNameArray;
+@property (nonatomic,strong) UIButton *LLChoseViewBtn;
 @end

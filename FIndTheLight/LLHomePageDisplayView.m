@@ -6,6 +6,7 @@
 //  Copyright © 2016年 CherryWang. All rights reserved.
 //
 
+
 #import "LLHomePageDisplayView.h"
 #import "Masonry.h"
 
@@ -23,19 +24,25 @@
     
     
     _LLHomeDisplayLabel = [[UILabel alloc]init];
-    _LLHomeDisplayLabel.frame = CGRectMake(18, 10, 100, 20);
-    _LLHomeDisplayLabel.font = [UIFont fontWithName:@"Consolas" size:16];
+    _LLHomeDisplayLabel.frame = CGRectMake(10, 5, 100, 20);
+//    _LLHomeDisplayLabel.frame.size = CGSizeMake(150, 15)
+//    _LLHomeDisplayLabel.center.x = self.center.x;
+//    _LLHomeDisplayLabel.font = [UIFont fontWithName:@"Consolas" size:16];
+    _LLHomeDisplayLabel.font = [UIFont systemFontOfSize:16];
     _LLHomeDisplayLabel.textColor = [UIColor colorWithRed:254.0/255.0 green:239.0/255.0 blue:189.0/255.0 alpha:1];
     _LLHomeDisplayLabel.text = @"定位中…";
+    _LLHomeDisplayLabel.textAlignment = NSTextAlignmentCenter;
     _LLHomeDisplayLabel.adjustsFontSizeToFitWidth = YES;
     [self addSubview:_LLHomeDisplayLabel];
     
     
     UILabel *LocationLabel = [[UILabel alloc]init];
-    LocationLabel.frame = CGRectMake(15, 35, 100, 20);
-    LocationLabel.font = [UIFont fontWithName:@"Consolas" size:16];
+    LocationLabel.frame = CGRectMake(0,self.bounds.size.height/2 , self.bounds.size.width, self.bounds.size.height/2);
+//    LocationLabel.font = [UIFont fontWithName:@"Consolas" size:16];
+    LocationLabel.font = [UIFont systemFontOfSize:16];
     LocationLabel.adjustsFontSizeToFitWidth = YES;
     LocationLabel.text = @"华中科技大学";
+    LocationLabel.textAlignment = NSTextAlignmentCenter;
     LocationLabel.textColor = [UIColor colorWithRed:253.0/255.0 green:229.0/255.0 blue:279.0/255.0 alpha:1];
     [self addSubview:LocationLabel];
     

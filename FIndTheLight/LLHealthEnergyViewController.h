@@ -11,7 +11,4 @@
 
 @interface LLHealthEnergyViewController : UIViewController
 
-
-
-
 @end
