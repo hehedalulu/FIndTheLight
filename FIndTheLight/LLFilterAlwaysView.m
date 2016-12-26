@@ -32,6 +32,8 @@
     }
     
     NSMutableArray *images = [NSMutableArray arrayWithCapacity:imageCount];
+    NSLog(@"begin");
+    
     for (int i = 1; i <= imageCount; i++) {
         NSString *imageName = [NSString stringWithFormat:@"%@%d",name,i];
         NSString *path = [[NSBundle mainBundle] pathForResource:imageName ofType:@"png"];
@@ -51,6 +53,8 @@
     self.animationRepeatCount = 0;
     //  开始动画
     [self startAnimating];
+    
+    NSLog(@"end");
     //动画播送完之后清除内存
     
 //    [self performSelector:@selector(setAnimationImages:) withObject:nil afterDelay:0.17];

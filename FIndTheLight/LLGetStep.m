@@ -78,14 +78,27 @@
 //            NSLog(@"%d",stepNum);
             //把一天中所有时间段中的步数加到一起
             _LLUserStep = _LLUserStep + stepNum;
-//            NSString *stepCountString = (NSString *)_LLUserStep;
-  
+//            NSString *stepCountString = (NSString *)_LLUserStep;  
         }
-        NSString *todayEnergy = [[NSString alloc] initWithFormat:@"%d",_LLUserStep];
-        [[NSUserDefaults standardUserDefaults] setValue:todayEnergy forKey:@"Energy"];
-//        id energy = [[NSUserDefaults standardUserDefaults] objectForKey:@"Energy"];
-//        NSLog(@"数据库中的%@",energy);
-        NSLog(@"%d",_LLUserStep);
+//        NSString *todayEnergy = [[NSString alloc] initWithFormat:@"%d",_LLUserStep];
+        NSString *oldtodayenergy = [[NSUserDefaults standardUserDefaults]valueForKey:@"NowDayEnergy"];
+        int updateValue = [oldtodayenergy intValue];
+        int AddEnergy = _LLUserStep - updateValue;
+        NSLog(@"今天的步数%d 增加的步数%d",_LLUserStep,AddEnergy);
+        
+        NSString *newtodayEnergy = [NSString stringWithFormat:@"%d",_LLUserStep];
+        [[NSUserDefaults standardUserDefaults]setValue:newtodayEnergy forKey:@"NowDayEnergy"];
+//        NSString *oldtodayenergy2 = [[NSUserDefaults standardUserDefaults]valueForKey:@"NowDayEnergy"];
+//        NSLog(@"%@",oldtodayenergy2);
+        
+        
+        NSString *energy = [[NSUserDefaults standardUserDefaults]valueForKey:@"Energy"];
+        int energyValue = [energy intValue];
+        int resultValue = AddEnergy + energyValue;
+        NSString *result = [NSString stringWithFormat:@"%d",resultValue];
+        NSLog(@"当前的能量%@",result);
+        [[NSUserDefaults standardUserDefaults]setValue:result forKey:@"Energy"];
+        
        
 //        NSLog(@"在回调中%d",_LLUserStep);
        
@@ -100,6 +113,7 @@
 //    NSMutableArray *stepCount = [[NSMutableArray alloc]init];
 //    [stepCount insertObject:_LLUserStep atIndex:0];
 //    NSLog(@"回调结束%d",_LLUserStep);
+
     
 
     

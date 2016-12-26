@@ -16,4 +16,5 @@
 @property (nonatomic,strong) UIButton *LLTapBoostbtn;
 @property (nonatomic,strong) UILabel *LLBoostContextLabel;
 @property (nonatomic,strong) UIImageView *LLBoostcontentView;
+-(void)DrawinNeed;
 @end

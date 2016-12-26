@@ -70,6 +70,12 @@
     long int second         = cmps.second;
     long int resultsecond   = yearsecond + monthsecond + daysecond + hour + minute + second;
     
+//    NSDate *date = [NSDate date];
+//    [[NSUserDefaults standardUserDefaults]setObject:date forKey:@"sss"];
+//    
+//    NSDate *nowdate = [[NSUserDefaults standardUserDefaults]valueForKey:@"sss"];
+    
+    
     return resultsecond;
 }
 

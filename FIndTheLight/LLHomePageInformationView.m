@@ -138,6 +138,8 @@
     EnergyV.adjustsFontSizeToFitWidth = YES;
     if (_LLMainRoleEnergyValue == nil) {
         EnergyV.text = @"0";
+    }else if([_LLMainRoleEnergyValue intValue] >= 10000 ){
+        EnergyV.text = @"10000";
     }else{
         EnergyV.text = _LLMainRoleEnergyValue;
     }

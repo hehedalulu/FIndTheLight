@@ -8,6 +8,7 @@
 
 #import "LLHealthEnergyViewController.h"
 #import "LLGetStep.h"
+
 @interface LLHealthEnergyViewController ()
 @property (strong, nonatomic) IBOutlet UILabel *testHealthLabel;
 
@@ -31,6 +32,9 @@
 //
 //    }else{
 //        NSString *energyint = (NSString *)energy;
+    LLGetStep *getstep = [[LLGetStep alloc]init];
+    [getstep CreatHealth];
+    
     NSString *energy = [[NSUserDefaults standardUserDefaults] objectForKey:@"Energy"];
     NSLog(@"vc中获取的额步数%@",energy);
         _testHealthLabel.text = energy;

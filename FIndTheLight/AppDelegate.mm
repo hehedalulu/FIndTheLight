@@ -61,8 +61,22 @@
     NSLog(@"%@",firstOpenAPPString);
     
     [[NSUserDefaults standardUserDefaults] setValue:@"YES" forKey:@"isFirst"];
+    [[NSUserDefaults standardUserDefaults] setObject:firstOpenAPP forKey:@"today"];
     [[NSUserDefaults standardUserDefaults] setValue:firstOpenAPPString forKey:@"firstOpenAPPString"];
     
+    NSString *firstHealthEnergy = @"0";
+    [[NSUserDefaults standardUserDefaults]setValue:firstHealthEnergy forKey:@"Energy"];
+    
+    }
+    //判断是否是当天 如果是在当天之内打开应用的话 就不更新 存储一个当天的属性
+    //如果不是当天打开应用的话 就当天的当天步数纪录调整为0
+    NSDate *oldday = [[NSUserDefaults standardUserDefaults]valueForKey:@"today"];
+    NSDate *today = [NSDate date];
+    NSLog(@"oldday%@ today%@",oldday,today);
+    if (![self isSameDayForDate:oldday andDate:today]){
+        NSString *newdayEnergy = @"0";
+        [[NSUserDefaults standardUserDefaults]setValue:newdayEnergy forKey:@"NowDayEnergy"];
+        NSLog(@"不是今天");
     }
     
 //    NSString *FirstStaus = [[NSUserDefaults standardUserDefaults]valueForKey:@"isFirst"];
@@ -102,5 +116,28 @@
     _active = false;
 }
 
+- (BOOL)isSameDayForDate:(NSDate *)date1 andDate:(NSDate*)date2
+
+{
+    
+    if (nil == date1 || nil == date2)
+        
+    {
+        return NO;
+    }
+    
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    
+    NSDateComponents *components = [calendar components:(NSCalendarUnitEra |NSCalendarUnitYear | NSCalendarUnitMonth  | NSCalendarUnitDay)  fromDate:date1];
+    
+    NSDate *OneDate = [calendar dateFromComponents:components];
+    
+    components = [calendar components:(NSCalendarUnitEra |NSCalendarUnitYear | NSCalendarUnitMonth  | NSCalendarUnitDay) fromDate:date2];
+    
+    NSDate *OtherDate = [calendar dateFromComponents:components];
+    
+    return ([OneDate isEqualToDate:OtherDate]);
+    
+}
 
 @end

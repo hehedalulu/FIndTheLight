@@ -69,6 +69,7 @@
     UIView *LLDismissBoostView;
     
     NSTimer *flighterTimer;
+    LLHomePageInformationView *pageInformationView;
     NSString *MainRoleFootStep;
 }
 
@@ -156,7 +157,6 @@
     
     ghostSelfInformationNotShow = NO;
     
-    
     displayView = [[LLHomePageDisplayView alloc]init];
     displayView.frame = CGRectMake(self.view.bounds.size.width*0.03, 33, 117, 60);
     displayView.backgroundColor = [UIColor clearColor];
@@ -169,7 +169,7 @@
 //    tapGesture.delegate = (id <UIGestureRecognizerDelegate>)self;
 //    [displayView addGestureRecognizer:tapGesture];
     
-    LLHomePageInformationView *pageInformationView = [[LLHomePageInformationView alloc]init];
+    pageInformationView = [[LLHomePageInformationView alloc]init];
     [self LoadStepCount];
     pageInformationView.LLMainRoleEnergyValue = MainRoleFootStep;
     pageInformationView.frame = CGRectMake(264, 33, 234, 150);
@@ -258,6 +258,7 @@
     [LLMatureBackgroudView addSubview:llmature];
     
     llBoostView = [[LLBoostView alloc]init];
+//    llBoostView.LLNowEnergy = MainRoleFootStep;
     [llBoostView drawRect:CGRectMake(self.view.center.x+100, self.view.center.y+100, 0, 0)];
     llBoostView.userInteractionEnabled = YES;
 //    llBoostView.hidden = YES;
@@ -307,11 +308,16 @@
     LLGetStep *getStep = [[LLGetStep alloc]init];
     [getStep CreatHealth];
     MainRoleFootStep = [[NSUserDefaults standardUserDefaults] objectForKey:@"Energy"];
+    NSLog(@"LoadStepCount%@",MainRoleFootStep);
     
 }
 #pragma mark - 光体不成熟页面动画
 -(void)showWaitingBallBoostView{
 //    llBoostView.hidden = NO;
+ //   llBoostView.LLNowEnergy = []
+    [llBoostView DrawinNeed];
+    
+    
     POPSpringAnimation *PopMatureView = [POPSpringAnimation animation];
     PopMatureView.property = [POPAnimatableProperty propertyWithName:kPOPViewFrame];
     PopMatureView.toValue = [NSValue valueWithCGRect:CGRectMake(0, 0, 200, 200)];
@@ -327,7 +333,7 @@
 
 -(void)InitImmatureView{
     
-    llBoostView.LLTapBoostbtn.frame = CGRectMake(30, 130, 150, 30);
+    llBoostView.LLTapBoostbtn.frame = CGRectMake(30, 130, 150, 40);
     llBoostView.LLBoostContextLabel.frame = CGRectMake(10, 10, 180, 100);
     llBoostView.LLBoostcontentView.frame = CGRectMake(100, 200, 200, 200);
 }
@@ -561,6 +567,7 @@
 -(void)Fliterfighting{
     [filterView LLFilterFireDraw];
 }
+
 - (void)filterchange:(UISlider *) slider{
 //    NSLog(@"%f",slider.value);
     FilterBackgroundView.LLFilteralapa = 1 - slider.value;
@@ -781,12 +788,12 @@
         }else{
             llsearchAroundLocation = [[LLSearchAroundLocation alloc]init];
             [llsearchAroundLocation GetRequestionlongitude:location.coordinate.longitude latitude:location.coordinate.latitude];
-            if (llsearchAroundLocation.LLNearestLocation == nil) {
-                displayView.LLHomeDisplayLabel.text = @"重新定位中";
-            }else{
+//            if (llsearchAroundLocation.LLNearestLocation == nil) {
+////                displayView.LLHomeDisplayLabel.text = @"重新定位中";
+//            }else{
                 displayView.LLHomeDisplayLabel.text = llsearchAroundLocation.LLNearestLocation;
-                NSLog(@"最近的地点%@",llsearchAroundLocation.LLNearestLocation);
-            }
+                NSLog(@"最近的地点%@",llsearchAroundLocation.LLNearestLocation);    
+//            }
 
 //            [self performSelector:@selector(changedisplayLabel) withObject:nil afterDelay:1.0];
         }
