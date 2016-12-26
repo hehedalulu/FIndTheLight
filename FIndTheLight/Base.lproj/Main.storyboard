@@ -83,43 +83,6 @@
             </objects>
             <point key="canvasLocation" x="805.60000000000002" y="80.50974512743629"/>
         </scene>
-        <!--Health Energy View Controller-->
-        <scene sceneID="Swi-GY-J3a">
-            <objects>
-                <viewController id="KLU-gy-3Tx" customClass="LLHealthEnergyViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="I0c-0a-Zdz"/>
-                        <viewControllerLayoutGuide type="bottom" id="2Sh-K3-8sr"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="nUf-qy-ScM">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="今日所得步数" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="veL-Cl-igd">
-                                <rect key="frame" x="16" y="165" width="120" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vwZ-8k-zcg">
-                                <rect key="frame" x="166" y="165" width="172" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <connections>
-                        <outlet property="testHealthLabel" destination="vwZ-8k-zcg" id="cdJ-Ip-BiS"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="yBG-Ez-P6a" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="86" y="783"/>
-        </scene>
         <!--Testxuanzhuan View Controller-->
         <scene sceneID="QUn-Xx-LaJ">
             <objects>

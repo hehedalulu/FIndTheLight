@@ -39,6 +39,7 @@
         NSString *path = [[NSBundle mainBundle] pathForResource:imageName ofType:@"png"];
 //        NSLog(@"%@",path);
         UIImage *image = [UIImage imageWithContentsOfFile:path];
+//        UIImage *image = [UIImage imageNamed:imageName];
 //        NSLog(@"%@",imageName);
         
         //      3、把图片添加到数组中

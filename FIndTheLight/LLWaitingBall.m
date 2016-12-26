@@ -38,12 +38,13 @@
     NSMutableArray *images = [NSMutableArray arrayWithCapacity:imageCount];
     for (int i = 1; i <= imageCount; i++) {
         NSString *imageName = [NSString stringWithFormat:@"%@-%d",name,i];
-        NSString *path = [[NSBundle mainBundle] pathForResource:imageName ofType:@"png"];
+ 
+        //       NSString *path = [[NSBundle mainBundle] pathForResource:imageName ofType:@"png"];
         //        NSLog(@"%@",path);
-        UIImage *image = [UIImage imageWithContentsOfFile:path];
+        //        UIImage *image = [UIImage imageWithContentsOfFile:path];
+        
+        UIImage *image = [UIImage imageNamed:imageName];
         //        NSLog(@"%@",image);
-        
-        
         //      3、把图片添加到数组中
         [images addObject:image];
     }

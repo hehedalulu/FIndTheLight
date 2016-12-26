@@ -258,7 +258,6 @@
     [LLMatureBackgroudView addSubview:llmature];
     
     llBoostView = [[LLBoostView alloc]init];
-//    llBoostView.LLNowEnergy = MainRoleFootStep;
     [llBoostView drawRect:CGRectMake(self.view.center.x+100, self.view.center.y+100, 0, 0)];
     llBoostView.userInteractionEnabled = YES;
 //    llBoostView.hidden = YES;
@@ -308,13 +307,16 @@
     LLGetStep *getStep = [[LLGetStep alloc]init];
     [getStep CreatHealth];
     MainRoleFootStep = [[NSUserDefaults standardUserDefaults] objectForKey:@"Energy"];
+    
     NSLog(@"LoadStepCount%@",MainRoleFootStep);
     
 }
 #pragma mark - 光体不成熟页面动画
 -(void)showWaitingBallBoostView{
 //    llBoostView.hidden = NO;
- //   llBoostView.LLNowEnergy = []
+    [self LoadStepCount];
+    llBoostView.LLNowEnergy = [MainRoleFootStep intValue];
+    llBoostView.userInteractionEnabled = NO;
     [llBoostView DrawinNeed];
     
     
@@ -325,7 +327,7 @@
 //    PopMatureView.fromValue = [NSValue valueWithCGPoint:CGPointMake(0.2, 0.2)];
 //    PopMatureView.toValue = [NSValue valueWithCGPoint:CGPointMake(1.0, 1.0)];
     LLDismissBoostView.hidden = NO;
-    [self performSelector:@selector(InitImmatureView) withObject:nil afterDelay:0.3];
+    [self performSelector:@selector(InitImmatureView) withObject:nil afterDelay:0.2];
     PopMatureView.springBounciness = 10.0;
     PopMatureView.springSpeed      = 10.0;
     [llBoostView pop_addAnimation:PopMatureView forKey:@"shortpopView"];
@@ -443,7 +445,18 @@
 
 -(void)ShortTapImmatureWaitingBall:(UITapGestureRecognizer *)gesture{
     NSLog(@"未成熟状态下点按");
-    [self showWaitingBallBoostView];
+    
+    
+    POPSpringAnimation *waitingBallSize = [POPSpringAnimation animation];
+    waitingBallSize.property = [POPAnimatableProperty propertyWithName:kPOPLayerSize];
+    
+    //        buttonSizeAnimation.toValue = [NSValue valueWithCGSize:CGSizeMake(60, 60)];
+    waitingBallSize.toValue = [NSValue valueWithCGSize:CGSizeMake(50, 50)];
+    waitingBallSize.springBounciness = 20.0;
+    waitingBallSize.springSpeed      = 10.0;
+    [waitingBall pop_addAnimation:waitingBallSize forKey:@"sizePOP"];
+    [self performSelector:@selector(recover) withObject:nil afterDelay:0.2];
+    [self performSelector:@selector(showWaitingBallBoostView) withObject:nil afterDelay:0.6];
     
 /*本来是短按减少10s 现在废弃
      //能量减少 时间减少
@@ -472,6 +485,14 @@
 
 }
 
+-(void)recover{
+    POPSpringAnimation *buttonSize = [POPSpringAnimation animation];
+    buttonSize.property = [POPAnimatableProperty propertyWithName:kPOPLayerSize];
+    buttonSize.toValue = [NSValue valueWithCGSize:CGSizeMake(70, 70)];
+    buttonSize.springBounciness = 20.0;
+    buttonSize.springSpeed      = 10.0;
+    [waitingBall pop_addAnimation:buttonSize forKey:@"recover"];
+}
 
 
 -(void)TapMaturedWaitingBall:(UITapGestureRecognizer *)gesture{
@@ -515,7 +536,7 @@
 
 -(void)drawChooseView{
     chooseview = [[LLChooseView alloc]initWithFrame:CGRectMake(0, self.view.bounds.size.height*1.26, self.view.bounds.size.width, self.view.bounds.size.height*0.26)];
-    chooseview.backgroundColor = [UIColor colorWithRed:115.0/255.0 green:115.0/255.0 blue:115.0/255.0 alpha:1];
+    chooseview.backgroundColor = [UIColor colorWithRed:0.0/255.0 green:0.0/255.0 blue:0.0/255.0 alpha:0.5];
     //    = [chooseview filterchange:chooseview.LLsilderchange];
     
     UISlider *_LLsilderchange = [[UISlider alloc]initWithFrame:CGRectMake(self.view.bounds.size.width*0.04, self.view.bounds.size.width*0.013, self.view.bounds.size.width*0.92, self.view.bounds.size.width*0.070)];
@@ -547,8 +568,8 @@
     
     
     filterAlwaysView = [[LLFilterAlwaysView alloc]initWithFrame:CGRectMake(0, 0,self.view.bounds.size.width,self.view.bounds.size.height)];
-    filterAlwaysView.LLfilterAlwaysString = @"filter_raining";
-    filterAlwaysView.LLAlwaysFilterCount = 10;
+    filterAlwaysView.LLfilterAlwaysString = @"smallrain_";
+    filterAlwaysView.LLAlwaysFilterCount = 120;
 
     [filterAlwaysView LLfilerAlwaysDraw];
     FilterBackgroundView.backgroundColor = [UIColor clearColor];
@@ -787,12 +808,12 @@
             }
         }else{
             llsearchAroundLocation = [[LLSearchAroundLocation alloc]init];
-            [llsearchAroundLocation GetRequestionlongitude:location.coordinate.longitude latitude:location.coordinate.latitude];
-//            if (llsearchAroundLocation.LLNearestLocation == nil) {
+            NSMutableArray *threeLocations = [llsearchAroundLocation GetRequestionlongitude:location.coordinate.longitude latitude:location.coordinate.latitude];
+//            if (llsearchAroundLocation.LLNearestLocation.count) {
 ////                displayView.LLHomeDisplayLabel.text = @"重新定位中";
 //            }else{
-                displayView.LLHomeDisplayLabel.text = llsearchAroundLocation.LLNearestLocation;
-                NSLog(@"最近的地点%@",llsearchAroundLocation.LLNearestLocation);    
+                displayView.LLHomeDisplayLabel.text = [threeLocations objectAtIndex:0];
+ //               NSLog(@"最近的地点%@",[threeLocations objectAtIndex:0]);
 //            }
 
 //            [self performSelector:@selector(changedisplayLabel) withObject:nil afterDelay:1.0];

@@ -20,6 +20,7 @@
     _LLBoostcontentView = [[UIImageView alloc]initWithFrame:CGRectMake(100, 200, 0, 0)];
     [_LLBoostcontentView.layer setCornerRadius:10];
     _LLBoostcontentView.backgroundColor = [UIColor lightGrayColor];
+    _LLBoostcontentView.userInteractionEnabled  = NO;
     [self addSubview:_LLBoostcontentView];
     
     [self DrawinNeed];
@@ -39,12 +40,14 @@
     [_LLTapBoostbtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     _LLTapBoostbtn.backgroundColor = [UIColor orangeColor];
     _LLTapBoostbtn.titleLabel.font = [UIFont systemFontOfSize:15];
+    [_LLTapBoostbtn addTarget:self action:@selector(dayin) forControlEvents:UIControlEventTouchUpInside];
     [_LLBoostcontentView addSubview:_LLTapBoostbtn];
     
     _LLBoostContextLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 10, 0, 0)];
     _LLBoostContextLabel.font = [UIFont systemFontOfSize:13];
     _LLBoostContextLabel.textColor = [UIColor blackColor];
     _LLBoostContextLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    _LLBoostContextLabel.userInteractionEnabled = NO;
     //    _LLBoostContextLabel.backgroundColor = [UIColor whiteColor];
     [_LLBoostcontentView addSubview: _LLBoostContextLabel];
     
@@ -52,6 +55,7 @@
         NSString *ContextString = @"没有能量 快出门走走补充能量";
         _LLBoostContextLabel.text = ContextString;
         _LLTapBoostbtn.titleLabel.text = @"好的";
+        [_LLTapBoostbtn setTitle:@"好的" forState:UIControlStateNormal];
         NSLog(@"当前用户没有能量");
     }else if(_LLNowEnergy <=_LLMatureNeedEnergy ){
         NSString *ContextString = [NSString stringWithFormat:@"需使用%ld能量完成收集",_LLMatureNeedEnergy];
@@ -62,9 +66,13 @@
     }else{
         NSString *ContextString = [NSString stringWithFormat:@"使用%ld能量完成收集",_LLMatureNeedEnergy];
         _LLBoostContextLabel.text = ContextString;
-        _LLTapBoostbtn.titleLabel.text = @"立即加速";
+        [_LLTapBoostbtn setTitle:@"立即加速" forState:UIControlStateNormal];
         NSLog(@"当前用户能量足够或超出");
     }
 
+}
+
+-(void)dayin{
+    NSLog(@"点击了");
 }
 @end

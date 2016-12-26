@@ -10,7 +10,9 @@
 #import "AFHTTPSessionManager.h"
 
 @implementation LLSearchAroundLocation
--(void)GetRequestionlongitude:(float)Coordinatelongitude latitude:(float)Coordinatelatitude{
+-(NSMutableArray *)GetRequestionlongitude:(float)Coordinatelongitude latitude:(float)Coordinatelatitude{
+    
+    NSMutableArray *locationNameArray = [[NSMutableArray alloc]init];
     
     NSString *front         = @"http://yuntuapi.amap.com/datasearch/around?tableid=582deb52305a2a4ab5141366";
     NSString *coordinate    = [NSString stringWithFormat:@"&center=%f,%f",Coordinatelongitude,Coordinatelatitude];
@@ -33,14 +35,41 @@
         NSArray *list = [dic objectForKey:@"datas"];
 //        NSLog(@"list is %@",list);
         if(list){
-            NSDictionary * name = [list objectAtIndex:0];
-            _LLNearestLocation = [name objectForKey:@"_name"];
-//            NSLog(@"名字%@",name);
+        //最近的一个基站
+            
+            if ([list objectAtIndex:0]) {
+                
+                NSDictionary * name = [list objectAtIndex:0];
+                NSString *NameStr1 = [name objectForKey:@"_name"];
+                //unicode转中文
+                //            NameStr1 = [NameStr1 stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+                //unicode
+                NameStr1 = [NameStr1 stringByRemovingPercentEncoding];
+                [locationNameArray addObject:NameStr1];
+                _LLNearestLocation = NameStr1;
+                NSLog(@"最近的基站%@",NameStr1);
+                
+            }
+            if ([list objectAtIndex:1]) {
+                NSDictionary * name = [list objectAtIndex:1];
+                NSString *NameStr2 = [name objectForKey:@"_name"];
+                //unicode转中文
+                //            NameStr1 = [NameStr1 stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+                NameStr2 = [NameStr2 stringByRemovingPercentEncoding];
+                [locationNameArray addObject:NameStr2];
+                NSLog(@"第二近的基站%@",NameStr2);
+            }
+            if ([list objectAtIndex:2]) {
+                //第三近的基站
+                NSDictionary * name3 = [list objectAtIndex:2];
+                NSString *NameStr3 = [name3 objectForKey:@"_name"];
+                //unicode转中文
+                NameStr3 = [NameStr3 stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+                NameStr3 = [NameStr3 stringByRemovingPercentEncoding];
+                [locationNameArray addObject:NameStr3];
+                NSLog(@"第三近的基站%@",NameStr3);
+            }
         }
-
-
-        
-
 //        NSLog(@"%@",_LLNearestLocation);
         
 //        for (NSDictionary *dic in list) {
@@ -51,7 +80,25 @@
         
     } failure:^(NSURLSessionTask *operation, NSError *error) {
         NSLog(@"FlyElephant-Error: %@", error);
-    }];
+/*        NSMutableArray *temp = [[NSMutableArray alloc]initWithObjects:
+                         @"第一个未找到",
+                         @"第二个未找到",
+                         @"第三个未找到",nil];
+        [locationNameArray addObjectsFromArray:temp];
+ */
+ }];
+ 
+    if (locationNameArray.count == 0) {
+                   locationNameArray = [[NSMutableArray alloc]initWithObjects:
+                                @"重新定位",
+                                @"重新定位",
+                                @"重新定位",nil];
+    }
+    NSLog(@"最后的array%@",locationNameArray);
+    return locationNameArray;
 }
+
+
+
 
 @end

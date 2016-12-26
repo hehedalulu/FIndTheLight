@@ -11,7 +11,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>$(PRODUCT_NAME)</string>
+	<string>拾光</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -28,9 +28,11 @@
 	<key>NSCameraUsageDescription</key>
 	<string>此 App 需要您的同意才能读取媒体资料库</string>
 	<key>NSHealthShareUsageDescription</key>
-	<string>健康</string>
+	<string>health</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>update</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string></string>
+	<string>location</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>photo</string>
 	<key>UIBackgroundModes</key>
