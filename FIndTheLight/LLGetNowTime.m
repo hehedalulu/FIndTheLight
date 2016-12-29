@@ -75,7 +75,9 @@
 //    
 //    NSDate *nowdate = [[NSUserDefaults standardUserDefaults]valueForKey:@"sss"];
     
-    
+    if (resultsecond > 3600) {
+        resultsecond = 3600;
+    }
     return resultsecond;
 }
 

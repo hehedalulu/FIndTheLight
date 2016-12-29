@@ -14,6 +14,10 @@
 
 @property (nonatomic) int LLAlwaysFilterCount;
 
+@property (nonatomic) int LLloadImageType;
+
+@property (nonatomic,strong) NSMutableArray *ImagesArray1;
+
 -(void)LLfilerAlwaysDraw;
 
 @end

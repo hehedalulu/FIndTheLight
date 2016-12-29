@@ -35,6 +35,10 @@
 	<string>location</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>photo</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>MFTongXin_Noncommercial-Regular.ttf</string>
+	</array>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>location</string>

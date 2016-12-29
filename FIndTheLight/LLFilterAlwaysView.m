@@ -10,16 +10,7 @@
 
 @implementation LLFilterAlwaysView
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-*/
-
 -(void)LLfilerAlwaysDraw{
-
     [self animationWithName:_LLfilterAlwaysString andImageCount:_LLAlwaysFilterCount];
 }
 
@@ -30,23 +21,23 @@
         //        [self performSelector:@selector(test) withObject:nil afterDelay:5.0];
         return;
     }
-    
-    NSMutableArray *images = [NSMutableArray arrayWithCapacity:imageCount];
-    NSLog(@"begin");
-    
-    for (int i = 1; i <= imageCount; i++) {
-        NSString *imageName = [NSString stringWithFormat:@"%@%d",name,i];
-        NSString *path = [[NSBundle mainBundle] pathForResource:imageName ofType:@"png"];
-//        NSLog(@"%@",path);
-        UIImage *image = [UIImage imageWithContentsOfFile:path];
-//        UIImage *image = [UIImage imageNamed:imageName];
-//        NSLog(@"%@",imageName);
         
-        //      3、把图片添加到数组中
-        [images addObject:image];
-    }
+        
+//    NSMutableArray *images = [NSMutableArray arrayWithCapacity:imageCount];
+//    
+//    LLinitImagesArray *llintImagesArray = [[LLinitImagesArray alloc]init];
+//    //_LLloadImageType = 0为imagedName加载 1为contentsoffile加载
+//    _LLloadImageType = 0;
+//    if (_LLloadImageType == 0) {
+//        NSMutableArray *tempimages = [llintImagesArray LLinitImagesArrayByNamed:name WithCount:imageCount];
+//        [images addObjectsFromArray:tempimages];
+//    }else{
+//        NSMutableArray *tempimages = [llintImagesArray LLinitImagesArrayByContentsFile:name WithCount:imageCount];
+//        [images addObjectsFromArray:tempimages];
+//    }
+
     //  把image赋值给执行动画所需要图片
-    self.animationImages = images;
+    self.animationImages = _ImagesArray1;
     //  设置动画执行的时间
     
     self.animationDuration = imageCount * 0.1;
@@ -60,5 +51,6 @@
     
 //    [self performSelector:@selector(setAnimationImages:) withObject:nil afterDelay:0.17];
 }
+
 
 @end

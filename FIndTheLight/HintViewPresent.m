@@ -30,8 +30,8 @@
                               0,
 //                              CGRectGetWidth(transitionContext.containerView.bounds) - 104.f,
 //                              CGRectGetHeight(transitionContext.containerView.bounds) - 400.f
-                              CGRectGetWidth(transitionContext.containerView.bounds),
-                              CGRectGetHeight(transitionContext.containerView.bounds)
+                              CGRectGetWidth(transitionContext.containerView.bounds)+100,
+                              CGRectGetHeight(transitionContext.containerView.bounds)+100
                               );
     
     toView.center = CGPointMake(transitionContext.containerView.center.x, -transitionContext.containerView.center.y);
