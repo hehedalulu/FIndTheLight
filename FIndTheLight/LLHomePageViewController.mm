@@ -689,7 +689,7 @@
     [_LLsilderchange setThumbImage:[UIImage imageNamed:@"icon_light"] forState:UIControlStateNormal];
     _LLsilderchange.maximumValue = 0.9;
     _LLsilderchange.minimumValue = 0.15;
-    _LLsilderchange.value = 0.5;
+    _LLsilderchange.value = 0.1;
     [_LLsilderchange addTarget:self action:@selector(filterchange:) forControlEvents:UIControlEventValueChanged];
     [chooseview addSubview:_LLsilderchange];
     //    [chooseview.LLChoseViewBtn addTarget:self action:@selector(changefilter:) forControlEvents:UIControlEventTouchUpInside];
@@ -1074,7 +1074,7 @@
 - (void)showMenu {
     NSMutableArray *items = [[NSMutableArray alloc] initWithCapacity:3];
     
-    MenuItem *menuItem = [MenuItem itemWithTitle:@"SelfGotThing" iconName:@"post_type_bubble_twitter"];
+    MenuItem *menuItem = [MenuItem itemWithTitle:@"SelfGotThing" iconName:@"btn"];
     [items addObject:menuItem];
     
 //    menuItem = [MenuItem itemWithTitle:@"碎片箱" iconName:@"post_type_bubble_twitter" glowColor:[UIColor colorWithRed:0.840 green:0.264 blue:0.208 alpha:0.800]];

@@ -20,16 +20,30 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor colorWithRed:39.0/255.0 green:56.0/255.0 blue:87.0/255.0 alpha:1];
-    UILabel *name = [[UILabel alloc]initWithFrame:CGRectMake(50, 50, 200, 60)];
-    name.font =[UIFont fontWithName:@"MF TongXin (Noncommercial)" size:25];
+    UILabel *name = [[UILabel alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.12, [UIScreen mainScreen].bounds.size.width*0.12, [UIScreen mainScreen].bounds.size.width*0.36, [UIScreen mainScreen].bounds.size.width*0.15)];
+    name.font = [UIFont fontWithName:@"MF TongXin (Noncommercial)" size:25];
     name.text = @".个人中心";
     name.textColor = [UIColor colorWithRed:254.0/255.0 green:239.0/255.0 blue:189.0/255.0 alpha:1];
     [self.view addSubview:name];
     
-    UIButton *dismissBtn = [[UIButton alloc]initWithFrame:CGRectMake(10, 60, 40, 40)];
+    UIButton *dismissBtn = [[UIButton alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.025, [UIScreen mainScreen].bounds.size.width*0.15, [UIScreen mainScreen].bounds.size.width*0.1, [UIScreen mainScreen].bounds.size.width*0.1)];
     [dismissBtn setImage:[UIImage imageNamed:@"chacha.png"] forState:UIControlStateNormal];
     [dismissBtn addTarget:self action:@selector(dismissView) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:dismissBtn];
+    
+    UIImageView *selflight = [[UIImageView alloc]init];
+    selflight.frame = CGRectMake([UIScreen mainScreen].bounds.size.width*0.025, [UIScreen mainScreen].bounds.size.width*0.36, [UIScreen mainScreen].bounds.size.width*0.1932, [UIScreen mainScreen].bounds.size.width*0.1932);
+    selflight.image = [UIImage imageNamed:@"flash"];
+    [self.view addSubview:selflight];
+    
+    NSString *nowCount = @"0";
+    
+    UILabel *selflightCount = [[UILabel alloc]init];
+    selflightCount.frame = CGRectMake([UIScreen mainScreen].bounds.size.width*0.22,[UIScreen mainScreen].bounds.size.width*0.36, [UIScreen mainScreen].bounds.size.width*0.483, [UIScreen mainScreen].bounds.size.width*0.096);
+    selflightCount.textColor = [UIColor colorWithRed:254.0/255.0 green:239.0/255.0 blue:189.0/255.0 alpha:1];
+    selflightCount.text = [NSString stringWithFormat:@"现有光体数量: %@",nowCount];
+    selflightCount.font = [UIFont fontWithName:@"MF TongXin (Noncommercial)" size:24];
+    [self.view addSubview:selflightCount];
     
     llcollectionView.delegate = self;
     llcollectionView.dataSource = self;

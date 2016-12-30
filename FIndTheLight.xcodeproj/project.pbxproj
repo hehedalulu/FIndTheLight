@@ -422,6 +422,8 @@
 		5B9B09FB1E13F307006CA8A3 /* layer@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B9B09F71E13F307006CA8A3 /* layer@3x.png */; };
 		5B9B09FE1E164B56006CA8A3 /* LLSelfInformation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B9B09FD1E164B56006CA8A3 /* LLSelfInformation.m */; };
 		5B9B0A041E1652B4006CA8A3 /* chacha.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B9B0A031E1652B4006CA8A3 /* chacha.png */; };
+		5B9B0A061E16B6B6006CA8A3 /* btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B9B0A051E16B6B6006CA8A3 /* btn.png */; };
+		5B9B0A081E16B811006CA8A3 /* flash.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B9B0A071E16B811006CA8A3 /* flash.png */; };
 		5BBC21891DE81DAA008DAAD4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BBC21881DE81DAA008DAAD4 /* main.m */; };
 		5BBC218C1DE81DAA008DAAD4 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5BBC218B1DE81DAA008DAAD4 /* AppDelegate.mm */; };
 		5BBC21921DE81DAA008DAAD4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BBC21901DE81DAA008DAAD4 /* Main.storyboard */; };
@@ -921,6 +923,8 @@
 		5B9B09FC1E164B56006CA8A3 /* LLSelfInformation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLSelfInformation.h; sourceTree = "<group>"; };
 		5B9B09FD1E164B56006CA8A3 /* LLSelfInformation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLSelfInformation.m; sourceTree = "<group>"; };
 		5B9B0A031E1652B4006CA8A3 /* chacha.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chacha.png; sourceTree = "<group>"; };
+		5B9B0A051E16B6B6006CA8A3 /* btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = btn.png; path = Assets.xcassets/AppIcon.appiconset/btn.png; sourceTree = "<group>"; };
+		5B9B0A071E16B811006CA8A3 /* flash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flash.png; sourceTree = "<group>"; };
 		5BBC21841DE81DAA008DAAD4 /* FIndTheLight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FIndTheLight.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BBC21881DE81DAA008DAAD4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		5BBC218A1DE81DAA008DAAD4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -1759,6 +1763,7 @@
 		5BBC21B51DE81EB0008DAAD4 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				5B9B0A051E16B6B6006CA8A3 /* btn.png */,
 				5BBC22301DE82925008DAAD4 /* LLHomePageViewController.h */,
 				5BBC22311DE82925008DAAD4 /* LLHomePageViewController.mm */,
 				5B2947961E0635A20062E9EC /* LLMatureViewController */,
@@ -1803,6 +1808,7 @@
 				5BBC22601DE96C53008DAAD4 /* LLPunchViewController.mm */,
 				5B9B09FC1E164B56006CA8A3 /* LLSelfInformation.h */,
 				5B9B09FD1E164B56006CA8A3 /* LLSelfInformation.m */,
+				5B9B0A071E16B811006CA8A3 /* flash.png */,
 				5B9B0A031E1652B4006CA8A3 /* chacha.png */,
 			);
 			name = Controller;
@@ -2135,6 +2141,7 @@
 				5B39BE7C1E0BB6DF000EC0AD /* smallrain_74.png in Resources */,
 				5B7B333B1E01122600BB02D5 /* waitingBall-111.png in Resources */,
 				5B39BE5E1E0BB6DF000EC0AD /* smallrain_47.png in Resources */,
+				5B9B0A081E16B811006CA8A3 /* flash.png in Resources */,
 				5B455CDF1E0E2ACF00EE1F53 /* Fliter-rainbow-12.png in Resources */,
 				5B455CF61E0E2ACF00EE1F53 /* Fliter-rainbow-33.png in Resources */,
 				5B7B33851E01122600BB02D5 /* waitingBall-52.png in Resources */,
@@ -2326,6 +2333,7 @@
 				5B7B33A11E01122600BB02D5 /* waitingBall-78.png in Resources */,
 				5B39BE321E0BB6DF000EC0AD /* smallrain_115.png in Resources */,
 				5B455CDD1E0E2ACF00EE1F53 /* Fliter-rainbow-10.png in Resources */,
+				5B9B0A061E16B6B6006CA8A3 /* btn.png in Resources */,
 				5B455CEA1E0E2ACF00EE1F53 /* Fliter-rainbow-22.png in Resources */,
 				5B455D011E0E2ACF00EE1F53 /* Fliter-rainbow-43.png in Resources */,
 				5B7B336E1E01122600BB02D5 /* waitingBall-31.png in Resources */,
