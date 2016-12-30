@@ -23,6 +23,7 @@
     (void)application;
     (void)launchOptions;
     _active = true;
+    [[AMapServices sharedServices] setEnableHTTPS:YES];
     [AMapServices sharedServices].apiKey = @"d4ab078d2a2f09d13723b20ec10c6788";
     [Bmob registerWithAppKey:@"4a45d08fb950978f1139c119c32a061b"];
  /*

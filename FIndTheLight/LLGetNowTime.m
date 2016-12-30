@@ -61,7 +61,7 @@
     // 4.获取了时间元素
     NSDateComponents *cmps = [calendar components:type fromDate:endDate toDate:startDate options:0];
     
-    NSLog(@"%ld年%ld月%ld日%ld小时%ld分钟%ld秒钟", cmps.year, cmps.month, cmps.day, cmps.hour, cmps.minute, cmps.second);
+    NSLog(@"%ld年%ld月%ld日%ld小时%ld分钟%ld秒钟", (long)cmps.year, cmps.month, cmps.day, cmps.hour, cmps.minute, cmps.second);
     long int yearsecond     = cmps.year*365*24*60*60;
     long int monthsecond    = cmps.month*30*24*60*60;
     long int daysecond      = cmps.day*24*60*60;

@@ -50,6 +50,8 @@
 //    [LocationLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 //        make.center.equalTo(self).centerOffset(CGPointMake(0, 20));
 //    }];
+    
+
 }
 
 @end

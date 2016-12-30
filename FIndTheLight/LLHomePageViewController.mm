@@ -74,6 +74,8 @@
     LLHomePageInformationView *pageInformationView;
     NSString *MainRoleFootStep;
     
+    UITapGestureRecognizer *TapdisplayView;
+    
     NSMutableArray *imageArray1;
     NSMutableArray *imageArray2;
     NSMutableArray *imageArray3;
@@ -113,7 +115,7 @@
     });
 
     [self.glView start];
-//    [self FirstinitArraywithName:@"filter_raining" andImageCount3:10];
+    NSLog(@"打开页面时含有的能量%@",[[NSUserDefaults standardUserDefaults]valueForKey:@"Energy"]);
     NSLog(@"首页将要开始");
         [self initArraywithName:@"filter_raining" andImageCount:10 ];
 
@@ -124,6 +126,9 @@
     [super viewWillAppear:animated];
     [self.glView stop];
     NSLog(@"首页将要结束");
+    [[NSUserDefaults standardUserDefaults]setValue:@"" forKey:@"LLNearestLocation"];
+    [[NSUserDefaults standardUserDefaults]setValue:@"" forKey:@"LLSecondNearestLocation"];
+    [[NSUserDefaults standardUserDefaults]setValue:@"" forKey:@"LLThirdNearestLocation"];
 }
 
 
@@ -177,14 +182,13 @@
     }
     [self.glView addSubview:displayView];
     
-//    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTap:)];
-//    tapGesture.delegate = (id <UIGestureRecognizerDelegate>)self;
-//    [displayView addGestureRecognizer:tapGesture];
+    TapdisplayView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(changeNearLocation:)];
+    [displayView addGestureRecognizer:TapdisplayView];
     
     pageInformationView = [[LLHomePageInformationView alloc]init];
     [self LoadStepCount];
     pageInformationView.LLMainRoleEnergyValue = MainRoleFootStep;
-    pageInformationView.frame = CGRectMake(264, 33, 234, 150);
+    pageInformationView.frame = CGRectMake([UIScreen mainScreen].bounds.size.width*0.638, [UIScreen mainScreen].bounds.size.width*0.08, [UIScreen mainScreen].bounds.size.width*0.5652, [UIScreen mainScreen].bounds.size.width*0.3623);
     pageInformationView.backgroundColor = [UIColor clearColor];
     [self.glView addSubview:pageInformationView];
     
@@ -243,18 +247,6 @@
         [waitingBall addGestureRecognizer:TapMaturedWaitingBall];
         
     }
-    
-
-    
-    
-//    UIImageView *testView = [[UIImageView alloc]initWithFrame:CGRectMake(200, 200, 100, 100)];
-//    [testView setUserInteractionEnabled:YES];
-//    testView.backgroundColor = [UIColor purpleColor];
-//    [self.glView addSubview:testView];
-    
-//    UITapGestureRecognizer *taptestView = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(testtap)];
-//    [testView addGestureRecognizer:taptestView];
-//    [self showWaitingBallMatureView];
 
 }
 
@@ -274,14 +266,15 @@
     [LLDissmissView addGestureRecognizer:tapMatureViewToHome];
     
     LLMatureBackgroudView = [[UIImageView alloc]initWithFrame:CGRectMake(self.view.center.x, self.view.center.y, 0, 0)];
-    LLMatureBackgroudView.backgroundColor = [UIColor colorWithRed:245.0/255.0 green:245.0/255.0 blue:245.0/225.0 alpha:1.0];
+    [LLMatureBackgroudView.layer setCornerRadius:10];
+    LLMatureBackgroudView.backgroundColor = [UIColor colorWithRed:39.0/255.0 green:56.0/255.0 blue:87.0/255.0 alpha:1];
     [self.glView addSubview:LLMatureBackgroudView];
     
     llmature = [[LLMatureView alloc]init];
     HasShowtheMatureView = NO;
     
 
-    llmature.backgroundColor = [UIColor greenColor];
+
     [llmature drawRect:CGRectMake(0,0, 0, 0)];
     [LLMatureBackgroudView addSubview:llmature];
     
@@ -295,9 +288,11 @@
     
     //
     llBoostView = [[LLBoostView alloc]init];
-    llBoostView.frame = CGRectMake([UIScreen mainScreen].bounds.size.width*0.19, self.glView.bounds.size.width*0.35, [UIScreen mainScreen].bounds.size.width*0.613, [UIScreen mainScreen].bounds.size.width*0.373);
+    llBoostView.frame = CGRectMake([UIScreen mainScreen].bounds.size.width*0.19,
+                                   self.glView.bounds.size.width*0.35,
+                                   [UIScreen mainScreen].bounds.size.width*0.613,
+                                   [UIScreen mainScreen].bounds.size.width*0.373);
     llBoostView.backgroundColor = [UIColor clearColor];
-//    llBoostView.userInteractionEnabled = NO;
     llBoostView.hidden = YES;
     [LLDismissBoostView addSubview:llBoostView];
     
@@ -308,13 +303,48 @@
 
 }
 
+-(void)changeNearLocation:(UITapGestureRecognizer *)gesture{
+    NSLog(@"点击了displayview");
+    //点击第一跳到第二 第二跳到第三 第三跳到第三 第三跳到第一 其余显示 继续定位
+    NSString *locationString = displayView.LLHomeDisplayLabel.text;
+    NSString *location1 = [[NSUserDefaults standardUserDefaults]valueForKey:@"LLNearestLocation"];
+    NSString *location2 = [[NSUserDefaults standardUserDefaults]valueForKey:@"LLSecondNearestLocation"];
+    NSString *location3 = [[NSUserDefaults standardUserDefaults]valueForKey:@"LLThirdNearestLocation"];
+    if ([locationString isEqualToString: location1]) {
+        displayView.LLHomeDisplayLabel.text = location3;
+        [displayView removeGestureRecognizer:TapdisplayView];
+        [self performSelector:@selector(changelabeldongxiao1) withObject:nil afterDelay:0.15];
+    }else if ([locationString isEqualToString:location2]) {
+        displayView.LLHomeDisplayLabel.text = location3;
+        
+    }else if([locationString isEqualToString:location3]){
+        displayView.LLHomeDisplayLabel.text = location1;
+    }else{
+        displayView.LLHomeDisplayLabel.text= @"继续查找";
+    }
+
+}
+-(void)changelabeldongxiao1{
+    displayView.LLHomeDisplayLabel.text = [[NSUserDefaults standardUserDefaults]valueForKey:@"LLSecondNearestLocation"];
+    [self performSelector:@selector(changelabeldongxiao2) withObject:nil afterDelay:0.15];
+}
+-(void)changelabeldongxiao2{
+    displayView.LLHomeDisplayLabel.text = [[NSUserDefaults standardUserDefaults]valueForKey:@"LLNearestLocation"];
+    [self performSelector:@selector(changelabeldongxiao3) withObject:nil afterDelay:0.15];
+}
+-(void)changelabeldongxiao3{
+    displayView.LLHomeDisplayLabel.text = [[NSUserDefaults standardUserDefaults]valueForKey:@"LLSecondNearestLocation"];
+    [displayView addGestureRecognizer:TapdisplayView];
+}
+
+
+
 - (BOOL)gestureRecognizer:(UITapGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{
     
     if([touch.view isKindOfClass:[LLBoostView class]]){;
             return NO;
     }
     return YES;
-    
 }
 
 
@@ -378,17 +408,23 @@
     
     [self performSelector:@selector(InitImmatureView) withObject:nil afterDelay:0.1];
 }
+
 //-(void)LLboostTap{
 //    NSLog(@"点击");
 //}
 
 -(void)InitImmatureView{
-
-    llBoostView.LLTapBoostbtn.frame = CGRectMake(50, 100, 150, 40);
+    llBoostView.LLTapBoostbtn.frame = CGRectMake([UIScreen mainScreen].bounds.size.width*0.121,
+                                                 [UIScreen mainScreen].bounds.size.width*0.2146,
+                                                 [UIScreen mainScreen].bounds.size.width*0.3623,
+                                                 [UIScreen mainScreen].bounds.size.width*0.1);
     [llBoostView.LLTapBoostbtn addTarget:self action:@selector(LLboostTap) forControlEvents:UIControlEventTouchUpInside];
     [llBoostView addSubview:llBoostView.LLTapBoostbtn];
-    llBoostView.LLBoostContextLabel.frame = CGRectMake(30, 10, 200, 100);
-//    llBoostView.LLBoostcontentView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width*0.613,[UIScreen mainScreen].bounds.size.width*0.373);
+    llBoostView.LLBoostContextLabel.frame = CGRectMake(0,
+                                                       [UIScreen mainScreen].bounds.size.width*0.048,
+                                                       [UIScreen mainScreen].bounds.size.width*0.613,
+                                                       [UIScreen mainScreen].bounds.size.width*0.12);
+
 }
 -(void)LLboostTap{
     /*
@@ -478,10 +514,12 @@
 -(void)showWaitingBallMatureView{
     POPSpringAnimation *PopMatureView = [POPSpringAnimation animation];
     PopMatureView.property = [POPAnimatableProperty propertyWithName:kPOPViewFrame];
-    PopMatureView.toValue = [NSValue valueWithCGRect:CGRectMake(self.view.center.x-140, self.view.center.y-190, 280, 380)];
+    PopMatureView.toValue = [NSValue valueWithCGRect:CGRectMake(self.view.center.x-140, self.view.center.y-190,
+                                                                [UIScreen mainScreen].bounds.size.width*0.676,
+                                                                [UIScreen mainScreen].bounds.size.width*0.9)];
     LLDissmissView.hidden = NO;
-    [self performSelector:@selector(initMaturethingsView) withObject:nil afterDelay:0.3];
-    PopMatureView.springBounciness = 20.0;
+    [self performSelector:@selector(initMaturethingsView) withObject:nil afterDelay:0.4];
+    PopMatureView.springBounciness = 10.0;
     PopMatureView.springSpeed      = 10.0;
     [LLMatureBackgroudView pop_addAnimation:PopMatureView forKey:@"shortDismissView"];
     
@@ -1003,14 +1041,14 @@
             }
         }else{
             llsearchAroundLocation = [[LLSearchAroundLocation alloc]init];
-            NSMutableArray *threeLocations = [llsearchAroundLocation GetRequestionlongitude:location.coordinate.longitude latitude:location.coordinate.latitude];
+            [llsearchAroundLocation GetRequestionlongitude:location.coordinate.longitude latitude:location.coordinate.latitude];
+//            [llsearchAroundLocation GetRequestionlongitude:200 latitude:80];
 //            if (llsearchAroundLocation.LLNearestLocation.count) {
 ////                displayView.LLHomeDisplayLabel.text = @"重新定位中";
 //            }else{
-                displayView.LLHomeDisplayLabel.text = [threeLocations objectAtIndex:0];
+                displayView.LLHomeDisplayLabel.text = [[NSUserDefaults standardUserDefaults]valueForKey:@"LLNearestLocation"];
  //               NSLog(@"最近的地点%@",[threeLocations objectAtIndex:0]);
 //            }
-
 //            [self performSelector:@selector(changedisplayLabel) withObject:nil afterDelay:1.0];
         }
         
@@ -1036,23 +1074,23 @@
 - (void)showMenu {
     NSMutableArray *items = [[NSMutableArray alloc] initWithCapacity:3];
     
-    MenuItem *menuItem = [MenuItem itemWithTitle:@"记步" iconName:@"post_type_bubble_twitter"];
+    MenuItem *menuItem = [MenuItem itemWithTitle:@"SelfGotThing" iconName:@"post_type_bubble_twitter"];
     [items addObject:menuItem];
     
-    menuItem = [MenuItem itemWithTitle:@"碎片箱" iconName:@"post_type_bubble_twitter" glowColor:[UIColor colorWithRed:0.840 green:0.264 blue:0.208 alpha:0.800]];
-    [items addObject:menuItem];
-    
-    menuItem = [MenuItem itemWithTitle:@"道具箱" iconName:@"post_type_bubble_twitter" glowColor:[UIColor colorWithRed:0.232 green:0.442 blue:0.687 alpha:0.800]];
-    [items addObject:menuItem];
-    
-    menuItem = [MenuItem itemWithTitle:@"排名" iconName:@"post_type_bubble_twitter" glowColor:[UIColor colorWithRed:0.000 green:0.509 blue:0.687 alpha:0.800]];
-    [items addObject:menuItem];
-    
-    menuItem = [MenuItem itemWithTitle:@"活动版块" iconName:@"post_type_bubble_twitter" glowColor:[UIColor colorWithRed:0.687 green:0.164 blue:0.246 alpha:0.800]];
-    [items addObject:menuItem];
-    
-    menuItem = [MenuItem itemWithTitle:@"舰队" iconName:@"post_type_bubble_twitter" glowColor:[UIColor colorWithRed:0.258 green:0.245 blue:0.687 alpha:0.800]];
-    [items addObject:menuItem];
+//    menuItem = [MenuItem itemWithTitle:@"碎片箱" iconName:@"post_type_bubble_twitter" glowColor:[UIColor colorWithRed:0.840 green:0.264 blue:0.208 alpha:0.800]];
+//    [items addObject:menuItem];
+//    
+//    menuItem = [MenuItem itemWithTitle:@"道具箱" iconName:@"post_type_bubble_twitter" glowColor:[UIColor colorWithRed:0.232 green:0.442 blue:0.687 alpha:0.800]];
+//    [items addObject:menuItem];
+//    
+//    menuItem = [MenuItem itemWithTitle:@"排名" iconName:@"post_type_bubble_twitter" glowColor:[UIColor colorWithRed:0.000 green:0.509 blue:0.687 alpha:0.800]];
+//    [items addObject:menuItem];
+//    
+//    menuItem = [MenuItem itemWithTitle:@"活动版块" iconName:@"post_type_bubble_twitter" glowColor:[UIColor colorWithRed:0.687 green:0.164 blue:0.246 alpha:0.800]];
+//    [items addObject:menuItem];
+//    
+//    menuItem = [MenuItem itemWithTitle:@"舰队" iconName:@"post_type_bubble_twitter" glowColor:[UIColor colorWithRed:0.258 green:0.245 blue:0.687 alpha:0.800]];
+//    [items addObject:menuItem];
     
     if (!popMenu) {
         popMenu = [[PopMenu alloc] initWithFrame:self.view.bounds items:items];
@@ -1065,7 +1103,7 @@
     __weak typeof(self) weakSelf = self;
     popMenu.didSelectedItemCompletion = ^(MenuItem *selectedItem) {
         NSLog(@"%@",selectedItem.title);
-        if ([selectedItem.title isEqual:@"Flickr"]) {
+        if ([selectedItem.title isEqual:@"SelfGotThing"]) {
         [weakSelf pushpunchView];
         }
 
@@ -1077,6 +1115,6 @@
 }
 
 -(void)pushpunchView{
-        [self performSegueWithIdentifier:@"PushPunchView" sender:nil];
+        [self performSegueWithIdentifier:@"LLSelfInformation" sender:nil];
 }
 @end

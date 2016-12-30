@@ -4,7 +4,6 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -13,7 +12,7 @@
         <scene sceneID="TBy-HC-cLP">
             <objects>
                 <navigationController storyboardIdentifier="LLHomePage" id="Z3E-2h-2H1" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Bal-Ko-70H">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Bal-Ko-70H">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -41,6 +40,7 @@
                     <navigationItem key="navigationItem" id="Hvi-Ww-qlH"/>
                     <connections>
                         <segue destination="LlC-sL-WNO" kind="show" identifier="PushPunchView" id="SLD-Vl-U3P"/>
+                        <segue destination="nnp-4c-ewO" kind="show" identifier="LLSelfInformation" id="g1t-tZ-Rlt"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -83,23 +83,23 @@
             </objects>
             <point key="canvasLocation" x="805.60000000000002" y="80.50974512743629"/>
         </scene>
-        <!--Testxuanzhuan View Controller-->
-        <scene sceneID="QUn-Xx-LaJ">
+        <!--Self Information-->
+        <scene sceneID="HfS-2Y-ddH">
             <objects>
-                <viewController id="mte-tw-68K" customClass="testxuanzhuanViewController" sceneMemberID="viewController">
+                <viewController id="nnp-4c-ewO" customClass="LLSelfInformation" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="aYe-fH-etE"/>
-                        <viewControllerLayoutGuide type="bottom" id="jRu-N3-6C6"/>
+                        <viewControllerLayoutGuide type="top" id="NEf-lg-ere"/>
+                        <viewControllerLayoutGuide type="bottom" id="dj7-kJ-WF9"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="YFA-Be-BPa">
+                    <view key="view" contentMode="scaleToFill" id="ZET-De-anp">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="xDE-4T-cts" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2u7-RM-6gY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1070" y="786"/>
+            <point key="canvasLocation" x="275" y="829"/>
         </scene>
         <!--Llogin View Controller-->
         <scene sceneID="vw6-i7-dCE">

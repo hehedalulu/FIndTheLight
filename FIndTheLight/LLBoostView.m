@@ -36,17 +36,22 @@
     _LLBoostcontentView.backgroundColor = [UIColor clearColor];
     [self addSubview:_LLBoostcontentView];
     
-    _LLTapBoostbtn = [[UIButton alloc]initWithFrame:CGRectMake(50, 70, 0, 0)];
+    _LLTapBoostbtn = [[UIButton alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.12, [UIScreen mainScreen].bounds.size.width*0.19, 0, 0)];
+    UIImageView *tapbtnImg = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0,
+                                                                          [UIScreen mainScreen].bounds.size.width*0.3623,
+                                                                          [UIScreen mainScreen].bounds.size.width*0.097)];
+    tapbtnImg.image = [UIImage imageNamed:@"btn_confirm.png"];
+    tapbtnImg.clipsToBounds = YES;
+    [_LLTapBoostbtn addSubview:tapbtnImg];
     _LLTapBoostbtn.titleLabel.textColor = [UIColor blackColor];
     [_LLTapBoostbtn setTitleColor:[UIColor colorWithRed:254.0/255.0 green:239.0/255.0 blue:189.0/255.0 alpha:1] forState:UIControlStateNormal];
-    _LLTapBoostbtn.backgroundColor = [UIColor orangeColor];
     _LLTapBoostbtn.clipsToBounds = YES;
     _LLTapBoostbtn.userInteractionEnabled = YES;
     _LLTapBoostbtn.titleLabel.font = [UIFont fontWithName:@"MF TongXin (Noncommercial)" size:15];;
     [_LLBoostcontentView addSubview:_LLTapBoostbtn];
-    [_LLTapBoostbtn addTarget:self action:@selector(dayin) forControlEvents:UIControlEventTouchUpInside];
+
     
-    _LLBoostContextLabel = [[UILabel alloc]initWithFrame:CGRectMake(30, 0, 0, 0)];
+    _LLBoostContextLabel = [[UILabel alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.073, 0, 0, 0)];
     _LLBoostContextLabel.textAlignment = NSTextAlignmentCenter;
     _LLBoostContextLabel.font = [UIFont fontWithName:@"MF TongXin (Noncommercial)" size:17];
     _LLBoostContextLabel.textColor = [UIColor colorWithRed:223.0/255.0 green:215.0/255.0 blue:255.0/255.0 alpha:1];
@@ -76,13 +81,4 @@
 
 }
 
--(void)dayin{
-    NSLog(@"点击了");
-
-    NSString *currentEnergyString = [[NSUserDefaults standardUserDefaults]valueForKey:@"Energy"];
-    int currentEnergy = [currentEnergyString intValue];
-    //能量减少 时间减少
-
-    
-}
 @end

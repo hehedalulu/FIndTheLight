@@ -11,5 +11,5 @@
 @interface LLSearchAroundLocation : NSObject
 
 @property (nonatomic,strong) NSString *LLNearestLocation;
--(NSMutableArray *)GetRequestionlongitude:(float)Coordinatelongitude latitude:(float)Coordinatelatitude;
+-(void)GetRequestionlongitude:(float)Coordinatelongitude latitude:(float)Coordinatelatitude;
 @end

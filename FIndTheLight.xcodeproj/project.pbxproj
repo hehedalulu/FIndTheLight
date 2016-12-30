@@ -420,6 +420,8 @@
 		5B9B09F91E13F307006CA8A3 /* btn_confirm@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B9B09F51E13F307006CA8A3 /* btn_confirm@3x.png */; };
 		5B9B09FA1E13F307006CA8A3 /* layer@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B9B09F61E13F307006CA8A3 /* layer@2x.png */; };
 		5B9B09FB1E13F307006CA8A3 /* layer@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B9B09F71E13F307006CA8A3 /* layer@3x.png */; };
+		5B9B09FE1E164B56006CA8A3 /* LLSelfInformation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B9B09FD1E164B56006CA8A3 /* LLSelfInformation.m */; };
+		5B9B0A041E1652B4006CA8A3 /* chacha.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B9B0A031E1652B4006CA8A3 /* chacha.png */; };
 		5BBC21891DE81DAA008DAAD4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BBC21881DE81DAA008DAAD4 /* main.m */; };
 		5BBC218C1DE81DAA008DAAD4 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5BBC218B1DE81DAA008DAAD4 /* AppDelegate.mm */; };
 		5BBC21921DE81DAA008DAAD4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BBC21901DE81DAA008DAAD4 /* Main.storyboard */; };
@@ -916,6 +918,9 @@
 		5B9B09F51E13F307006CA8A3 /* btn_confirm@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_confirm@3x.png"; sourceTree = "<group>"; };
 		5B9B09F61E13F307006CA8A3 /* layer@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "layer@2x.png"; sourceTree = "<group>"; };
 		5B9B09F71E13F307006CA8A3 /* layer@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "layer@3x.png"; sourceTree = "<group>"; };
+		5B9B09FC1E164B56006CA8A3 /* LLSelfInformation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLSelfInformation.h; sourceTree = "<group>"; };
+		5B9B09FD1E164B56006CA8A3 /* LLSelfInformation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLSelfInformation.m; sourceTree = "<group>"; };
+		5B9B0A031E1652B4006CA8A3 /* chacha.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chacha.png; sourceTree = "<group>"; };
 		5BBC21841DE81DAA008DAAD4 /* FIndTheLight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FIndTheLight.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BBC21881DE81DAA008DAAD4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		5BBC218A1DE81DAA008DAAD4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -1658,7 +1663,7 @@
 				5B7B32901DFF85EE00BB02D5 /* 登录注册 */,
 				5B729A4B1DF5810C000FE6E9 /* 记步 */,
 				5BBC21B61DE81EB9008DAAD4 /* AR渲染 */,
-				5BBC21B21DE81E7F008DAAD4 /* PunchPage */,
+				5BBC21B21DE81E7F008DAAD4 /* SelfPage */,
 				5BBC21B11DE81E63008DAAD4 /* HomePage */,
 				5BBC21871DE81DAA008DAAD4 /* Supporting Files */,
 			);
@@ -1719,15 +1724,14 @@
 			name = HomePage;
 			sourceTree = "<group>";
 		};
-		5BBC21B21DE81E7F008DAAD4 /* PunchPage */ = {
+		5BBC21B21DE81E7F008DAAD4 /* SelfPage */ = {
 			isa = PBXGroup;
 			children = (
-				5BBC22621DE96C74008DAAD4 /* iCarousel */,
 				5BBC21B91DE81ED7008DAAD4 /* Controller */,
 				5BBC21B81DE81ED1008DAAD4 /* View */,
 				5BBC21B71DE81EC9008DAAD4 /* Model */,
 			);
-			name = PunchPage;
+			name = SelfPage;
 			sourceTree = "<group>";
 		};
 		5BBC21B31DE81E9A008DAAD4 /* Model */ = {
@@ -1797,6 +1801,9 @@
 			children = (
 				5BBC225F1DE96C53008DAAD4 /* LLPunchViewController.h */,
 				5BBC22601DE96C53008DAAD4 /* LLPunchViewController.mm */,
+				5B9B09FC1E164B56006CA8A3 /* LLSelfInformation.h */,
+				5B9B09FD1E164B56006CA8A3 /* LLSelfInformation.m */,
+				5B9B0A031E1652B4006CA8A3 /* chacha.png */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -1834,13 +1841,6 @@
 				5BBC21FF1DE82084008DAAD4 /* WechatIMG260.jpeg */,
 			);
 			path = assets;
-			sourceTree = "<group>";
-		};
-		5BBC22621DE96C74008DAAD4 /* iCarousel */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = iCarousel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2150,6 +2150,7 @@
 				5B7B33B71E01122700BB02D5 /* waitingBall-98.png in Resources */,
 				5B7B33A31E01122600BB02D5 /* waitingBall-8.png in Resources */,
 				5B39BE201E0BB6DF000EC0AD /* smallrain_1.png in Resources */,
+				5B9B0A041E1652B4006CA8A3 /* chacha.png in Resources */,
 				5B455CDC1E0E2ACF00EE1F53 /* Fliter-rainbow-1.png in Resources */,
 				5B39BE691E0BB6DF000EC0AD /* smallrain_57.png in Resources */,
 				5B7B33AC1E01122700BB02D5 /* waitingBall-88.png in Resources */,
@@ -2398,6 +2399,7 @@
 				5B729A571DF58B2D000FE6E9 /* LLGetStep.m in Sources */,
 				5B2948321E09CCAE0062E9EC /* LLBoostView.m in Sources */,
 				5BBC22321DE82925008DAAD4 /* LLHomePageViewController.mm in Sources */,
+				5B9B09FE1E164B56006CA8A3 /* LLSelfInformation.m in Sources */,
 				5B43B76D1DF2744800D3CFE9 /* LLFilterView.m in Sources */,
 				5B43B8821DF2B9C500D3CFE9 /* LLFilterAlwaysView.m in Sources */,
 				5BBC221E1DE82085008DAAD4 /* renderer.cc in Sources */,
@@ -2489,7 +2491,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -2532,7 +2534,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
