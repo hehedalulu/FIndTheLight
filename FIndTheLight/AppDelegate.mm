@@ -10,7 +10,7 @@
 #include "easyar/utility.hpp"
 #import <AMapFoundationKit/AMapFoundationKit.h>
 #import <BmobSDK/Bmob.h>
-
+//#import "LLGetStep.h"
 
 @interface AppDelegate ()
 
@@ -45,45 +45,47 @@
         //        self.window.rootViewController = loginVC;
     }
 */
+    
+//如果是第一次打开
    if (![[NSUserDefaults standardUserDefaults]valueForKey:@"isFirst"]) {
-        
-    NSDate *firstOpenAPP = [NSDate date];
-    
-    // 1.创建一个时间格式化对象
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    
-    // 2.设置时间格式化对象的样式
-    formatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
-    
-    
-    // 3.利用时间格式化对象对时间进行格式化
-    NSString *firstOpenAPPString = [formatter stringFromDate:firstOpenAPP];
-       
-    NSLog(@"%@",firstOpenAPPString);
-    
+   
     [[NSUserDefaults standardUserDefaults] setValue:@"YES" forKey:@"isFirst"];
+    //第一次打开就存一个today 判断是否当天第一次打开应用
+    NSDate *firstOpenAPP = [NSDate date];
     [[NSUserDefaults standardUserDefaults] setObject:firstOpenAPP forKey:@"today"];
-    [[NSUserDefaults standardUserDefaults] setValue:firstOpenAPPString forKey:@"firstOpenAPPString"];
+    [[NSUserDefaults standardUserDefaults] setValue:@"0" forKey:@"Energy"];
+    [[NSUserDefaults standardUserDefaults] setValue:@"0" forKey:@"NowDayEnergy"];
+    //光球开始计时？
+    [[NSUserDefaults standardUserDefaults] setObject:firstOpenAPP forKey:@"firstOpenAPPString"];
+       NSLog(@"第一次打开应用,初始化能量");
+       //保存当前步数到@"Energy"中
+   }else{
+    [[NSUserDefaults standardUserDefaults] setValue:@"NO" forKey:@"isFirst"];
+   }
     
-    NSString *firstHealthEnergy = @"0";
-    [[NSUserDefaults standardUserDefaults]setValue:firstHealthEnergy forKey:@"Energy"];
-    
-    }
-    //判断是否是当天 如果是在当天之内打开应用的话 就不更新 存储一个当天的属性
-    //如果不是当天打开应用的话 就当天的当天步数纪录调整为0
+//不是第一次打开
+//判断是否是当天首次打开 如果是在当天首次打开应用的话 初始化当天能量值
     NSDate *oldday = [[NSUserDefaults standardUserDefaults]valueForKey:@"today"];
     NSDate *today = [NSDate date];
-    NSLog(@"oldday%@ today%@",oldday,today);
-    if (![self isSameDayForDate:oldday andDate:today]){
-        NSString *newdayEnergy = @"0";
-        [[NSUserDefaults standardUserDefaults]setValue:newdayEnergy forKey:@"NowDayEnergy"];
-        NSLog(@"不是今天");
+    
+    if (![self isSameDayForDate:oldday andDate:today]){//不一样 所以是首次打开
+        //如果是当天首次打开应用  当天的当天步数纪录调整为0
+        [[NSUserDefaults standardUserDefaults]setValue:@"0" forKey:@"NowDayEnergy"];
+        [[NSUserDefaults standardUserDefaults]setObject:today forKey:@"today"];
+        NSLog(@"非第一次当天首次打开应用,当前能量是%@",
+              [[NSUserDefaults standardUserDefaults]valueForKey:@"Energy"]
+              );
+    }else{//一样 有可能是第一次次打开 有可能是当天非首次打开
+        //不是当天首次打开应用 将步数差加到Energy中
+        if ([[[NSUserDefaults standardUserDefaults]valueForKey:@"isFirst"] isEqualToString:@"YES"]) {
+            //如果是第一次
+            //NSLog(@"第一次打开");
+        }else{
+            NSLog(@"当天非首次打开应用,当天能量之前为%@",[[NSUserDefaults standardUserDefaults]valueForKey:@"NowDayEnergy"]);
+        }
+        //[[NSUserDefaults standardUserDefaults]setValue:EnergyString forKey:@"Energy"];
+        //NSLog(@"现在当天能量为%d，之前总能量是%d,现在总能量为%d",afterEnergy,Energy,result);
     }
-    
-//    NSString *FirstStaus = [[NSUserDefaults standardUserDefaults]valueForKey:@"isFirst"];
-//    NSString *FirstOpenTime = [[NSUserDefaults standardUserDefaults]valueForKey:@"firstOpenAPPString"];
-//    NSLog(@"FirstStaus: %@ \n FistOpenTime: %@",FirstStaus,FirstOpenTime);
-    
     return YES;
 }
 
@@ -126,18 +128,24 @@
     {
         return NO;
     }
+//    
+//    NSCalendar *calendar = [NSCalendar currentCalendar];
+//    
+//    NSDateComponents *components = [calendar components:(NSCalendarUnitEra |NSCalendarUnitYear | NSCalendarUnitMonth  | NSCalendarUnitDay)  fromDate:date1];
+//    
+//    NSDate *OneDate = [calendar dateFromComponents:components];
+//
+//    components = [calendar components:(NSCalendarUnitEra |NSCalendarUnitYear | NSCalendarUnitMonth  | NSCalendarUnitDay) fromDate:date2];
+//    
+//    NSDate *OtherDate = [calendar dateFromComponents:components];
     
-    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
     
-    NSDateComponents *components = [calendar components:(NSCalendarUnitEra |NSCalendarUnitYear | NSCalendarUnitMonth  | NSCalendarUnitDay)  fromDate:date1];
+     NSString *DateString1 = [dateFormatter stringFromDate:date1];
+     NSString *DateString2 = [dateFormatter stringFromDate:date2];
     
-    NSDate *OneDate = [calendar dateFromComponents:components];
-    
-    components = [calendar components:(NSCalendarUnitEra |NSCalendarUnitYear | NSCalendarUnitMonth  | NSCalendarUnitDay) fromDate:date2];
-    
-    NSDate *OtherDate = [calendar dateFromComponents:components];
-    
-    return ([OneDate isEqualToDate:OtherDate]);
+    return ([DateString1 isEqualToString:DateString2]);
     
 }
 

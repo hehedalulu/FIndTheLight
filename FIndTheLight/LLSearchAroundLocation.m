@@ -30,7 +30,7 @@
     [manager GET:URL.absoluteString parameters:nil progress:nil success:^(NSURLSessionTask *task, id responseObject) {
         //解析返回周边的json
         NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:responseObject  options:NSJSONReadingMutableLeaves error:nil];
-         NSLog(@"dic is %@",dic);
+//         NSLog(@"dic is %@",dic);
         /*
          之前这边爆出来空指针异常
          判断一下附近有多少个基站
@@ -56,7 +56,7 @@
                     NameStr1 = [NameStr1 stringByRemovingPercentEncoding];
                     [locationNameArray addObject:NameStr1];
                     _LLNearestLocation = NameStr1;
-                    NSLog(@"最近的基站%@",NameStr1);
+//                    NSLog(@"最近的基站%@",NameStr1);
                     [[NSUserDefaults standardUserDefaults]setValue:NameStr1 forKey:@"LLNearestLocation"];
                 }
             }
@@ -75,7 +75,7 @@
                     NameStr1 = [NameStr1 stringByRemovingPercentEncoding];
                     [locationNameArray addObject:NameStr1];
                     _LLNearestLocation = NameStr1;
-                    NSLog(@"最近的基站%@",NameStr1);
+//                    NSLog(@"最近的基站%@",NameStr1);
                     [[NSUserDefaults standardUserDefaults]setValue:NameStr1 forKey:@"LLNearestLocation"];
                     
                 }
@@ -87,7 +87,7 @@
                     NameStr2 = [NameStr2 stringByRemovingPercentEncoding];
                     [locationNameArray addObject:NameStr2];
                     [[NSUserDefaults standardUserDefaults]setValue:NameStr2 forKey:@"LLSecondNearestLocation"];
-                    NSLog(@"第二近的基站%@",NameStr2);
+//                    NSLog(@"第二近的基站%@",NameStr2);
                 }
             }
         }else{
@@ -105,7 +105,7 @@
                     NameStr1 = [NameStr1 stringByRemovingPercentEncoding];
                     [locationNameArray addObject:NameStr1];
                     _LLNearestLocation = NameStr1;
-                    NSLog(@"最近的基站%@",NameStr1);
+//                    NSLog(@"最近的基站%@",NameStr1);
                     [[NSUserDefaults standardUserDefaults]setValue:NameStr1 forKey:@"LLNearestLocation"];
                     
                 }
@@ -117,7 +117,7 @@
                     NameStr2 = [NameStr2 stringByRemovingPercentEncoding];
                     [locationNameArray addObject:NameStr2];
                     [[NSUserDefaults standardUserDefaults]setValue:NameStr2 forKey:@"LLSecondNearestLocation"];
-                    NSLog(@"第二近的基站%@",NameStr2);
+//                    NSLog(@"第二近的基站%@",NameStr2);
                 }
                 if ([list objectAtIndex:2]) {
                     //第三近的基站
@@ -128,7 +128,7 @@
                     NameStr3 = [NameStr3 stringByRemovingPercentEncoding];
                     [locationNameArray addObject:NameStr3];
                     [[NSUserDefaults standardUserDefaults]setValue:NameStr3 forKey:@"LLThirdNearestLocation"];
-                    NSLog(@"第三近的基站%@",NameStr3);
+//                    NSLog(@"第三近的基站%@",NameStr3);
                 }
                 //            NSLog(@"%@",locationNameArray);
             }

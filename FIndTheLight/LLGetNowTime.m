@@ -36,12 +36,9 @@
         NSDate *LLLastRecordTime = [formatter dateFromString:LLLastRecordTimeString];
         return LLLastRecordTime;
     }else{
-        NSString *firstOpenAPPTimeString = [[NSUserDefaults standardUserDefaults] valueForKey:@"firstOpenAPPString"];
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-        //NSString转NSDate
-        NSDate *firstOpenAPPTime = [formatter dateFromString:firstOpenAPPTimeString];
-        return firstOpenAPPTime;
+        NSDate *firstOpenDate = [[NSUserDefaults standardUserDefaults] valueForKey:@"firstOpenAPPString"];
+
+        return firstOpenDate;
     }
 }
 

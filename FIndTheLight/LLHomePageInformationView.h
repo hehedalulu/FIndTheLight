@@ -8,10 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LLHomePageInformationView : UIView
+@interface LLHomePageInformationView : UIView{
+    UILabel *EnergyV;
+    UIView *HomePhysicalBackeImage;
+    UILabel *EnergyMax;
+    UIView *HomePhysicalValueImage;
+}
 
 @property(nonatomic , strong) NSString *LLHomeName;
 @property(nonatomic , strong) NSString *LLHomeIntellectualValues;
 @property(nonatomic , strong) NSString *LLMainRoleEnergyValue;
 @property(nonatomic , strong) NSString *LLHomeLevelValues;
+
+-(void)initEnergyValueImage;
 @end

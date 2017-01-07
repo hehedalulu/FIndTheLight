@@ -78,8 +78,16 @@
     [self addSubview:HomeLevel];
     
     [self initWaitingBallValueImage];
+    
+    HomePhysicalBackeImage = [[UIView alloc]init];
+    [self addSubview:HomePhysicalBackeImage];
+    EnergyMax = [[UILabel alloc]init];
+    [self addSubview:EnergyMax];
+    EnergyV = [[UILabel alloc]init];
+    [self addSubview:EnergyV];
+    HomePhysicalValueImage = [[UIView alloc]init];
+    [HomePhysicalBackeImage addSubview:HomePhysicalValueImage];
     [self initEnergyValueImage];
-//    [self initLevelValueImage];
     
 }
 
@@ -144,7 +152,6 @@
 }
 
 -(void)initEnergyValueImage{
-    UIView *HomePhysicalBackeImage = [[UIView alloc]init];
     HomePhysicalBackeImage.backgroundColor = [UIColor colorWithRed:46.0/255.0 green:82.0/255.0 blue:126.0/255.0 alpha:0.5];
     HomePhysicalBackeImage.frame = CGRectMake([UIScreen mainScreen].bounds.size.width*0.1353,
                                               [UIScreen mainScreen].bounds.size.width*0.2947,
@@ -152,22 +159,21 @@
                                               [UIScreen mainScreen].bounds.size.width*0.0266);
     [HomePhysicalBackeImage.layer setMasksToBounds:YES];
     [HomePhysicalBackeImage.layer setCornerRadius:5];
-    [self addSubview:HomePhysicalBackeImage];
     
-    UILabel *EnergyMax = [[UILabel alloc]initWithFrame:
-                          CGRectMake([UIScreen mainScreen].bounds.size.width*0.2681,
+    
+    EnergyMax.frame =     CGRectMake([UIScreen mainScreen].bounds.size.width*0.2681,
                                      [UIScreen mainScreen].bounds.size.width*0.2826,
                                      [UIScreen mainScreen].bounds.size.width*0.0676,
-                                     [UIScreen mainScreen].bounds.size.width*0.0483)];
+                                     [UIScreen mainScreen].bounds.size.width*0.0483);
     EnergyMax.text = @"10000";
     EnergyMax.font = [UIFont fontWithName:@"Marker Felt" size:12];
         EnergyMax.adjustsFontSizeToFitWidth = YES;
     EnergyMax.textColor = [UIColor colorWithRed:212.0/255.0 green:202.0/255.0 blue:255.0/255.0 alpha:1];
-    [self addSubview:EnergyMax];
+
     
     int PhysicalValue = [_LLMainRoleEnergyValue intValue]/200;
     
-    UILabel *EnergyV = [[UILabel alloc]init];
+
     EnergyV.frame = CGRectMake([UIScreen mainScreen].bounds.size.width*0.169,
                                [UIScreen mainScreen].bounds.size.width*0.285,
                                [UIScreen mainScreen].bounds.size.width*0.0531,
@@ -183,9 +189,8 @@
     }
     
     EnergyV.textColor = [UIColor colorWithRed:254.0/255.0 green:239.0/255.0 blue:189.0/255.0 alpha:1];
-    [self addSubview:EnergyV];
     
-    UIView *HomePhysicalValueImage = [[UIView alloc]init];
+    
     HomePhysicalValueImage.backgroundColor = [UIColor colorWithRed:82.0/255.0 green:131.0/255.0 blue:192.0/255.0 alpha:1];
     if (_LLMainRoleEnergyValue == nil) {
         HomePhysicalValueImage.frame = CGRectMake(0, 0, 0,
@@ -197,7 +202,6 @@
 
     [HomePhysicalValueImage.layer setMasksToBounds:YES];
     [HomePhysicalValueImage.layer setCornerRadius:3];
-    [HomePhysicalBackeImage addSubview:HomePhysicalValueImage];
     
 }
 

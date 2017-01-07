@@ -64,7 +64,6 @@
     LLWaitingBall *waitingBall;
     long int LLWaitingBallMatureTime;
     UITapGestureRecognizer *TapImmatureWaitingBall;
-//    UILongPressGestureRecognizer *LongPressWaitingBall;
     UITapGestureRecognizer *TapMaturedWaitingBall;
     LLBoostView *llBoostView;
     UITapGestureRecognizer *dismissBoostViewGesture;
@@ -79,6 +78,11 @@
     NSMutableArray *imageArray1;
     NSMutableArray *imageArray2;
     NSMutableArray *imageArray3;
+    
+    //第一次打开的判断定时器
+    NSTimer *healthTimer;
+    NSTimer *LocationTimer;
+    NSTimer *UpdateStepTimer;
 }
 
 
@@ -98,22 +102,81 @@
     self.glView = [[OpenGLView alloc] initWithFrame:self.view.bounds];
     [self.view addSubview:self.glView];
     [self.glView setOrientation:[UIApplication sharedApplication].statusBarOrientation];
-
-
     [self drawfilterImageView];
-    [self drawChooseView];
     [self drawview];
+
+    [self drawChooseView];
     [self ShowHiddenView];
     [self.glView setUserInteractionEnabled:YES];
+    // 第一次打开执行别样操作
+    [self TheFirstTimeOpen];
 
     [NSTimer scheduledTimerWithTimeInterval:30.0 target:self selector:@selector(Location) userInfo:nil repeats:YES];
 }
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
+
+-(void)TheFirstTimeOpen{
+    if ([[[NSUserDefaults standardUserDefaults]valueForKey:@"isFirst"] isEqualToString:@"YES"]) {
+        //模拟引导时点击读取步数 获取定位
+        [self performSelector:@selector(ReadFirstSteps) withObject:nil afterDelay:15];
+        [self performSelector:@selector(firstLocation) withObject:nil afterDelay:5];
+    }else{
+        //不是第一次后台线程也5s更新一次数据
+        UpdateStepTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(UpdateAddStep) userInfo:nil repeats:YES];
+    }
+}
+-(void)hasGetHealth{
+    //如果步数获取到
+    if ([HKHealthStore isHealthDataAvailable]) {
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            LLGetStep *llfirstgetsteps = [[LLGetStep alloc]init];
+            [llfirstgetsteps FirstCreatHealth];
+        });
+        [self performSelector:@selector(firstUpdateEnergy) withObject:nil afterDelay:3];
+        [healthTimer invalidate];
+    }
+}
+//第一次更新Energy
+-(void)firstUpdateEnergy{
+    pageInformationView.LLMainRoleEnergyValue = [[NSUserDefaults standardUserDefaults]valueForKey:@"Energy"];
+    [pageInformationView initEnergyValueImage];
+    NSLog(@"UI更新第一次Energy的值");
+    UpdateStepTimer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(UpdateAddStep) userInfo:nil repeats:YES];
+}
+//每5s更新一次Energy
+-(void)UpdateAddStep{
+    NSLog(@"开始每5s更新Energy");
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        LLGetStep *llfirstgetsteps = [[LLGetStep alloc]init];
+        [llfirstgetsteps CreatAddHealth];
+    });
+    pageInformationView.LLMainRoleEnergyValue = [[NSUserDefaults standardUserDefaults]valueForKey:@"Energy"];
+    [pageInformationView initEnergyValueImage];
+}
+//后期改成引导页面时监控 定位 （制定获取权限顺序）
+-(void)firstLocation{
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         [self configLocationManager];
     });
+}
+//点击操作请求权限调用一次 第一次监听到可以读取后 在调用一次（搞一个通知中心去观察是否可以读取 只在第一次打开的时候开启这个通知中心 ）
+-(void)ReadFirstSteps{
+    //监听 是否获取步数权限 是否获取定位权限
+    healthTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(hasGetHealth) userInfo:nil repeats:YES];
+    //没有获得权限 请求获取一下
+        LLGetStep *llfirstgetsteps = [[LLGetStep alloc]init];
+        [llfirstgetsteps FirstCreatHealth];
+        NSLog(@"请求获取步数权限");
+}
 
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    //如果是第一次先不定位
+    if ([[[NSUserDefaults standardUserDefaults]valueForKey:@"isFirst"] isEqualToString:@"NO"]) {
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            [self configLocationManager];
+        });
+    }
     [self.glView start];
     NSLog(@"打开页面时含有的能量%@",[[NSUserDefaults standardUserDefaults]valueForKey:@"Energy"]);
     NSLog(@"首页将要开始");
@@ -126,6 +189,8 @@
     [super viewWillAppear:animated];
     [self.glView stop];
     NSLog(@"首页将要结束");
+    //释放UpdateStepTimer
+    [UpdateStepTimer invalidate];
     [[NSUserDefaults standardUserDefaults]setValue:@"" forKey:@"LLNearestLocation"];
     [[NSUserDefaults standardUserDefaults]setValue:@"" forKey:@"LLSecondNearestLocation"];
     [[NSUserDefaults standardUserDefaults]setValue:@"" forKey:@"LLThirdNearestLocation"];
@@ -186,8 +251,9 @@
     [displayView addGestureRecognizer:TapdisplayView];
     
     pageInformationView = [[LLHomePageInformationView alloc]init];
-    [self LoadStepCount];
-    pageInformationView.LLMainRoleEnergyValue = MainRoleFootStep;
+//    [self LoadStepCount];
+//    pageInformationView.LLMainRoleEnergyValue = MainRoleFootStep;
+    pageInformationView.LLMainRoleEnergyValue = 0;
     pageInformationView.frame = CGRectMake([UIScreen mainScreen].bounds.size.width*0.638, [UIScreen mainScreen].bounds.size.width*0.08, [UIScreen mainScreen].bounds.size.width*0.5652, [UIScreen mainScreen].bounds.size.width*0.3623);
     pageInformationView.backgroundColor = [UIColor clearColor];
     [self.glView addSubview:pageInformationView];
@@ -378,8 +444,8 @@
 
 
 -(void)LoadStepCount{
-    LLGetStep *getStep = [[LLGetStep alloc]init];
-    [getStep CreatHealth];
+//    LLGetStep *getStep = [[LLGetStep alloc]init];
+//    [getStep CreatHealth];
     MainRoleFootStep = [[NSUserDefaults standardUserDefaults] objectForKey:@"Energy"];
     
     NSLog(@"LoadStepCount%@",MainRoleFootStep);

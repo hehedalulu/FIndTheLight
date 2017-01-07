@@ -15,9 +15,9 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.002</string>
+	<string>1.005</string>
 	<key>CFBundleVersion</key>
-	<string>1.002</string>
+	<string>1.005</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -32,7 +32,7 @@
 	<key>NSHealthUpdateUsageDescription</key>
 	<string>update</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>location</string>
+	<string>定位以查看最近的离你最近的基站</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>photo</string>
 	<key>UIAppFonts</key>
