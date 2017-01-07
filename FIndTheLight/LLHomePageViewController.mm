@@ -27,12 +27,13 @@
 #import "LLBoostView.h"
 
 #import "LLGetStep.h"
+#import "LLOriginalBackgroundFilterView.h"
 
 #define DefaultLocationTimeout 10
 #define DefaultReGeocodeTimeout 5
 
 
-@interface LLHomePageViewController (){
+@interface LLHomePageViewController ()<UIGestureRecognizerDelegate>{
     BOOL ghostSelfInformationNotShow;
     UIButton *Screenshotbtn;
     CGFloat Pointer;
@@ -42,6 +43,7 @@
     LLHomePageDisplayView *displayView;
     LLSearchAroundLocation *llsearchAroundLocation;
 
+    LLOriginalBackgroundFilterView *OriginalBackgroundFilterView;
     LLFilterBackgroundView *FilterBackgroundView;
     LLFilterAlwaysView *filterAlwaysView;
     LLFilterView *filterView;
@@ -62,14 +64,25 @@
     LLWaitingBall *waitingBall;
     long int LLWaitingBallMatureTime;
     UITapGestureRecognizer *TapImmatureWaitingBall;
-//    UILongPressGestureRecognizer *LongPressWaitingBall;
     UITapGestureRecognizer *TapMaturedWaitingBall;
     LLBoostView *llBoostView;
-//    BOOL HasLongPress;
+    UITapGestureRecognizer *dismissBoostViewGesture;
     UIView *LLDismissBoostView;
     
     NSTimer *flighterTimer;
+    LLHomePageInformationView *pageInformationView;
     NSString *MainRoleFootStep;
+    
+    UITapGestureRecognizer *TapdisplayView;
+    
+    NSMutableArray *imageArray1;
+    NSMutableArray *imageArray2;
+    NSMutableArray *imageArray3;
+    
+    //第一次打开的判断定时器
+    NSTimer *healthTimer;
+    NSTimer *LocationTimer;
+    NSTimer *UpdateStepTimer;
 }
 
 
@@ -89,24 +102,85 @@
     self.glView = [[OpenGLView alloc] initWithFrame:self.view.bounds];
     [self.view addSubview:self.glView];
     [self.glView setOrientation:[UIApplication sharedApplication].statusBarOrientation];
-
-
     [self drawfilterImageView];
-    [self drawChooseView];
     [self drawview];
+
+    [self drawChooseView];
     [self ShowHiddenView];
     [self.glView setUserInteractionEnabled:YES];
+    // 第一次打开执行别样操作
+    [self TheFirstTimeOpen];
 
     [NSTimer scheduledTimerWithTimeInterval:30.0 target:self selector:@selector(Location) userInfo:nil repeats:YES];
 }
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
+
+-(void)TheFirstTimeOpen{
+    if ([[[NSUserDefaults standardUserDefaults]valueForKey:@"isFirst"] isEqualToString:@"YES"]) {
+        //模拟引导时点击读取步数 获取定位
+        [self performSelector:@selector(ReadFirstSteps) withObject:nil afterDelay:15];
+        [self performSelector:@selector(firstLocation) withObject:nil afterDelay:5];
+    }else{
+        //不是第一次后台线程也5s更新一次数据
+        UpdateStepTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(UpdateAddStep) userInfo:nil repeats:YES];
+    }
+}
+-(void)hasGetHealth{
+    //如果步数获取到
+    if ([HKHealthStore isHealthDataAvailable]) {
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            LLGetStep *llfirstgetsteps = [[LLGetStep alloc]init];
+            [llfirstgetsteps FirstCreatHealth];
+        });
+        [self performSelector:@selector(firstUpdateEnergy) withObject:nil afterDelay:3];
+        [healthTimer invalidate];
+    }
+}
+//第一次更新Energy
+-(void)firstUpdateEnergy{
+    pageInformationView.LLMainRoleEnergyValue = [[NSUserDefaults standardUserDefaults]valueForKey:@"Energy"];
+    [pageInformationView initEnergyValueImage];
+    NSLog(@"UI更新第一次Energy的值");
+    UpdateStepTimer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(UpdateAddStep) userInfo:nil repeats:YES];
+}
+//每5s更新一次Energy
+-(void)UpdateAddStep{
+    NSLog(@"开始每5s更新Energy");
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        LLGetStep *llfirstgetsteps = [[LLGetStep alloc]init];
+        [llfirstgetsteps CreatAddHealth];
+    });
+    pageInformationView.LLMainRoleEnergyValue = [[NSUserDefaults standardUserDefaults]valueForKey:@"Energy"];
+    [pageInformationView initEnergyValueImage];
+}
+//后期改成引导页面时监控 定位 （制定获取权限顺序）
+-(void)firstLocation{
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         [self configLocationManager];
     });
-    
+}
+//点击操作请求权限调用一次 第一次监听到可以读取后 在调用一次（搞一个通知中心去观察是否可以读取 只在第一次打开的时候开启这个通知中心 ）
+-(void)ReadFirstSteps{
+    //监听 是否获取步数权限 是否获取定位权限
+    healthTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(hasGetHealth) userInfo:nil repeats:YES];
+    //没有获得权限 请求获取一下
+        LLGetStep *llfirstgetsteps = [[LLGetStep alloc]init];
+        [llfirstgetsteps FirstCreatHealth];
+        NSLog(@"请求获取步数权限");
+}
+
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    //如果是第一次先不定位
+    if ([[[NSUserDefaults standardUserDefaults]valueForKey:@"isFirst"] isEqualToString:@"NO"]) {
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            [self configLocationManager];
+        });
+    }
     [self.glView start];
+    NSLog(@"打开页面时含有的能量%@",[[NSUserDefaults standardUserDefaults]valueForKey:@"Energy"]);
     NSLog(@"首页将要开始");
+        [self initArraywithName:@"filter_raining" andImageCount:10 ];
 
     
 }
@@ -115,6 +189,11 @@
     [super viewWillAppear:animated];
     [self.glView stop];
     NSLog(@"首页将要结束");
+    //释放UpdateStepTimer
+    [UpdateStepTimer invalidate];
+    [[NSUserDefaults standardUserDefaults]setValue:@"" forKey:@"LLNearestLocation"];
+    [[NSUserDefaults standardUserDefaults]setValue:@"" forKey:@"LLSecondNearestLocation"];
+    [[NSUserDefaults standardUserDefaults]setValue:@"" forKey:@"LLThirdNearestLocation"];
 }
 
 
@@ -129,25 +208,25 @@
 
 
 
-//-(BOOL)prefersStatusBarHidden{
-//    
-//    return YES;
-//}
-
-
 #pragma mark - DrawView
 
 -(void)drawview{
     //截图
     Screenshotbtn = [[UIButton alloc]init];
-    Screenshotbtn.frame = CGRectMake(self.view.bounds.size.width*0.03, 180, 50, 50);
+    Screenshotbtn.frame = CGRectMake(self.view.bounds.size.width*0.03,
+                                     self.view.bounds.size.width*0.435,
+                                     self.view.bounds.size.width*0.121,
+                                     self.view.bounds.size.width*0.121);
     [Screenshotbtn setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
     [Screenshotbtn setImage:[UIImage imageNamed:@"btn_camera"] forState:UIControlStateNormal];
     [Screenshotbtn addTarget:self action:@selector(Screenshot) forControlEvents:UIControlEventTouchUpInside];
     [self.glView addSubview:Screenshotbtn];
     
     
-    UIButton *showthehintBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.view.bounds.size.width*0.03, 115,50, 50)];
+    UIButton *showthehintBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.view.bounds.size.width*0.03,
+                                                                         self.view.bounds.size.width*0.278,
+                                                                         self.view.bounds.size.width*0.121,
+                                                                         self.view.bounds.size.width*0.121)];
     //    showthehintBtn.backgroundColor =[UIColor yellowColor];
     [showthehintBtn setImage:[UIImage imageNamed:@"btn_card"] forState:UIControlStateNormal];
     [showthehintBtn addTarget:self action:@selector(showHintView) forControlEvents:UIControlEventTouchUpInside];
@@ -156,38 +235,51 @@
     
     ghostSelfInformationNotShow = NO;
     
-    
     displayView = [[LLHomePageDisplayView alloc]init];
-    displayView.frame = CGRectMake(self.view.bounds.size.width*0.03, 33, 117, 60);
+    displayView.frame = CGRectMake(self.view.bounds.size.width*0.03,
+                                   self.view.bounds.size.width*0.08,
+                                   self.view.bounds.size.width*0.282,
+                                   self.view.bounds.size.width*0.145);
     displayView.backgroundColor = [UIColor clearColor];
     if (displayView.LLHomeDisplayLabel.text <= 0) {
+        displayView.LLHomeDisplayLabel.font = [UIFont fontWithName:@"MF TongXin (Noncommercial)" size:17];
         displayView.LLHomeDisplayLabel.text = @"正在定位中";
     }
     [self.glView addSubview:displayView];
     
-//    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTap:)];
-//    tapGesture.delegate = (id <UIGestureRecognizerDelegate>)self;
-//    [displayView addGestureRecognizer:tapGesture];
+    TapdisplayView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(changeNearLocation:)];
+    [displayView addGestureRecognizer:TapdisplayView];
     
-    LLHomePageInformationView *pageInformationView = [[LLHomePageInformationView alloc]init];
-    [self LoadStepCount];
-    pageInformationView.LLMainRoleEnergyValue = MainRoleFootStep;
-    pageInformationView.frame = CGRectMake(264, 33, 234, 150);
+    pageInformationView = [[LLHomePageInformationView alloc]init];
+//    [self LoadStepCount];
+//    pageInformationView.LLMainRoleEnergyValue = MainRoleFootStep;
+    pageInformationView.LLMainRoleEnergyValue = 0;
+    pageInformationView.frame = CGRectMake([UIScreen mainScreen].bounds.size.width*0.638, [UIScreen mainScreen].bounds.size.width*0.08, [UIScreen mainScreen].bounds.size.width*0.5652, [UIScreen mainScreen].bounds.size.width*0.3623);
     pageInformationView.backgroundColor = [UIColor clearColor];
     [self.glView addSubview:pageInformationView];
     
     
     LLHomeMenubtn = [[UIButton alloc]init];
-    LLHomeMenubtn.frame = CGRectMake(self.view.bounds.size.width*0.845, self.view.bounds.size.height*0.91, self.view.bounds.size.width*0.131, self.view.bounds.size.width*0.120);
+    LLHomeMenubtn.frame = CGRectMake(self.view.bounds.size.width*0.845,
+                                     self.view.bounds.size.height*0.91,
+                                     self.view.bounds.size.width*0.131,
+                                     self.view.bounds.size.width*0.120);
     UIImage *homemenuimage = [UIImage imageNamed:@"btn_list"];
-    UIImageView *HomeMenuBtnBackImg = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width*0.131, self.view.bounds.size.width*0.120)];
+    UIImageView *HomeMenuBtnBackImg = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0,
+                                                                                   self.view.bounds.size.width*0.131,
+                                                                                   self.view.bounds.size.width*0.120)];
     HomeMenuBtnBackImg.image = homemenuimage;
     [LLHomeMenubtn addSubview:HomeMenuBtnBackImg];
     [self.glView addSubview:LLHomeMenubtn];
     [LLHomeMenubtn addTarget:self action:@selector(showMenu) forControlEvents:UIControlEventTouchUpInside];
 
-    ShowFilterBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.view.bounds.size.width*0.03, self.view.bounds.size.height*0.91, self.view.bounds.size.width*0.131, self.view.bounds.size.width*0.118)];
-    UIImageView *showFilterBackImg = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width*0.131, self.view.bounds.size.width*0.118)];
+    ShowFilterBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.view.bounds.size.width*0.03,
+                                                              self.view.bounds.size.height*0.91,
+                                                              self.view.bounds.size.width*0.131,
+                                                              self.view.bounds.size.width*0.118)];
+    UIImageView *showFilterBackImg = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0,
+                                                                                  self.view.bounds.size.width*0.131,
+                                                                                  self.view.bounds.size.width*0.118)];
     [ShowFilterBtn addSubview:showFilterBackImg];
     showFilterBackImg.image = [UIImage imageNamed:@"btn_filter"];
     [ShowFilterBtn addTarget:self action:@selector(showFilterChooseView) forControlEvents:UIControlEventTouchUpInside];
@@ -195,13 +287,20 @@
     
 
     
-    waitingBall = [[LLWaitingBall alloc]initWithFrame:CGRectMake(330, 180, 70, 70)];
+    waitingBall = [[LLWaitingBall alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.797,
+                                                                 [UIScreen mainScreen].bounds.size.width*0.4347,
+                                                                 [UIScreen mainScreen].bounds.size.width*0.169,
+                                                                 [UIScreen mainScreen].bounds.size.width*0.1691)];
     [waitingBall setUserInteractionEnabled:YES];
     [waitingBall LLBallAlwaysDraw];
     [self.glView addSubview:waitingBall];
     
-    LLCountTimerLabel = [[UILabel alloc]initWithFrame:CGRectMake(340, 250, 100, 30)];
+    LLCountTimerLabel = [[UILabel alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.821,
+                                                                 [UIScreen mainScreen].bounds.size.width*0.603,
+                                                                 [UIScreen mainScreen].bounds.size.width*0.2415,
+                                                                 [UIScreen mainScreen].bounds.size.width*0.072)];
     LLCountTimerLabel.textColor = [UIColor colorWithDisplayP3Red:212.0/255.0 green:202.0/255.0 blue:255.0/255.0 alpha:1];
+//    LLCountTimerLabel.font = [UIFont ]
     [self.glView addSubview:LLCountTimerLabel];
     [self loadInterviewTime];
 
@@ -214,18 +313,6 @@
         [waitingBall addGestureRecognizer:TapMaturedWaitingBall];
         
     }
-    
-
-    
-    
-//    UIImageView *testView = [[UIImageView alloc]initWithFrame:CGRectMake(200, 200, 100, 100)];
-//    [testView setUserInteractionEnabled:YES];
-//    testView.backgroundColor = [UIColor purpleColor];
-//    [self.glView addSubview:testView];
-    
-//    UITapGestureRecognizer *taptestView = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(testtap)];
-//    [testView addGestureRecognizer:taptestView];
-//    [self showWaitingBallMatureView];
 
 }
 
@@ -233,8 +320,7 @@
 
 
 -(void)ShowHiddenView{
-
-    
+  
     LLDissmissView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
     LLDissmissView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.7];
     LLDissmissView.hidden = YES;
@@ -246,38 +332,86 @@
     [LLDissmissView addGestureRecognizer:tapMatureViewToHome];
     
     LLMatureBackgroudView = [[UIImageView alloc]initWithFrame:CGRectMake(self.view.center.x, self.view.center.y, 0, 0)];
-    LLMatureBackgroudView.backgroundColor = [UIColor colorWithRed:245.0/255.0 green:245.0/255.0 blue:245.0/225.0 alpha:1.0];
+    [LLMatureBackgroudView.layer setCornerRadius:10];
+    LLMatureBackgroudView.backgroundColor = [UIColor colorWithRed:39.0/255.0 green:56.0/255.0 blue:87.0/255.0 alpha:1];
     [self.glView addSubview:LLMatureBackgroudView];
     
     llmature = [[LLMatureView alloc]init];
     HasShowtheMatureView = NO;
     
 
-    llmature.backgroundColor = [UIColor greenColor];
+
     [llmature drawRect:CGRectMake(0,0, 0, 0)];
     [LLMatureBackgroudView addSubview:llmature];
     
-    llBoostView = [[LLBoostView alloc]init];
-    [llBoostView drawRect:CGRectMake(self.view.center.x+100, self.view.center.y+100, 0, 0)];
-    llBoostView.userInteractionEnabled = YES;
-//    llBoostView.hidden = YES;
+
     
     LLDismissBoostView = [[UIView alloc]init];
-    LLDismissBoostView.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
+    LLDismissBoostView.frame = CGRectMake(0, 0, self.glView.frame.size.width, self.glView.frame.size.height);
     LLDismissBoostView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.7];
     LLDismissBoostView.hidden = YES;
     [self.glView addSubview:LLDismissBoostView];
     
-    UITapGestureRecognizer *dismissBoostView = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(dismissBoostView)];
-    [LLDismissBoostView addGestureRecognizer:dismissBoostView];
+    //
+    llBoostView = [[LLBoostView alloc]init];
+    llBoostView.frame = CGRectMake([UIScreen mainScreen].bounds.size.width*0.19,
+                                   self.glView.bounds.size.width*0.35,
+                                   [UIScreen mainScreen].bounds.size.width*0.613,
+                                   [UIScreen mainScreen].bounds.size.width*0.373);
+    llBoostView.backgroundColor = [UIColor clearColor];
+    llBoostView.hidden = YES;
+    [LLDismissBoostView addSubview:llBoostView];
+    
+    dismissBoostViewGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(dismissBoostView)];
+    dismissBoostViewGesture.delegate = self;
+    [self.glView addGestureRecognizer:dismissBoostViewGesture];
+//    [self gestureRecognizer:dismissBoostViewGesture shouldReceiveTouch:touch];
 
-    [self.glView addSubview:llBoostView];
-    
-    
-    
+}
+
+-(void)changeNearLocation:(UITapGestureRecognizer *)gesture{
+    NSLog(@"点击了displayview");
+    //点击第一跳到第二 第二跳到第三 第三跳到第三 第三跳到第一 其余显示 继续定位
+    NSString *locationString = displayView.LLHomeDisplayLabel.text;
+    NSString *location1 = [[NSUserDefaults standardUserDefaults]valueForKey:@"LLNearestLocation"];
+    NSString *location2 = [[NSUserDefaults standardUserDefaults]valueForKey:@"LLSecondNearestLocation"];
+    NSString *location3 = [[NSUserDefaults standardUserDefaults]valueForKey:@"LLThirdNearestLocation"];
+    if ([locationString isEqualToString: location1]) {
+        displayView.LLHomeDisplayLabel.text = location3;
+        [displayView removeGestureRecognizer:TapdisplayView];
+        [self performSelector:@selector(changelabeldongxiao1) withObject:nil afterDelay:0.15];
+    }else if ([locationString isEqualToString:location2]) {
+        displayView.LLHomeDisplayLabel.text = location3;
+        
+    }else if([locationString isEqualToString:location3]){
+        displayView.LLHomeDisplayLabel.text = location1;
+    }else{
+        displayView.LLHomeDisplayLabel.text= @"继续查找";
+    }
+
+}
+-(void)changelabeldongxiao1{
+    displayView.LLHomeDisplayLabel.text = [[NSUserDefaults standardUserDefaults]valueForKey:@"LLSecondNearestLocation"];
+    [self performSelector:@selector(changelabeldongxiao2) withObject:nil afterDelay:0.15];
+}
+-(void)changelabeldongxiao2{
+    displayView.LLHomeDisplayLabel.text = [[NSUserDefaults standardUserDefaults]valueForKey:@"LLNearestLocation"];
+    [self performSelector:@selector(changelabeldongxiao3) withObject:nil afterDelay:0.15];
+}
+-(void)changelabeldongxiao3{
+    displayView.LLHomeDisplayLabel.text = [[NSUserDefaults standardUserDefaults]valueForKey:@"LLSecondNearestLocation"];
+    [displayView addGestureRecognizer:TapdisplayView];
 }
 
 
+
+- (BOOL)gestureRecognizer:(UITapGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{
+    
+    if([touch.view isKindOfClass:[LLBoostView class]]){;
+            return NO;
+    }
+    return YES;
+}
 
 
 
@@ -286,6 +420,7 @@
 #pragma mark - 加载数据
 
 -(void)loadInterviewTime{
+    //成熟所需时间3600
     LLWaitingBallMatureTime = 3600;
     LLGetNowTime *llgetnowtime = [[LLGetNowTime alloc]init];
     long int Intervaltime = [llgetnowtime LLGetIntervalTime];
@@ -294,7 +429,12 @@
         LLCountTimerLabel.text = @"已成熟";
         HasWaitingBallMatured = YES;
     }else{
+        //成熟所需时间＝ 成熟所需时间－当前时间与最后纪录时间间隔
         long int Remaintime = LLWaitingBallMatureTime - Intervaltime;
+        NSString *intervaltime = [NSString stringWithFormat:@"%ld",Remaintime];
+        //存下小球的intervaltime
+        [[NSUserDefaults standardUserDefaults]setValue:intervaltime forKey:@"WaitingBallMatureTime"];
+        NSLog(@"当前IntervalTime%@",[[NSUserDefaults standardUserDefaults]valueForKey:@"WaitingBallMatureTime"]);
         [self CountTimerAnimation:Remaintime];
         HasWaitingBallMatured = NO;
     }
@@ -304,50 +444,121 @@
 
 
 -(void)LoadStepCount{
-    LLGetStep *getStep = [[LLGetStep alloc]init];
-    [getStep CreatHealth];
+//    LLGetStep *getStep = [[LLGetStep alloc]init];
+//    [getStep CreatHealth];
     MainRoleFootStep = [[NSUserDefaults standardUserDefaults] objectForKey:@"Energy"];
+    
+    NSLog(@"LoadStepCount%@",MainRoleFootStep);
     
 }
 #pragma mark - 光体不成熟页面动画
 -(void)showWaitingBallBoostView{
-//    llBoostView.hidden = NO;
-    POPSpringAnimation *PopMatureView = [POPSpringAnimation animation];
-    PopMatureView.property = [POPAnimatableProperty propertyWithName:kPOPViewFrame];
-    PopMatureView.toValue = [NSValue valueWithCGRect:CGRectMake(0, 0, 200, 200)];
-//    PopMatureView.property = [POPAnimatableProperty propertyWithName:kPOPLayerScaleXY];
-//    PopMatureView.fromValue = [NSValue valueWithCGPoint:CGPointMake(0.2, 0.2)];
-//    PopMatureView.toValue = [NSValue valueWithCGPoint:CGPointMake(1.0, 1.0)];
+    llBoostView.hidden = NO;
+    [self LoadStepCount];
+    //当前步行能量
+    llBoostView.LLNowEnergy = [MainRoleFootStep intValue];
+    //加速完成所需能量 ＝ 秒数
+    LLGetNowTime *llgetnowtime = [[LLGetNowTime alloc]init];
+    long int Intervaltime = [llgetnowtime LLGetIntervalTime];
+    llBoostView.LLMatureNeedEnergy  = 3600 - Intervaltime;
+    
+    [llBoostView DrawinNeed];
+    POPSpringAnimation *BoostViewSize = [POPSpringAnimation animation];
+    BoostViewSize.property = [POPAnimatableProperty propertyWithName:kPOPViewFrame];
+    BoostViewSize.toValue = [NSValue valueWithCGRect:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width*0.613, [UIScreen mainScreen].bounds.size.width*0.373)];
+    BoostViewSize.springBounciness = 5.0;
+    BoostViewSize.springSpeed      = 10.0;
+    [llBoostView.LLBoostcontentView pop_addAnimation:BoostViewSize forKey:@"BoostViewsizePOP"];
+    
     LLDismissBoostView.hidden = NO;
-    [self performSelector:@selector(InitImmatureView) withObject:nil afterDelay:0.3];
-    PopMatureView.springBounciness = 10.0;
-    PopMatureView.springSpeed      = 10.0;
-    [llBoostView pop_addAnimation:PopMatureView forKey:@"shortpopView"];
+    
+    [self performSelector:@selector(InitImmatureView) withObject:nil afterDelay:0.1];
 }
 
+//-(void)LLboostTap{
+//    NSLog(@"点击");
+//}
+
 -(void)InitImmatureView{
+    llBoostView.LLTapBoostbtn.frame = CGRectMake([UIScreen mainScreen].bounds.size.width*0.121,
+                                                 [UIScreen mainScreen].bounds.size.width*0.2146,
+                                                 [UIScreen mainScreen].bounds.size.width*0.3623,
+                                                 [UIScreen mainScreen].bounds.size.width*0.1);
+    [llBoostView.LLTapBoostbtn addTarget:self action:@selector(LLboostTap) forControlEvents:UIControlEventTouchUpInside];
+    [llBoostView addSubview:llBoostView.LLTapBoostbtn];
+    llBoostView.LLBoostContextLabel.frame = CGRectMake(0,
+                                                       [UIScreen mainScreen].bounds.size.width*0.048,
+                                                       [UIScreen mainScreen].bounds.size.width*0.613,
+                                                       [UIScreen mainScreen].bounds.size.width*0.12);
+
+}
+-(void)LLboostTap{
+    /*
+     加速waitingball成熟
+     1.没有行走的能量 退出boostview
+     2.行走能量不够 当前所有步行能量加速
+     */
+    LLGetNowTime *llgetnowtime = [[LLGetNowTime alloc]init];
+    long int Intervaltime = [llgetnowtime LLGetIntervalTime];
+    long int MatureNeedTime = 3600 - Intervaltime;
     
-    llBoostView.LLTapBoostbtn.frame = CGRectMake(30, 130, 150, 30);
-    llBoostView.LLBoostContextLabel.frame = CGRectMake(10, 10, 180, 100);
-    llBoostView.LLBoostcontentView.frame = CGRectMake(100, 200, 200, 200);
+    NSString *energyString = [[NSUserDefaults standardUserDefaults] objectForKey:@"Energy"];
+    int energy = [energyString intValue];
+    
+    if(energy <= 0){
+            [self dismissBoostView];
+    }else if( energy <= MatureNeedTime && energy>0){
+            [self dismissBoostView];
+        
+            NSString *CurrentIntervalTimeString = [[NSUserDefaults standardUserDefaults]valueForKey:@"LLLastRecordTime"];
+            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+            [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+            NSDate *CurrentIntervalTime = [formatter dateFromString:CurrentIntervalTimeString];
+        
+        //    // 更具当前date和时间间隔生成的得到一个新的date对象
+            NSDate *newDate = [CurrentIntervalTime dateByAddingTimeInterval:-energy];
+            NSString *newDateString = [formatter stringFromDate:newDate];
+            [[NSUserDefaults standardUserDefaults]setValue:newDateString forKey:@"LLLastRecordTime"];
+        [[NSUserDefaults standardUserDefaults]setValue:@"0" forKey:@"Energy"];
+        //更新UI
+        //成熟时间减去步行能量
+        MatureNeedTime = MatureNeedTime - energy;
+        [LLCountTimerLabel pop_removeAllAnimations];
+//            LLCountTimerLabel.text = nil;
+        //    NSLog(@"%ld",Remaintime);
+        [self CountTimerAnimation:MatureNeedTime];
+    }else{
+        [self dismissBoostView];
+        [LLCountTimerLabel pop_removeAllAnimations];
+        LLCountTimerLabel.text = @"已成熟";
+        //数据层
+        NSString *CurrentIntervalTimeString = [[NSUserDefaults standardUserDefaults]valueForKey:@"LLLastRecordTime"];
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+        NSDate *CurrentIntervalTime = [formatter dateFromString:CurrentIntervalTimeString];
+        // 更具当前date和时间间隔生成的得到一个新的date对象
+        NSDate *newDate = [CurrentIntervalTime dateByAddingTimeInterval:-MatureNeedTime];
+        NSString *newDateString = [formatter stringFromDate:newDate];
+        [[NSUserDefaults standardUserDefaults]setValue:newDateString forKey:@"LLLastRecordTime"];
+        [[NSUserDefaults standardUserDefaults]setValue:@"0" forKey:@"Energy"];
+    }
+
 }
 
 -(void)dismissBoostView{
-    
-    POPSpringAnimation *PopMatureView = [POPSpringAnimation animation];
-    PopMatureView.property = [POPAnimatableProperty propertyWithName:kPOPViewFrame];
-    PopMatureView.toValue = [NSValue valueWithCGRect:CGRectMake(0, 0, 0, 0)];
-//    PopMatureView.velocity = 0.1;
+//    NSLog(@"点击dismissview");
     LLDismissBoostView.hidden = YES;
+    POPSpringAnimation *BoostViewSize = [POPSpringAnimation animation];
+    BoostViewSize.property = [POPAnimatableProperty propertyWithName:kPOPViewFrame];
+    BoostViewSize.toValue = [NSValue valueWithCGRect:CGRectMake(llBoostView.bounds.size.width/2, llBoostView.bounds.size.height/2, 0, 0)];
+    BoostViewSize.springBounciness = 20.0;
+    BoostViewSize.springSpeed      = 10.0;
+    [llBoostView.LLBoostcontentView pop_addAnimation:BoostViewSize forKey:@"BoostViewsizeDismiss"];
     
-//    llBoostView.frame = CGRectMake(self.view.center.x, self.view.center.y, 0, 0);
     llBoostView.LLTapBoostbtn.frame = CGRectMake(30, 130, 0, 0);
     llBoostView.LLBoostContextLabel.frame = CGRectMake(10, 10, 0, 0);
-    llBoostView.LLBoostcontentView.frame = CGRectMake(100, 200, 0, 0);
-    
-    PopMatureView.springBounciness = 10.0;
-    PopMatureView.springSpeed      = 10.0;
-    [llBoostView pop_addAnimation:PopMatureView forKey:@"shortDismissView"];
+    llBoostView.LLBoostcontentView.frame = CGRectMake(0, 0, 0, 0);
+    llBoostView.hidden = YES;
 }
 
 #pragma mark - 光体成熟页面动画
@@ -355,6 +566,7 @@
     
     [waitingBall pop_removeAllAnimations];
     LLCountTimerLabel.text = @"已成熟";
+    [LLCountTimerLabel setNeedsLayout];
     HasWaitingBallMatured = YES;
     //去掉长按短按手势
     [waitingBall removeGestureRecognizer:TapImmatureWaitingBall];
@@ -368,9 +580,11 @@
 -(void)showWaitingBallMatureView{
     POPSpringAnimation *PopMatureView = [POPSpringAnimation animation];
     PopMatureView.property = [POPAnimatableProperty propertyWithName:kPOPViewFrame];
-    PopMatureView.toValue = [NSValue valueWithCGRect:CGRectMake(self.view.center.x-140, self.view.center.y-190, 280, 380)];
+    PopMatureView.toValue = [NSValue valueWithCGRect:CGRectMake(self.view.center.x-140, self.view.center.y-190,
+                                                                [UIScreen mainScreen].bounds.size.width*0.676,
+                                                                [UIScreen mainScreen].bounds.size.width*0.9)];
     LLDissmissView.hidden = NO;
-    [self performSelector:@selector(initMaturethingsView) withObject:nil afterDelay:0.3];
+    [self performSelector:@selector(initMaturethingsView) withObject:nil afterDelay:0.4];
     PopMatureView.springBounciness = 10.0;
     PopMatureView.springSpeed      = 10.0;
     [LLMatureBackgroudView pop_addAnimation:PopMatureView forKey:@"shortDismissView"];
@@ -436,8 +650,18 @@
 
 
 -(void)ShortTapImmatureWaitingBall:(UITapGestureRecognizer *)gesture{
-    NSLog(@"未成熟状态下点按");
-    [self showWaitingBallBoostView];
+//    NSLog(@"未成熟状态下点按");
+    //waitingball弹起来
+    POPSpringAnimation *waitingBallSize = [POPSpringAnimation animation];
+    waitingBallSize.property = [POPAnimatableProperty propertyWithName:kPOPLayerSize];
+    
+    //        buttonSizeAnimation.toValue = [NSValue valueWithCGSize:CGSizeMake(60, 60)];
+    waitingBallSize.toValue = [NSValue valueWithCGSize:CGSizeMake(50, 50)];
+    waitingBallSize.springBounciness = 20.0;
+    waitingBallSize.springSpeed      = 10.0;
+    [waitingBall pop_addAnimation:waitingBallSize forKey:@"sizePOP"];
+    [self performSelector:@selector(recover) withObject:nil afterDelay:0.2];
+    [self performSelector:@selector(showWaitingBallBoostView) withObject:nil afterDelay:0.6];
     
 /*本来是短按减少10s 现在废弃
      //能量减少 时间减少
@@ -466,6 +690,15 @@
 
 }
 
+-(void)recover{
+    //waitingball恢复
+    POPSpringAnimation *buttonSize = [POPSpringAnimation animation];
+    buttonSize.property = [POPAnimatableProperty propertyWithName:kPOPLayerSize];
+    buttonSize.toValue = [NSValue valueWithCGSize:CGSizeMake(70, 70)];
+    buttonSize.springBounciness = 20.0;
+    buttonSize.springSpeed      = 10.0;
+    [waitingBall pop_addAnimation:buttonSize forKey:@"recover"];
+}
 
 
 -(void)TapMaturedWaitingBall:(UITapGestureRecognizer *)gesture{
@@ -509,7 +742,7 @@
 
 -(void)drawChooseView{
     chooseview = [[LLChooseView alloc]initWithFrame:CGRectMake(0, self.view.bounds.size.height*1.26, self.view.bounds.size.width, self.view.bounds.size.height*0.26)];
-    chooseview.backgroundColor = [UIColor colorWithRed:115.0/255.0 green:115.0/255.0 blue:115.0/255.0 alpha:1];
+    chooseview.backgroundColor = [UIColor colorWithRed:0.0/255.0 green:0.0/255.0 blue:0.0/255.0 alpha:0.5];
     //    = [chooseview filterchange:chooseview.LLsilderchange];
     
     UISlider *_LLsilderchange = [[UISlider alloc]initWithFrame:CGRectMake(self.view.bounds.size.width*0.04, self.view.bounds.size.width*0.013, self.view.bounds.size.width*0.92, self.view.bounds.size.width*0.070)];
@@ -522,7 +755,7 @@
     [_LLsilderchange setThumbImage:[UIImage imageNamed:@"icon_light"] forState:UIControlStateNormal];
     _LLsilderchange.maximumValue = 0.9;
     _LLsilderchange.minimumValue = 0.15;
-    _LLsilderchange.value = 0.5;
+    _LLsilderchange.value = 0.1;
     [_LLsilderchange addTarget:self action:@selector(filterchange:) forControlEvents:UIControlEventValueChanged];
     [chooseview addSubview:_LLsilderchange];
     //    [chooseview.LLChoseViewBtn addTarget:self action:@selector(changefilter:) forControlEvents:UIControlEventTouchUpInside];
@@ -539,14 +772,11 @@
     FilterBackgroundView.backgroundColor = [UIColor clearColor];
     [self.glView addSubview:FilterBackgroundView];
     
-    
-    filterAlwaysView = [[LLFilterAlwaysView alloc]initWithFrame:CGRectMake(0, 0,self.view.bounds.size.width,self.view.bounds.size.height)];
-    filterAlwaysView.LLfilterAlwaysString = @"filter_raining";
-    filterAlwaysView.LLAlwaysFilterCount = 10;
-
-    [filterAlwaysView LLfilerAlwaysDraw];
-    FilterBackgroundView.backgroundColor = [UIColor clearColor];
-    [self.glView addSubview:filterAlwaysView];
+    OriginalBackgroundFilterView = [[LLOriginalBackgroundFilterView alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width,self.view.bounds.size.height)];
+    OriginalBackgroundFilterView.LLOriginalfilterString = @"filter_raining";
+    OriginalBackgroundFilterView.LLOriginalFilterCount = 10;
+    [OriginalBackgroundFilterView LLInitOriginalFilter];
+    [self.glView addSubview:OriginalBackgroundFilterView];
     
     filterView = [[LLFilterView alloc]initWithFrame:CGRectMake(0, 0,self.view.bounds.size.width,self.view.bounds.size.height)];
     filterView.backgroundColor = [UIColor clearColor];
@@ -558,32 +788,38 @@
     
 }
 
+
 -(void)Fliterfighting{
     [filterView LLFilterFireDraw];
 }
+
 - (void)filterchange:(UISlider *) slider{
 //    NSLog(@"%f",slider.value);
     FilterBackgroundView.LLFilteralapa = 1 - slider.value;
     NSLog(@"%f",FilterBackgroundView.LLFilteralapa);
     [FilterBackgroundView setImage];
-    if (FilterBackgroundView.LLFilteralapa <= 0.69 && FilterBackgroundView.LLFilteralapa >= 0.68) {
-        [flighterTimer fire];
+    if (FilterBackgroundView.LLFilteralapa <= 0.70 && FilterBackgroundView.LLFilteralapa >= 0.65) {
+//        [flighterTimer fire];
         [filterAlwaysView stopAnimating];
+        filterAlwaysView.ImagesArray1 = imageArray1;
         filterAlwaysView.LLfilterAlwaysString = @"filter_raining";
         filterAlwaysView.LLAlwaysFilterCount = 10;
         [filterAlwaysView LLfilerAlwaysDraw];
 
-    }if (FilterBackgroundView.LLFilteralapa >= 0.46 && FilterBackgroundView.LLFilteralapa <= 0.47) {
+    }
+    if (FilterBackgroundView.LLFilteralapa >= 0.45 && FilterBackgroundView.LLFilteralapa <= 0.50) {
     [flighterTimer invalidate];
     [filterAlwaysView stopAnimating];
+        filterAlwaysView.ImagesArray1 = imageArray2;
     filterAlwaysView.LLfilterAlwaysString = @"smallrain_";
     filterAlwaysView.LLAlwaysFilterCount = 120;
     [filterAlwaysView LLfilerAlwaysDraw];
 
     }
-    else if(FilterBackgroundView.LLFilteralapa <= 0.25 && FilterBackgroundView.LLFilteralapa >= 0.24){
+    else if(FilterBackgroundView.LLFilteralapa <= 0.25 && FilterBackgroundView.LLFilteralapa >= 0.20){
         [flighterTimer invalidate];
     [filterAlwaysView stopAnimating];
+        filterAlwaysView.ImagesArray1 = imageArray3;
         filterAlwaysView.LLfilterAlwaysString = @"Fliter-rainbow-";
         filterAlwaysView.LLAlwaysFilterCount = 60;
         [filterAlwaysView LLfilerAlwaysDraw];
@@ -594,15 +830,40 @@
 
 //滤镜选择的动画
 -(void)showFilterChooseView{
+
+
+    
     if (showTheFilterChooseView) {
         [self closechooseView];
+        NSLog(@"chooseview关闭了");
         showTheFilterChooseView = NO;
+        [OriginalBackgroundFilterView startAnimating];
+        [filterAlwaysView stopAnimating];
+        filterAlwaysView = nil;
     }else{
         [self showchooseView];
+        //点击chooseview 就加载图片
+        [self initArraywithName:@"filter_raining" andImageCount:10 ];
+        [self initArraywithName2:@"smallrain_" andImageCount2:120];
+        [self initArraywithName3:@"Fliter-rainbow-" andImageCount3:60];
+        
         showTheFilterChooseView = YES;
+        [OriginalBackgroundFilterView stopAnimating];
+        
+        filterAlwaysView = [[LLFilterAlwaysView alloc]initWithFrame:CGRectMake(0, 0,self.view.bounds.size.width,self.view.bounds.size.height)];
+        filterAlwaysView.LLfilterAlwaysString = @"filter_raining";
+        filterAlwaysView.LLAlwaysFilterCount = 10;
+        filterAlwaysView.ImagesArray1 = imageArray1;
+        [self performSelector:@selector(showtestfilter) withObject:nil afterDelay:0.5];
+        [self.glView addSubview:filterAlwaysView];
+        NSLog(@"chooseview打开了");
     }
 }
+-(void)showtestfilter{
+    [filterAlwaysView LLfilerAlwaysDraw];
+}
 -(void)showchooseView{
+    
     
     POPSpringAnimation *showchoose = [POPSpringAnimation animationWithPropertyNamed:kPOPViewCenter];
     CGFloat centerX = self.view.center.x;
@@ -661,6 +922,72 @@
     menubtnUP.springSpeed = 6;
     [LLHomeMenubtn pop_addAnimation:menubtnUP forKey:@"menubtndown"];
 }
+
+-(void)initArraywithName:(NSString *)name andImageCount:(int)imageCount{
+    NSLog(@"读内存");
+    imageArray1 = nil;
+    dispatch_queue_t concurrentQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_async(concurrentQueue, ^{
+        //                    __block UIImage *image = nil;
+        dispatch_sync(concurrentQueue, ^{
+            imageArray1 =  [NSMutableArray arrayWithCapacity:imageCount];
+            for (int i = 1; i <= imageCount; i++) {
+                NSString *imageName = [NSString stringWithFormat:@"%@%d",name,i];
+                NSString *path = [[NSBundle mainBundle] pathForResource:imageName ofType:@"png"];
+                //        NSLog(@"%@",path);
+                UIImage *image = [UIImage imageWithContentsOfFile:path];
+//                NSLog(@"%@",image);
+                [imageArray1 addObject:image];
+            }
+            
+        });
+    });
+}
+-(void)initArraywithName2:(NSString *)name andImageCount2:(int)imageCount{
+    NSLog(@"读内存");
+    
+    dispatch_queue_t concurrentQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_async(concurrentQueue, ^{
+        //                    __block UIImage *image = nil;
+        dispatch_sync(concurrentQueue, ^{
+            imageArray2 =  [NSMutableArray arrayWithCapacity:imageCount];
+            for (int i = 1; i <= imageCount; i++) {
+                NSString *imageName = [NSString stringWithFormat:@"%@%d",name,i];
+                NSString *path = [[NSBundle mainBundle] pathForResource:imageName ofType:@"png"];
+                //        NSLog(@"%@",path);
+                UIImage *image = [UIImage imageWithContentsOfFile:path];
+                //        NSLog(@"%@",imageName);
+                [imageArray2 addObject:image];
+                //                [imageArray1 addObjectsFromArray:tempArray];
+            }
+            
+        });
+    });
+}
+
+-(void)initArraywithName3:(NSString *)name andImageCount3:(int)imageCount{
+    NSLog(@"读内存");
+    
+    dispatch_queue_t concurrentQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_async(concurrentQueue, ^{
+        //                    __block UIImage *image = nil;
+        dispatch_sync(concurrentQueue, ^{
+            imageArray3 =  [NSMutableArray arrayWithCapacity:imageCount];
+            for (int i = 1; i <= imageCount; i++) {
+                NSString *imageName = [NSString stringWithFormat:@"%@%d",name,i];
+                NSString *path = [[NSBundle mainBundle] pathForResource:imageName ofType:@"png"];
+                //        NSLog(@"%@",path);
+                UIImage *image = [UIImage imageWithContentsOfFile:path];
+                //        NSLog(@"%@",imageName);
+                [imageArray3 addObject:image];
+                //                [imageArray1 addObjectsFromArray:tempArray];
+            }
+            
+        });
+    });
+}
+
+
 
 #pragma mark - UIViewControllerTransitioningDelegate
 
@@ -781,13 +1108,13 @@
         }else{
             llsearchAroundLocation = [[LLSearchAroundLocation alloc]init];
             [llsearchAroundLocation GetRequestionlongitude:location.coordinate.longitude latitude:location.coordinate.latitude];
-            if (llsearchAroundLocation.LLNearestLocation == nil) {
-                displayView.LLHomeDisplayLabel.text = @"重新定位中";
-            }else{
-                displayView.LLHomeDisplayLabel.text = llsearchAroundLocation.LLNearestLocation;
-                NSLog(@"最近的地点%@",llsearchAroundLocation.LLNearestLocation);
-            }
-
+//            [llsearchAroundLocation GetRequestionlongitude:200 latitude:80];
+//            if (llsearchAroundLocation.LLNearestLocation.count) {
+////                displayView.LLHomeDisplayLabel.text = @"重新定位中";
+//            }else{
+                displayView.LLHomeDisplayLabel.text = [[NSUserDefaults standardUserDefaults]valueForKey:@"LLNearestLocation"];
+ //               NSLog(@"最近的地点%@",[threeLocations objectAtIndex:0]);
+//            }
 //            [self performSelector:@selector(changedisplayLabel) withObject:nil afterDelay:1.0];
         }
         
@@ -813,23 +1140,23 @@
 - (void)showMenu {
     NSMutableArray *items = [[NSMutableArray alloc] initWithCapacity:3];
     
-    MenuItem *menuItem = [MenuItem itemWithTitle:@"记步" iconName:@"post_type_bubble_twitter"];
+    MenuItem *menuItem = [MenuItem itemWithTitle:@"SelfGotThing" iconName:@"btn"];
     [items addObject:menuItem];
     
-    menuItem = [MenuItem itemWithTitle:@"碎片箱" iconName:@"post_type_bubble_twitter" glowColor:[UIColor colorWithRed:0.840 green:0.264 blue:0.208 alpha:0.800]];
-    [items addObject:menuItem];
-    
-    menuItem = [MenuItem itemWithTitle:@"道具箱" iconName:@"post_type_bubble_twitter" glowColor:[UIColor colorWithRed:0.232 green:0.442 blue:0.687 alpha:0.800]];
-    [items addObject:menuItem];
-    
-    menuItem = [MenuItem itemWithTitle:@"排名" iconName:@"post_type_bubble_twitter" glowColor:[UIColor colorWithRed:0.000 green:0.509 blue:0.687 alpha:0.800]];
-    [items addObject:menuItem];
-    
-    menuItem = [MenuItem itemWithTitle:@"活动版块" iconName:@"post_type_bubble_twitter" glowColor:[UIColor colorWithRed:0.687 green:0.164 blue:0.246 alpha:0.800]];
-    [items addObject:menuItem];
-    
-    menuItem = [MenuItem itemWithTitle:@"舰队" iconName:@"post_type_bubble_twitter" glowColor:[UIColor colorWithRed:0.258 green:0.245 blue:0.687 alpha:0.800]];
-    [items addObject:menuItem];
+//    menuItem = [MenuItem itemWithTitle:@"碎片箱" iconName:@"post_type_bubble_twitter" glowColor:[UIColor colorWithRed:0.840 green:0.264 blue:0.208 alpha:0.800]];
+//    [items addObject:menuItem];
+//    
+//    menuItem = [MenuItem itemWithTitle:@"道具箱" iconName:@"post_type_bubble_twitter" glowColor:[UIColor colorWithRed:0.232 green:0.442 blue:0.687 alpha:0.800]];
+//    [items addObject:menuItem];
+//    
+//    menuItem = [MenuItem itemWithTitle:@"排名" iconName:@"post_type_bubble_twitter" glowColor:[UIColor colorWithRed:0.000 green:0.509 blue:0.687 alpha:0.800]];
+//    [items addObject:menuItem];
+//    
+//    menuItem = [MenuItem itemWithTitle:@"活动版块" iconName:@"post_type_bubble_twitter" glowColor:[UIColor colorWithRed:0.687 green:0.164 blue:0.246 alpha:0.800]];
+//    [items addObject:menuItem];
+//    
+//    menuItem = [MenuItem itemWithTitle:@"舰队" iconName:@"post_type_bubble_twitter" glowColor:[UIColor colorWithRed:0.258 green:0.245 blue:0.687 alpha:0.800]];
+//    [items addObject:menuItem];
     
     if (!popMenu) {
         popMenu = [[PopMenu alloc] initWithFrame:self.view.bounds items:items];
@@ -842,13 +1169,11 @@
     __weak typeof(self) weakSelf = self;
     popMenu.didSelectedItemCompletion = ^(MenuItem *selectedItem) {
         NSLog(@"%@",selectedItem.title);
-        if ([selectedItem.title isEqual:@"Flickr"]) {
+        if ([selectedItem.title isEqual:@"SelfGotThing"]) {
         [weakSelf pushpunchView];
         }
 
     };
-    
-    
     
     [popMenu showMenuAtView:self.view];
     
@@ -856,6 +1181,6 @@
 }
 
 -(void)pushpunchView{
-        [self performSegueWithIdentifier:@"PushPunchView" sender:nil];
+        [self performSegueWithIdentifier:@"LLSelfInformation" sender:nil];
 }
 @end

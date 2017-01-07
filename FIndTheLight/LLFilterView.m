@@ -32,11 +32,12 @@
     NSMutableArray *images = [NSMutableArray arrayWithCapacity:imageCount];
     
     for (int i = 1; i <= imageCount; i++) {
-        NSString *imageName = [NSString stringWithFormat:@"%@_%d",name,i];
+        NSString *imageName = [NSString stringWithFormat:@"%@_%d.png",name,i];
 //        NSLog(@"%@",imageName);
-        NSString *path = [[NSBundle mainBundle] pathForResource:imageName ofType:@"png"];
+//        NSString *path = [[NSBundle mainBundle] pathForResource:imageName ofType:@"png"];
 //        NSLog(@"%@",path);
-        UIImage *image = [UIImage imageWithContentsOfFile:path];
+//        UIImage *image = [UIImage imageWithContentsOfFile:path];
+        UIImage *image = [UIImage imageNamed:imageName];
         
 
 //        UIImage *image = [UIImage imageNamed:imageName];
@@ -63,7 +64,7 @@
     NSURL *url = [[NSBundle mainBundle] URLForResource:@"7005.mp3" withExtension:nil];
     CFURLRef urlRef = (__bridge CFURLRef)(url);
     AudioServicesCreateSystemSoundID(urlRef, &soundID);
-    NSLog(@"bofangyinxiao");
+//    NSLog(@"bofangyinxiao");
     // 播放音效
      AudioServicesPlaySystemSound(soundID);
     

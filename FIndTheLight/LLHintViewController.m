@@ -128,7 +128,7 @@
                             @"WechatIMG253",nil];
     [HintImagesArray addObjectsFromArray:temp];
     
-    icarousel = [[iCarousel alloc]initWithFrame:CGRectMake(0,[UIScreen mainScreen].bounds.size.height*0.153, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height*0.285)];
+    icarousel = [[iCarousel alloc]initWithFrame:CGRectMake(50,100+[UIScreen mainScreen].bounds.size.height*0.153, [UIScreen mainScreen].bounds.size.width+50, [UIScreen mainScreen].bounds.size.height*0.285)];
     icarousel.dataSource = self;
     icarousel.delegate = self;
     icarousel.backgroundColor =[UIColor clearColor];

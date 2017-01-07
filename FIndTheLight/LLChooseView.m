@@ -18,7 +18,10 @@
  }
 
 -(void)LLDrawAlpha{
-    backgroundScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, self.bounds.size.height*0.25, self.bounds.size.width, self.bounds.size.height*0.75)];
+    backgroundScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, self.
+                                                                         bounds.size.height*0.25,
+                                                                         self.bounds.size.width,
+                                                                         self.bounds.size.height*0.75)];
     backgroundScrollView.backgroundColor = [UIColor clearColor];
     backgroundScrollView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
     backgroundScrollView.delegate = self;
@@ -68,15 +71,22 @@
         int PositionX  = i * self.bounds.size.width*0.28 + self.bounds.size.width*0.0373;
         
         _LLChoseViewBtn = [[UIButton alloc]init];
-        _LLChoseViewBtn.frame = CGRectMake(PositionX, 5, self.bounds.size.width*0.213, self.bounds.size.width*0.27);
+        _LLChoseViewBtn.frame = CGRectMake(PositionX,
+                                           5,
+                                           self.bounds.size.width*0.213,
+                                           self.bounds.size.width*0.27);
 //        [_LLChoseViewBtn setTitle: _LLNameFilterArray[i] forState:UIControlStateNormal];
         _LLChoseViewBtn.backgroundColor = [UIColor clearColor];
-        UIImageView *btnBackImg = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, self.bounds.size.width*0.213, self.bounds.size.width*0.27)];
+        UIImageView *btnBackImg = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0,
+                                                                               self.bounds.size.width*0.213,
+                                                                               self.bounds.size.width*0.27)];
         btnBackImg.image = [UIImage imageNamed:[_LLFilterImageNameArray objectAtIndex:i]];
         [_LLChoseViewBtn addSubview:btnBackImg];
         [backgroundScrollView addSubview:_LLChoseViewBtn];
         
-        UILabel *FilterNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(PositionX, self.bounds.size.width*0.28, self.bounds.size.width*0.213, 30)];
+        UILabel *FilterNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(PositionX,
+                                                                            self.bounds.size.width*0.28,
+                                                                            self.bounds.size.width*0.213, 30)];
         FilterNameLabel.textColor = [UIColor colorWithRed:223.0/255.0 green:215.0/255.0 blue:255.0/255.0 alpha:1];
         FilterNameLabel.text = [_LLNameFilterArray objectAtIndex:i];
         FilterNameLabel.font = [UIFont systemFontOfSize:15];

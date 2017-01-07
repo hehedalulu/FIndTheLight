@@ -14,6 +14,6 @@
 @property(nonatomic,strong) HKHealthStore *HealthStore;
 @property(nonatomic) int LLUserStep;
 
--(void)CreatHealth;
-
+-(void)FirstCreatHealth;
+-(void)CreatAddHealth;
 @end

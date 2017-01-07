@@ -36,12 +36,9 @@
         NSDate *LLLastRecordTime = [formatter dateFromString:LLLastRecordTimeString];
         return LLLastRecordTime;
     }else{
-        NSString *firstOpenAPPTimeString = [[NSUserDefaults standardUserDefaults] valueForKey:@"firstOpenAPPString"];
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-        //NSString转NSDate
-        NSDate *firstOpenAPPTime = [formatter dateFromString:firstOpenAPPTimeString];
-        return firstOpenAPPTime;
+        NSDate *firstOpenDate = [[NSUserDefaults standardUserDefaults] valueForKey:@"firstOpenAPPString"];
+
+        return firstOpenDate;
     }
 }
 
@@ -61,7 +58,7 @@
     // 4.获取了时间元素
     NSDateComponents *cmps = [calendar components:type fromDate:endDate toDate:startDate options:0];
     
-    NSLog(@"%ld年%ld月%ld日%ld小时%ld分钟%ld秒钟", cmps.year, cmps.month, cmps.day, cmps.hour, cmps.minute, cmps.second);
+    NSLog(@"%ld年%ld月%ld日%ld小时%ld分钟%ld秒钟", (long)cmps.year, cmps.month, cmps.day, cmps.hour, cmps.minute, cmps.second);
     long int yearsecond     = cmps.year*365*24*60*60;
     long int monthsecond    = cmps.month*30*24*60*60;
     long int daysecond      = cmps.day*24*60*60;
@@ -70,6 +67,14 @@
     long int second         = cmps.second;
     long int resultsecond   = yearsecond + monthsecond + daysecond + hour + minute + second;
     
+//    NSDate *date = [NSDate date];
+//    [[NSUserDefaults standardUserDefaults]setObject:date forKey:@"sss"];
+//    
+//    NSDate *nowdate = [[NSUserDefaults standardUserDefaults]valueForKey:@"sss"];
+    
+    if (resultsecond > 3600) {
+        resultsecond = 3600;
+    }
     return resultsecond;
 }
 
