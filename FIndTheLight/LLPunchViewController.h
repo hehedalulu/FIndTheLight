@@ -1,21 +1,13 @@
 //
 //  LLPunchViewController.h
-//  UniversityPokemon
+//  FIndTheLight
 //
-//  Created by Wll on 16/11/13.
-//  Copyright © 2016年 CherryWang. All rights reserved.
+//  Created by Wll on 17/1/21.
+//  Copyright © 2017年 CherryWang. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
-#import "iCarousel.h"
 
-#import <AMapLocationKit/AMapLocationKit.h>
-#import <AMapFoundationKit/AMapFoundationKit.h>
-#import <MAMapKit/MAMapKit.h>
-#import <AMapSearchKit/AMapSearchKit.h>
-
-
-@interface LLPunchViewController : UIViewController<iCarouselDataSource, iCarouselDelegate,MAMapViewDelegate,AMapSearchDelegate,AMapLocationManagerDelegate>
-
+@interface LLPunchViewController : UIViewController<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 
 @end

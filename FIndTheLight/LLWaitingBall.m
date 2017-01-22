@@ -20,7 +20,7 @@
 */
 
 -(void)LLBallAlwaysDraw{
-    
+//    self.contentMode =  UIViewContentModeCenter;
     [self animationWithName:@"waitingBall" andImageCount:140];
 
 }

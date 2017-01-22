@@ -13,8 +13,9 @@
 //- (CGFloat)filterchange:(UISlider *) slider;
 {
     UIScrollView *backgroundScrollView;
+    NSMutableArray *LLFilterImageNameArray;
+    NSMutableArray *LLFilterUnchosenNameArray;
 }
 @property (nonatomic,strong) NSMutableArray *LLNameFilterArray;
-@property (nonatomic,strong) NSMutableArray *LLFilterImageNameArray;
 @property (nonatomic,strong) UIButton *LLChoseViewBtn;
 @end

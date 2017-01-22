@@ -10,7 +10,7 @@
 #include "easyar/utility.hpp"
 #import <AMapFoundationKit/AMapFoundationKit.h>
 #import <BmobSDK/Bmob.h>
-//#import "LLGetStep.h"
+
 
 @interface AppDelegate ()
 
@@ -26,7 +26,7 @@
     [[AMapServices sharedServices] setEnableHTTPS:YES];
     [AMapServices sharedServices].apiKey = @"d4ab078d2a2f09d13723b20ec10c6788";
     [Bmob registerWithAppKey:@"4a45d08fb950978f1139c119c32a061b"];
- /*
+ 
     BmobUser *bUser = [BmobUser currentUser];
     if (bUser) {
         //进行操作
@@ -44,7 +44,7 @@
         //        GuideViewController *loginVC = [[GuideViewController alloc]init];
         //        self.window.rootViewController = loginVC;
     }
-*/
+
     
 //如果是第一次打开
    if (![[NSUserDefaults standardUserDefaults]valueForKey:@"isFirst"]) {

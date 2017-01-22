@@ -46,14 +46,22 @@
                             @"滤镜4",nil];
     [_LLNameFilterArray addObjectsFromArray:temp];
     
-    _LLFilterImageNameArray = [NSMutableArray array];
-    NSMutableArray *tempArray = [[NSMutableArray alloc]initWithObjects:
+    LLFilterImageNameArray = [NSMutableArray array];
+    NSMutableArray *tempchosenArray = [[NSMutableArray alloc]initWithObjects:
                             @"default",
                             @"snow",
                             @"desert",
                             @"ocean",
                             @"",nil];
-    [_LLFilterImageNameArray addObjectsFromArray:tempArray];
+    [LLFilterImageNameArray addObjectsFromArray:tempchosenArray];
+    
+    NSMutableArray *templockkImgArray = [[NSMutableArray alloc]initWithObjects:
+                            @"desert_lock",
+                            @"snow",
+                            @"desert",
+                            @"ocean",
+                            @"",nil];
+    
 }
 
 
@@ -80,7 +88,7 @@
         UIImageView *btnBackImg = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0,
                                                                                self.bounds.size.width*0.213,
                                                                                self.bounds.size.width*0.27)];
-        btnBackImg.image = [UIImage imageNamed:[_LLFilterImageNameArray objectAtIndex:i]];
+        btnBackImg.image = [UIImage imageNamed:[LLFilterImageNameArray objectAtIndex:i]];
         [_LLChoseViewBtn addSubview:btnBackImg];
         [backgroundScrollView addSubview:_LLChoseViewBtn];
         
@@ -94,9 +102,14 @@
         //        FilterNameLabel.adjustsFontSizeToFitWidth = YES;
         
         [backgroundScrollView addSubview:FilterNameLabel];
-        
-        
     }
+    // 每一个滤镜btn的x位置
+    int PositionX;
+    for (int i = 0; i<_LLNameFilterArray.count; i++) {
+        PositionX  = i * self.bounds.size.width*0.28 + self.bounds.size.width*0.0373;
+    }
+    
+//    UIButton *filter1 = [UIButton alloc]initWithFrame:CGRectMake(<#CGFloat x#>, <#CGFloat y#>, <#CGFloat width#>, <#CGFloat height#>)
 
 }
 

@@ -105,7 +105,7 @@
     [self drawfilterImageView];
     [self drawview];
 
-    [self drawChooseView];
+//    [self drawChooseView];
     [self ShowHiddenView];
     [self.glView setUserInteractionEnabled:YES];
     // 第一次打开执行别样操作
@@ -113,7 +113,10 @@
 
     [NSTimer scheduledTimerWithTimeInterval:30.0 target:self selector:@selector(Location) userInfo:nil repeats:YES];
 }
-
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
 -(void)TheFirstTimeOpen{
     if ([[[NSUserDefaults standardUserDefaults]valueForKey:@"isFirst"] isEqualToString:@"YES"]) {
         //模拟引导时点击读取步数 获取定位
@@ -290,7 +293,8 @@
     waitingBall = [[LLWaitingBall alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.797,
                                                                  [UIScreen mainScreen].bounds.size.width*0.4347,
                                                                  [UIScreen mainScreen].bounds.size.width*0.169,
-                                                                 [UIScreen mainScreen].bounds.size.width*0.1691)];
+                                                                 [UIScreen mainScreen].bounds.size.width*0.169)];
+    waitingBall.contentMode = UIViewContentModeScaleAspectFit;
     [waitingBall setUserInteractionEnabled:YES];
     [waitingBall LLBallAlwaysDraw];
     [self.glView addSubview:waitingBall];
@@ -371,7 +375,7 @@
 
 -(void)changeNearLocation:(UITapGestureRecognizer *)gesture{
     NSLog(@"点击了displayview");
-    //点击第一跳到第二 第二跳到第三 第三跳到第三 第三跳到第一 其余显示 继续定位
+    //点击第一跳到第二 第二跳到第一
     NSString *locationString = displayView.LLHomeDisplayLabel.text;
     NSString *location1 = [[NSUserDefaults standardUserDefaults]valueForKey:@"LLNearestLocation"];
     NSString *location2 = [[NSUserDefaults standardUserDefaults]valueForKey:@"LLSecondNearestLocation"];
@@ -382,9 +386,6 @@
         [self performSelector:@selector(changelabeldongxiao1) withObject:nil afterDelay:0.15];
     }else if ([locationString isEqualToString:location2]) {
         displayView.LLHomeDisplayLabel.text = location3;
-        
-    }else if([locationString isEqualToString:location3]){
-        displayView.LLHomeDisplayLabel.text = location1;
     }else{
         displayView.LLHomeDisplayLabel.text= @"继续查找";
     }
@@ -782,10 +783,11 @@
     filterView.backgroundColor = [UIColor clearColor];
     filterView.LLFilterName = @"FilterLighting";
     filterView.LLFiltercount = 50;
-    
+//关掉闪电的滤镜
+/*
     flighterTimer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(Fliterfighting) userInfo:nil repeats:YES];
     [self.glView addSubview:filterView];
-    
+*/
 }
 
 
@@ -808,7 +810,7 @@
 
     }
     if (FilterBackgroundView.LLFilteralapa >= 0.45 && FilterBackgroundView.LLFilteralapa <= 0.50) {
-    [flighterTimer invalidate];
+//   [flighterTimer invalidate];
     [filterAlwaysView stopAnimating];
         filterAlwaysView.ImagesArray1 = imageArray2;
     filterAlwaysView.LLfilterAlwaysString = @"smallrain_";
@@ -817,7 +819,7 @@
 
     }
     else if(FilterBackgroundView.LLFilteralapa <= 0.25 && FilterBackgroundView.LLFilteralapa >= 0.20){
-        [flighterTimer invalidate];
+//     [flighterTimer invalidate];
     [filterAlwaysView stopAnimating];
         filterAlwaysView.ImagesArray1 = imageArray3;
         filterAlwaysView.LLfilterAlwaysString = @"Fliter-rainbow-";
@@ -830,10 +832,11 @@
 
 //滤镜选择的动画
 -(void)showFilterChooseView{
-
+    
 
     
     if (showTheFilterChooseView) {
+        
         [self closechooseView];
         NSLog(@"chooseview关闭了");
         showTheFilterChooseView = NO;
@@ -864,7 +867,8 @@
 }
 -(void)showchooseView{
     
-    
+    [self drawChooseView];
+    [chooseview setNeedsDisplay];
     POPSpringAnimation *showchoose = [POPSpringAnimation animationWithPropertyNamed:kPOPViewCenter];
     CGFloat centerX = self.view.center.x;
     CGFloat centerY = self.view.bounds.size.height*0.87;
@@ -921,6 +925,8 @@
     menubtnUP.springBounciness = 4;
     menubtnUP.springSpeed = 6;
     [LLHomeMenubtn pop_addAnimation:menubtnUP forKey:@"menubtndown"];
+    chooseview.hidden = YES;
+    
 }
 
 -(void)initArraywithName:(NSString *)name andImageCount:(int)imageCount{
@@ -1140,22 +1146,20 @@
 - (void)showMenu {
     NSMutableArray *items = [[NSMutableArray alloc] initWithCapacity:3];
     
-    MenuItem *menuItem = [MenuItem itemWithTitle:@"SelfGotThing" iconName:@"btn"];
+
+    
+    MenuItem *menuItem = [MenuItem itemWithTitle:@"能量记录" iconName:@"nengliangjilu"];
     [items addObject:menuItem];
     
-//    menuItem = [MenuItem itemWithTitle:@"碎片箱" iconName:@"post_type_bubble_twitter" glowColor:[UIColor colorWithRed:0.840 green:0.264 blue:0.208 alpha:0.800]];
-//    [items addObject:menuItem];
-//    
-//    menuItem = [MenuItem itemWithTitle:@"道具箱" iconName:@"post_type_bubble_twitter" glowColor:[UIColor colorWithRed:0.232 green:0.442 blue:0.687 alpha:0.800]];
-//    [items addObject:menuItem];
-//    
-//    menuItem = [MenuItem itemWithTitle:@"排名" iconName:@"post_type_bubble_twitter" glowColor:[UIColor colorWithRed:0.000 green:0.509 blue:0.687 alpha:0.800]];
-//    [items addObject:menuItem];
-//    
+    menuItem = [MenuItem itemWithTitle:@"滤镜合成" iconName:@"nengliangjilu"];
+    [items addObject:menuItem];
+    
+    menuItem = [MenuItem itemWithTitle:@"排名" iconName:@"nengliangjilu"];
+    [items addObject:menuItem];
+    
+    menuItem = [MenuItem itemWithTitle:@"个人中心" iconName:@"nengliangjilu"];
+    [items addObject:menuItem];
 //    menuItem = [MenuItem itemWithTitle:@"活动版块" iconName:@"post_type_bubble_twitter" glowColor:[UIColor colorWithRed:0.687 green:0.164 blue:0.246 alpha:0.800]];
-//    [items addObject:menuItem];
-//    
-//    menuItem = [MenuItem itemWithTitle:@"舰队" iconName:@"post_type_bubble_twitter" glowColor:[UIColor colorWithRed:0.258 green:0.245 blue:0.687 alpha:0.800]];
 //    [items addObject:menuItem];
     
     if (!popMenu) {
@@ -1168,9 +1172,15 @@
     
     __weak typeof(self) weakSelf = self;
     popMenu.didSelectedItemCompletion = ^(MenuItem *selectedItem) {
-        NSLog(@"%@",selectedItem.title);
-        if ([selectedItem.title isEqual:@"SelfGotThing"]) {
-        [weakSelf pushpunchView];
+//        NSLog(@"%@",selectedItem.title);
+        if ([selectedItem.title isEqual:@"个人中心"]) {
+            [weakSelf pushpunchView];
+        }else if([selectedItem.title isEqualToString:@"能量记录"]){
+            [weakSelf pushEnergyRecordView];
+        }else if ([selectedItem.title isEqualToString:@"滤镜合成"]){
+            [weakSelf pushMixFilterView];
+        }else if ([selectedItem.title isEqualToString:@"排名"]){
+            [weakSelf pushRankView];
         }
 
     };
@@ -1181,6 +1191,15 @@
 }
 
 -(void)pushpunchView{
-        [self performSegueWithIdentifier:@"LLSelfInformation" sender:nil];
+    [self performSegueWithIdentifier:@"LLSelfInformation" sender:nil];
+}
+-(void)pushEnergyRecordView{
+    [self performSegueWithIdentifier:@"LLPunch" sender:nil];
+}
+-(void)pushMixFilterView{
+    [self performSegueWithIdentifier:@"LLMixFilter" sender:nil];
+}
+-(void)pushRankView{
+    [self performSegueWithIdentifier:@"LLRank" sender:nil];
 }
 @end

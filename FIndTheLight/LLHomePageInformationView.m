@@ -143,7 +143,7 @@
     UIView *HomeIntelligenceValueImg = [[UIView alloc]init];
     HomeIntelligenceValueImg.backgroundColor = [UIColor colorWithRed:82.0/255.0 green:131.0/255.0 blue:192.0/255.0 alpha:1];
     [HomeIntelligenceValueImg.layer setMasksToBounds:YES];
-    [HomeIntelligenceValueImg.layer setCornerRadius:5];
+    [HomeIntelligenceValueImg.layer setCornerRadius:3];
     HomeIntelligenceValueImg.frame = CGRectMake(0,
                                                 0,
                                                 WaitingResult,
@@ -158,7 +158,7 @@
                                               [UIScreen mainScreen].bounds.size.width*0.1208,
                                               [UIScreen mainScreen].bounds.size.width*0.0266);
     [HomePhysicalBackeImage.layer setMasksToBounds:YES];
-    [HomePhysicalBackeImage.layer setCornerRadius:5];
+    [HomePhysicalBackeImage.layer setCornerRadius:3];
     
     
     EnergyMax.frame =     CGRectMake([UIScreen mainScreen].bounds.size.width*0.2681,

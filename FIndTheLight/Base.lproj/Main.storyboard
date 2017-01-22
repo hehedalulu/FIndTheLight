@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Z3E-2h-2H1">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -39,49 +39,69 @@
                     </view>
                     <navigationItem key="navigationItem" id="Hvi-Ww-qlH"/>
                     <connections>
-                        <segue destination="LlC-sL-WNO" kind="show" identifier="PushPunchView" id="SLD-Vl-U3P"/>
-                        <segue destination="nnp-4c-ewO" kind="show" identifier="LLSelfInformation" id="g1t-tZ-Rlt"/>
+                        <segue destination="nnp-4c-ewO" kind="push" identifier="LLSelfInformation" animates="NO" id="g1t-tZ-Rlt"/>
+                        <segue destination="UGt-wU-YA9" kind="show" identifier="LLRank" animates="NO" id="QrS-zd-l8O"/>
+                        <segue destination="2gt-Qn-XvF" kind="show" identifier="LLMixFilter" animates="NO" id="oK7-sk-q5r"/>
+                        <segue destination="JaL-bh-oQE" kind="show" identifier="LLPunch" animates="NO" id="kYO-dY-g44"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="87" y="81"/>
         </scene>
-        <!--Punch View Controller-->
-        <scene sceneID="y55-tP-ysL">
+        <!--Mix Filter View Controller-->
+        <scene sceneID="sP3-Am-lm6">
             <objects>
-                <viewController id="LlC-sL-WNO" customClass="LLPunchViewController" sceneMemberID="viewController">
+                <viewController id="2gt-Qn-XvF" customClass="LLMixFilterViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="MjW-86-NYF"/>
-                        <viewControllerLayoutGuide type="bottom" id="AIt-kE-m5N"/>
+                        <viewControllerLayoutGuide type="top" id="5FD-aC-Vcj"/>
+                        <viewControllerLayoutGuide type="bottom" id="Y8n-a8-tsJ"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="LRV-EN-uGs">
+                    <view key="view" contentMode="scaleToFill" id="gF2-Ce-Nwn">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="x4C-2L-rHb" customClass="MAMapView">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="b6H-el-Y9s" customClass="iCarousel">
-                                        <rect key="frame" x="0.0" y="-8" width="375" height="220"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    </view>
-                                </subviews>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <connections>
-                        <outlet property="carousel" destination="b6H-el-Y9s" id="Gco-TI-XRe"/>
-                        <outlet property="mapview" destination="x4C-2L-rHb" id="Prl-fv-kww"/>
-                    </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="jPr-ue-PCP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UmQ-ZS-AQc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="805.60000000000002" y="80.50974512743629"/>
+            <point key="canvasLocation" x="1028" y="-780"/>
+        </scene>
+        <!--Punch View Controller-->
+        <scene sceneID="5iv-ro-wdx">
+            <objects>
+                <viewController id="JaL-bh-oQE" customClass="LLPunchViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="4Ah-C0-SzY"/>
+                        <viewControllerLayoutGuide type="bottom" id="SEt-oI-zdl"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="EeY-9A-90d">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CfF-WB-G54" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1028" y="-1471"/>
+        </scene>
+        <!--Rank View Controller-->
+        <scene sceneID="DrK-UJ-Erb">
+            <objects>
+                <viewController id="UGt-wU-YA9" customClass="LLRankViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="vmF-LL-Hbc"/>
+                        <viewControllerLayoutGuide type="bottom" id="IUa-gU-3TE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="N83-pg-eT5">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wzX-bY-GQl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1028" y="-75"/>
         </scene>
         <!--Self Information-->
         <scene sceneID="HfS-2Y-ddH">
@@ -96,10 +116,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" id="tML-Yn-7J2"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2u7-RM-6gY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="227" y="930"/>
+            <point key="canvasLocation" x="994" y="603"/>
         </scene>
         <!--Llogin View Controller-->
         <scene sceneID="vw6-i7-dCE">
@@ -186,7 +207,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <attributedString key="attributedText"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
                                     </textField>
                                 </subviews>
                             </view>
@@ -239,7 +260,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <attributedString key="attributedText"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="  密码" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cPj-zn-7it">
                                         <rect key="frame" x="20" y="292" width="116" height="37"/>
@@ -269,7 +290,7 @@
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <attributedString key="attributedText"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="numberPad" secureTextEntry="YES"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gSq-t2-RFZ">
                                         <rect key="frame" x="305" y="465" width="89" height="51"/>
@@ -429,10 +450,10 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lXF-Xf-dFb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1639.1304347826087" y="55.434782608695656"/>
+            <point key="canvasLocation" x="-1780" y="-32"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="HnJ-0E-mc6"/>
+        <segue reference="THj-6y-e0e"/>
     </inferredMetricsTieBreakers>
 </document>
