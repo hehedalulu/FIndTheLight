@@ -97,8 +97,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationController.navigationBar.hidden = YES;
-
-    
     self.glView = [[OpenGLView alloc] initWithFrame:self.view.bounds];
     [self.view addSubview:self.glView];
     [self.glView setOrientation:[UIApplication sharedApplication].statusBarOrientation];
@@ -1092,7 +1090,8 @@
 //    [locationManager setLocatingWithReGeocode:YES];
     
 //    [locationManager startUpdatingLocation];
-    [self Location];
+    displayView.LLHomeDisplayLabel.text = @"附近无基站";
+    //[self Location];
 
     
 }
@@ -1157,8 +1156,8 @@
     menuItem = [MenuItem itemWithTitle:@"排名" iconName:@"nengliangjilu"];
     [items addObject:menuItem];
     
-    menuItem = [MenuItem itemWithTitle:@"个人中心" iconName:@"nengliangjilu"];
-    [items addObject:menuItem];
+   // menuItem = [MenuItem itemWithTitle:@"个人中心" iconName:@"nengliangjilu"];
+    //[items addObject:menuItem];
 //    menuItem = [MenuItem itemWithTitle:@"活动版块" iconName:@"post_type_bubble_twitter" glowColor:[UIColor colorWithRed:0.687 green:0.164 blue:0.246 alpha:0.800]];
 //    [items addObject:menuItem];
     
@@ -1173,14 +1172,18 @@
     __weak typeof(self) weakSelf = self;
     popMenu.didSelectedItemCompletion = ^(MenuItem *selectedItem) {
 //        NSLog(@"%@",selectedItem.title);
-        if ([selectedItem.title isEqual:@"个人中心"]) {
-            [weakSelf pushpunchView];
-        }else if([selectedItem.title isEqualToString:@"能量记录"]){
-            [weakSelf pushEnergyRecordView];
+//        if ([selectedItem.title isEqual:@"个人中心"]) {
+//            [weakSelf pushpunchView];
+//        }else
+            if([selectedItem.title isEqualToString:@"能量记录"]){
+            //[weakSelf pushEnergyRecordView];
+            [weakSelf performSegueWithIdentifier:@"LLPunch" sender:nil];
         }else if ([selectedItem.title isEqualToString:@"滤镜合成"]){
-            [weakSelf pushMixFilterView];
+            //[weakSelf pushMixFilterView];
+            [weakSelf performSegueWithIdentifier:@"LLMixFilter" sender:nil];
         }else if ([selectedItem.title isEqualToString:@"排名"]){
-            [weakSelf pushRankView];
+           //[weakSelf pushRankView];
+            [weakSelf performSegueWithIdentifier:@"LLRank" sender:nil];
         }
 
     };
@@ -1192,14 +1195,32 @@
 
 -(void)pushpunchView{
     [self performSegueWithIdentifier:@"LLSelfInformation" sender:nil];
+
+
 }
 -(void)pushEnergyRecordView{
+//    LLPunchViewController *testVC = [LLPunchViewController new];
+//    testVC.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+//    [self.navigationController presentViewController:testVC
+//                                            animated:YES
+//                                          completion:NULL];
     [self performSegueWithIdentifier:@"LLPunch" sender:nil];
+    //[testVC dealloc];
 }
 -(void)pushMixFilterView{
+//    LLMixFilterViewController *testVC = [LLMixFilterViewController new];
+//    testVC.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+//    [self.navigationController presentViewController:testVC
+//                                            animated:YES
+//                                          completion:NULL];
     [self performSegueWithIdentifier:@"LLMixFilter" sender:nil];
 }
 -(void)pushRankView{
+//    LLRankViewController *testVC = [LLRankViewController new];
+//    testVC.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+//    [self.navigationController presentViewController:testVC
+//                                            animated:YES
+//                                          completion:NULL];
     [self performSegueWithIdentifier:@"LLRank" sender:nil];
 }
 @end

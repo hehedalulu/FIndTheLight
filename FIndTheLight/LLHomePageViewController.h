@@ -16,6 +16,10 @@
 #import "HintViewPresent.h"
 #import "LLHintViewController.h"
 
+#import "LLPunchViewController.h"
+#import "LLMixFilterViewController.h"
+#import "LLRankViewController.h"
+
 @interface LLHomePageViewController : UIViewController<AMapLocationManagerDelegate,UIViewControllerTransitioningDelegate>{
     AMapLocationManager *locationManager;
 }

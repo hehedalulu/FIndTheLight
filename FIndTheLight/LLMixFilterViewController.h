@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LLMixFilterViewController : UIViewController
+@interface LLMixFilterViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>
 
 @end

@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LLRankViewController : UIViewController
+@interface LLRankViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>
 
 @end

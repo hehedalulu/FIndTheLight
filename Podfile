@@ -13,4 +13,6 @@ pod 'AFNetworking', '~> 3.0'
 pod 'YYModel'
 pod 'GPUImage'
 pod 'pop', '~> 1.0'
+pod 'MJRefresh'
+pod 'XZMRefresh'
 end
