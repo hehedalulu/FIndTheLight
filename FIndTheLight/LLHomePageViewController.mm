@@ -14,20 +14,14 @@
 #import "Masonry.h"
 #import "LLSearchAroundLocation.h"
 #import "PopMenu.h"
-#import "LLFilterView.h"
-#import "LLFilterAlwaysView.h"
-#import "LLFilterBackgroundView.h"
 #import "LLChooseView.h"
 #import <POP/POP.h>
 #import "GPUImage.h"
 #import "LLWaitingBall.h"
 #import "LLMatureView.h"
-
 #import "LLGetNowTime.h"
 #import "LLBoostView.h"
-
 #import "LLGetStep.h"
-#import "LLOriginalBackgroundFilterView.h"
 
 #define DefaultLocationTimeout 10
 #define DefaultReGeocodeTimeout 5
@@ -42,11 +36,6 @@
     
     LLHomePageDisplayView *displayView;
     LLSearchAroundLocation *llsearchAroundLocation;
-
-    LLOriginalBackgroundFilterView *OriginalBackgroundFilterView;
-    LLFilterBackgroundView *FilterBackgroundView;
-    LLFilterAlwaysView *filterAlwaysView;
-    LLFilterView *filterView;
 
     BOOL showTheFilterChooseView;
     LLChooseView *chooseview;
@@ -75,10 +64,6 @@
     
     UITapGestureRecognizer *TapdisplayView;
     
-    NSMutableArray *imageArray1;
-    NSMutableArray *imageArray2;
-    NSMutableArray *imageArray3;
-    
     //第一次打开的判断定时器
     NSTimer *healthTimer;
     NSTimer *LocationTimer;
@@ -100,10 +85,10 @@
     self.glView = [[OpenGLView alloc] initWithFrame:self.view.bounds];
     [self.view addSubview:self.glView];
     [self.glView setOrientation:[UIApplication sharedApplication].statusBarOrientation];
-    [self drawfilterImageView];
+//    [self drawfilterImageView];
     [self drawview];
 
-//    [self drawChooseView];
+    [self drawChooseView];
     [self ShowHiddenView];
     [self.glView setUserInteractionEnabled:YES];
     // 第一次打开执行别样操作
@@ -181,7 +166,7 @@
     [self.glView start];
     NSLog(@"打开页面时含有的能量%@",[[NSUserDefaults standardUserDefaults]valueForKey:@"Energy"]);
     NSLog(@"首页将要开始");
-        [self initArraywithName:@"filter_raining" andImageCount:10 ];
+//        [self initArraywithName:@"filter_raining" andImageCount:10 ];
 
     
 }
@@ -474,10 +459,6 @@
     [self performSelector:@selector(InitImmatureView) withObject:nil afterDelay:0.1];
 }
 
-//-(void)LLboostTap{
-//    NSLog(@"点击");
-//}
-
 -(void)InitImmatureView{
     llBoostView.LLTapBoostbtn.frame = CGRectMake([UIScreen mainScreen].bounds.size.width*0.121,
                                                  [UIScreen mainScreen].bounds.size.width*0.2146,
@@ -763,70 +744,6 @@
 }
 
 
--(void)drawfilterImageView{
-    
-    FilterBackgroundView = [[LLFilterBackgroundView alloc]initWithFrame:CGRectMake(0, 0,self.view.bounds.size.width,self.view.bounds.size.height)];
-    FilterBackgroundView.LLFilteralapa = 0.5;
-    [FilterBackgroundView setImage];
-    FilterBackgroundView.backgroundColor = [UIColor clearColor];
-    [self.glView addSubview:FilterBackgroundView];
-    
-    OriginalBackgroundFilterView = [[LLOriginalBackgroundFilterView alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width,self.view.bounds.size.height)];
-    OriginalBackgroundFilterView.LLOriginalfilterString = @"filter_raining";
-    OriginalBackgroundFilterView.LLOriginalFilterCount = 10;
-    [OriginalBackgroundFilterView LLInitOriginalFilter];
-    [self.glView addSubview:OriginalBackgroundFilterView];
-    
-    filterView = [[LLFilterView alloc]initWithFrame:CGRectMake(0, 0,self.view.bounds.size.width,self.view.bounds.size.height)];
-    filterView.backgroundColor = [UIColor clearColor];
-    filterView.LLFilterName = @"FilterLighting";
-    filterView.LLFiltercount = 50;
-//关掉闪电的滤镜
-/*
-    flighterTimer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(Fliterfighting) userInfo:nil repeats:YES];
-    [self.glView addSubview:filterView];
-*/
-}
-
-
--(void)Fliterfighting{
-    [filterView LLFilterFireDraw];
-}
-
-- (void)filterchange:(UISlider *) slider{
-//    NSLog(@"%f",slider.value);
-    FilterBackgroundView.LLFilteralapa = 1 - slider.value;
-    NSLog(@"%f",FilterBackgroundView.LLFilteralapa);
-    [FilterBackgroundView setImage];
-    if (FilterBackgroundView.LLFilteralapa <= 0.70 && FilterBackgroundView.LLFilteralapa >= 0.65) {
-//        [flighterTimer fire];
-        [filterAlwaysView stopAnimating];
-        filterAlwaysView.ImagesArray1 = imageArray1;
-        filterAlwaysView.LLfilterAlwaysString = @"filter_raining";
-        filterAlwaysView.LLAlwaysFilterCount = 10;
-        [filterAlwaysView LLfilerAlwaysDraw];
-
-    }
-    if (FilterBackgroundView.LLFilteralapa >= 0.45 && FilterBackgroundView.LLFilteralapa <= 0.50) {
-//   [flighterTimer invalidate];
-    [filterAlwaysView stopAnimating];
-        filterAlwaysView.ImagesArray1 = imageArray2;
-    filterAlwaysView.LLfilterAlwaysString = @"smallrain_";
-    filterAlwaysView.LLAlwaysFilterCount = 120;
-    [filterAlwaysView LLfilerAlwaysDraw];
-
-    }
-    else if(FilterBackgroundView.LLFilteralapa <= 0.25 && FilterBackgroundView.LLFilteralapa >= 0.20){
-//     [flighterTimer invalidate];
-    [filterAlwaysView stopAnimating];
-        filterAlwaysView.ImagesArray1 = imageArray3;
-        filterAlwaysView.LLfilterAlwaysString = @"Fliter-rainbow-";
-        filterAlwaysView.LLAlwaysFilterCount = 60;
-        [filterAlwaysView LLfilerAlwaysDraw];
-    }
-    else{
-    }
-}
 
 //滤镜选择的动画
 -(void)showFilterChooseView{
@@ -834,35 +751,18 @@
 
     
     if (showTheFilterChooseView) {
-        
         [self closechooseView];
         NSLog(@"chooseview关闭了");
         showTheFilterChooseView = NO;
-        [OriginalBackgroundFilterView startAnimating];
-        [filterAlwaysView stopAnimating];
-        filterAlwaysView = nil;
     }else{
         [self showchooseView];
-        //点击chooseview 就加载图片
-        [self initArraywithName:@"filter_raining" andImageCount:10 ];
-        [self initArraywithName2:@"smallrain_" andImageCount2:120];
-        [self initArraywithName3:@"Fliter-rainbow-" andImageCount3:60];
-        
         showTheFilterChooseView = YES;
-        [OriginalBackgroundFilterView stopAnimating];
-        
-        filterAlwaysView = [[LLFilterAlwaysView alloc]initWithFrame:CGRectMake(0, 0,self.view.bounds.size.width,self.view.bounds.size.height)];
-        filterAlwaysView.LLfilterAlwaysString = @"filter_raining";
-        filterAlwaysView.LLAlwaysFilterCount = 10;
-        filterAlwaysView.ImagesArray1 = imageArray1;
-        [self performSelector:@selector(showtestfilter) withObject:nil afterDelay:0.5];
-        [self.glView addSubview:filterAlwaysView];
         NSLog(@"chooseview打开了");
     }
 }
--(void)showtestfilter{
-    [filterAlwaysView LLfilerAlwaysDraw];
-}
+//-(void)showtestfilter{
+//    [filterAlwaysView LLfilerAlwaysDraw];
+//}
 -(void)showchooseView{
     
     [self drawChooseView];
@@ -927,69 +827,6 @@
     
 }
 
--(void)initArraywithName:(NSString *)name andImageCount:(int)imageCount{
-    NSLog(@"读内存");
-    imageArray1 = nil;
-    dispatch_queue_t concurrentQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    dispatch_async(concurrentQueue, ^{
-        //                    __block UIImage *image = nil;
-        dispatch_sync(concurrentQueue, ^{
-            imageArray1 =  [NSMutableArray arrayWithCapacity:imageCount];
-            for (int i = 1; i <= imageCount; i++) {
-                NSString *imageName = [NSString stringWithFormat:@"%@%d",name,i];
-                NSString *path = [[NSBundle mainBundle] pathForResource:imageName ofType:@"png"];
-                //        NSLog(@"%@",path);
-                UIImage *image = [UIImage imageWithContentsOfFile:path];
-//                NSLog(@"%@",image);
-                [imageArray1 addObject:image];
-            }
-            
-        });
-    });
-}
--(void)initArraywithName2:(NSString *)name andImageCount2:(int)imageCount{
-    NSLog(@"读内存");
-    
-    dispatch_queue_t concurrentQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    dispatch_async(concurrentQueue, ^{
-        //                    __block UIImage *image = nil;
-        dispatch_sync(concurrentQueue, ^{
-            imageArray2 =  [NSMutableArray arrayWithCapacity:imageCount];
-            for (int i = 1; i <= imageCount; i++) {
-                NSString *imageName = [NSString stringWithFormat:@"%@%d",name,i];
-                NSString *path = [[NSBundle mainBundle] pathForResource:imageName ofType:@"png"];
-                //        NSLog(@"%@",path);
-                UIImage *image = [UIImage imageWithContentsOfFile:path];
-                //        NSLog(@"%@",imageName);
-                [imageArray2 addObject:image];
-                //                [imageArray1 addObjectsFromArray:tempArray];
-            }
-            
-        });
-    });
-}
-
--(void)initArraywithName3:(NSString *)name andImageCount3:(int)imageCount{
-    NSLog(@"读内存");
-    
-    dispatch_queue_t concurrentQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    dispatch_async(concurrentQueue, ^{
-        //                    __block UIImage *image = nil;
-        dispatch_sync(concurrentQueue, ^{
-            imageArray3 =  [NSMutableArray arrayWithCapacity:imageCount];
-            for (int i = 1; i <= imageCount; i++) {
-                NSString *imageName = [NSString stringWithFormat:@"%@%d",name,i];
-                NSString *path = [[NSBundle mainBundle] pathForResource:imageName ofType:@"png"];
-                //        NSLog(@"%@",path);
-                UIImage *image = [UIImage imageWithContentsOfFile:path];
-                //        NSLog(@"%@",imageName);
-                [imageArray3 addObject:image];
-                //                [imageArray1 addObjectsFromArray:tempArray];
-            }
-            
-        });
-    });
-}
 
 
 
@@ -1003,12 +840,6 @@
     return [HintViewPresent new];
 }
 
-//- (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented
-//                                                                  presentingController:(UIViewController *)presenting
-//                                                                      sourceController:(UIViewController *)source
-//{
-//    return [LLMatureViewPresent new];
-//}
 
 - (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed
 {
