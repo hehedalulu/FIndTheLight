@@ -1214,6 +1214,7 @@
 //                                            animated:YES
 //                                          completion:NULL];
     [self performSegueWithIdentifier:@"LLMixFilter" sender:nil];
+    
 }
 -(void)pushRankView{
 //    LLRankViewController *testVC = [LLRankViewController new];

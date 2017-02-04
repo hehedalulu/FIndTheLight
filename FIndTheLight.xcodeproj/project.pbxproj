@@ -253,6 +253,7 @@
 		5B455D151E0E2AD000EE1F53 /* Fliter-rainbow-7.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B455CD91E0E2ACF00EE1F53 /* Fliter-rainbow-7.png */; };
 		5B455D161E0E2AD000EE1F53 /* Fliter-rainbow-8.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B455CDA1E0E2ACF00EE1F53 /* Fliter-rainbow-8.png */; };
 		5B455D171E0E2AD000EE1F53 /* Fliter-rainbow-9.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B455CDB1E0E2ACF00EE1F53 /* Fliter-rainbow-9.png */; };
+		5B657AB91E389F0600E83EA7 /* btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B657AB81E389F0500E83EA7 /* btn.png */; };
 		5B729A441DF39A35000FE6E9 /* LLChooseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B729A431DF39A35000FE6E9 /* LLChooseView.m */; };
 		5B729A481DF4116F000FE6E9 /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B729A471DF4116F000FE6E9 /* iCarousel.m */; };
 		5B729A4A1DF42665000FE6E9 /* 7005.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5B729A491DF42665000FE6E9 /* 7005.mp3 */; };
@@ -431,7 +432,6 @@
 		5B9B09FB1E13F307006CA8A3 /* layer@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B9B09F71E13F307006CA8A3 /* layer@3x.png */; };
 		5B9B09FE1E164B56006CA8A3 /* LLSelfInformation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B9B09FD1E164B56006CA8A3 /* LLSelfInformation.m */; };
 		5B9B0A041E1652B4006CA8A3 /* chacha.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B9B0A031E1652B4006CA8A3 /* chacha.png */; };
-		5B9B0A061E16B6B6006CA8A3 /* btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B9B0A051E16B6B6006CA8A3 /* btn.png */; };
 		5B9B0A081E16B811006CA8A3 /* flash.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B9B0A071E16B811006CA8A3 /* flash.png */; };
 		5BBC21891DE81DAA008DAAD4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BBC21881DE81DAA008DAAD4 /* main.m */; };
 		5BBC218C1DE81DAA008DAAD4 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5BBC218B1DE81DAA008DAAD4 /* AppDelegate.mm */; };
@@ -751,6 +751,7 @@
 		5B455CD91E0E2ACF00EE1F53 /* Fliter-rainbow-7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Fliter-rainbow-7.png"; sourceTree = "<group>"; };
 		5B455CDA1E0E2ACF00EE1F53 /* Fliter-rainbow-8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Fliter-rainbow-8.png"; sourceTree = "<group>"; };
 		5B455CDB1E0E2ACF00EE1F53 /* Fliter-rainbow-9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Fliter-rainbow-9.png"; sourceTree = "<group>"; };
+		5B657AB81E389F0500E83EA7 /* btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn.png; sourceTree = "<group>"; };
 		5B729A421DF39A35000FE6E9 /* LLChooseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLChooseView.h; sourceTree = "<group>"; };
 		5B729A431DF39A35000FE6E9 /* LLChooseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLChooseView.m; sourceTree = "<group>"; };
 		5B729A461DF4116F000FE6E9 /* iCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCarousel.h; sourceTree = "<group>"; };
@@ -944,7 +945,6 @@
 		5B9B09FC1E164B56006CA8A3 /* LLSelfInformation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLSelfInformation.h; sourceTree = "<group>"; };
 		5B9B09FD1E164B56006CA8A3 /* LLSelfInformation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLSelfInformation.m; sourceTree = "<group>"; };
 		5B9B0A031E1652B4006CA8A3 /* chacha.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chacha.png; sourceTree = "<group>"; };
-		5B9B0A051E16B6B6006CA8A3 /* btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = btn.png; path = Assets.xcassets/AppIcon.appiconset/btn.png; sourceTree = "<group>"; };
 		5B9B0A071E16B811006CA8A3 /* flash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flash.png; sourceTree = "<group>"; };
 		5BBC21841DE81DAA008DAAD4 /* FIndTheLight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FIndTheLight.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BBC21881DE81DAA008DAAD4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -1803,7 +1803,7 @@
 		5BBC21B51DE81EB0008DAAD4 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				5B9B0A051E16B6B6006CA8A3 /* btn.png */,
+				5B657AB81E389F0500E83EA7 /* btn.png */,
 				5BBC22301DE82925008DAAD4 /* LLHomePageViewController.h */,
 				5BBC22311DE82925008DAAD4 /* LLHomePageViewController.mm */,
 				5B2947961E0635A20062E9EC /* LLMatureViewController */,
@@ -1981,6 +1981,7 @@
 				5B7B333C1E01122600BB02D5 /* waitingBall-112.png in Resources */,
 				5B39BE521E0BB6DF000EC0AD /* smallrain_36.png in Resources */,
 				5B39BE4B1E0BB6DF000EC0AD /* smallrain_3.png in Resources */,
+				5B657AB91E389F0600E83EA7 /* btn.png in Resources */,
 				5B7B33841E01122600BB02D5 /* waitingBall-51.png in Resources */,
 				5B7B33301E01122600BB02D5 /* waitingBall-101.png in Resources */,
 				5B39BE951E0BB6DF000EC0AD /* smallrain_97.png in Resources */,
@@ -2376,7 +2377,6 @@
 				5B7B33A11E01122600BB02D5 /* waitingBall-78.png in Resources */,
 				5B39BE321E0BB6DF000EC0AD /* smallrain_115.png in Resources */,
 				5B455CDD1E0E2ACF00EE1F53 /* Fliter-rainbow-10.png in Resources */,
-				5B9B0A061E16B6B6006CA8A3 /* btn.png in Resources */,
 				5B455CEA1E0E2ACF00EE1F53 /* Fliter-rainbow-22.png in Resources */,
 				5B455D011E0E2ACF00EE1F53 /* Fliter-rainbow-43.png in Resources */,
 				5B7B336E1E01122600BB02D5 /* waitingBall-31.png in Resources */,
