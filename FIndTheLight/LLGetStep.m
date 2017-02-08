@@ -150,7 +150,7 @@
         NSString *oldtodayenergy = [[NSUserDefaults standardUserDefaults]valueForKey:@"NowDayEnergy"];
         int oldtodayValue = [oldtodayenergy intValue];
         int AddEnergy = _LLUserStep - oldtodayValue;
-        NSLog(@"今天现在的步数%d 增加的步数%d",_LLUserStep,AddEnergy);
+//        NSLog(@"今天现在的步数%d 增加的步数%d",_LLUserStep,AddEnergy);
         NSString *newtodayValue = [NSString stringWithFormat:@"%d",_LLUserStep];
         [[NSUserDefaults standardUserDefaults]setValue:newtodayValue forKey:@"NowDayEnergy"];
         
@@ -158,7 +158,7 @@
         NSString *tempEnergy = [[NSUserDefaults standardUserDefaults]valueForKey:@"Energy"];
         int tempValue = [tempEnergy intValue];
         int resultValue = tempValue + AddEnergy;
-        NSLog(@"当前的能量%d",resultValue);
+//        NSLog(@"当前的能量%d",resultValue);
         NSString *resultEnergy = [NSString stringWithFormat:@"%d",resultValue];
         [[NSUserDefaults standardUserDefaults]setValue:resultEnergy forKey:@"Energy"];
     }];

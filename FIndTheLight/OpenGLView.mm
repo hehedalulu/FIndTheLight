@@ -36,10 +36,10 @@ public:
     virtual bool clear();
 private:
     Vec2I view_size;
-    VideoRenderer* renderer[16];
+    VideoRenderer* renderer[3];
     int tracked_target;
     int active_target;
-    int texid[16];
+    int texid[3];
     ARVideo* video;
     VideoRenderer* video_renderer;
 };
@@ -49,7 +49,7 @@ HelloARVideo::HelloARVideo()
     view_size[0] = -1;
     tracked_target = 0;
     active_target = 0;
-    for(int i = 0; i < 16; ++i) {
+    for(int i = 0; i < 3; ++i) {
         texid[i] = 0;
         renderer[i] = new VideoRenderer;
     }
@@ -59,7 +59,7 @@ HelloARVideo::HelloARVideo()
 
 HelloARVideo::~HelloARVideo()
 {
-    for(int i = 0; i < 16; ++i) {
+    for(int i = 0; i < 3; ++i) {
         delete renderer[i];
     }
 }
@@ -67,7 +67,7 @@ HelloARVideo::~HelloARVideo()
 void HelloARVideo::initGL()
 {
     augmenter_ = Augmenter();
-    for(int i = 0; i < 16; ++i) {
+    for(int i = 0; i < 3; ++i) {
         renderer[i]->init();
         texid[i] = renderer[i]->texId();
     }
@@ -142,71 +142,71 @@ void HelloARVideo::render()
                     video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[2]);
                     video_renderer = renderer[2];
                 }
-                else if(frame.targets()[0].target().name() == std::string("WechatIMG248") && texid[3]) {
-                    video = new ARVideo;
-                    video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[3]);
-                    video_renderer = renderer[3];
-                }
-                else if(frame.targets()[0].target().name() == std::string("WechatIMG250") && texid[4]) {
-                    video = new ARVideo;
-                    video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[4]);
-                    video_renderer = renderer[4];
-                }
-                else if(frame.targets()[0].target().name() == std::string("WechatIMG251") && texid[5]) {
-                    video = new ARVideo;
-                    video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[5]);
-                    video_renderer = renderer[5];
-                }
-                else if(frame.targets()[0].target().name() == std::string("WechatIMG252") && texid[6]) {
-                    video = new ARVideo;
-                    video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[6]);
-                    video_renderer = renderer[6];
-                }
-                else if(frame.targets()[0].target().name() == std::string("WechatIMG253") && texid[7]) {
-                    video = new ARVideo;
-                    video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[7]);
-                    video_renderer = renderer[7];
-                }
-                else if(frame.targets()[0].target().name() == std::string("WechatIMG254") && texid[8]) {
-                    video = new ARVideo;
-                    video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[8]);
-                    video_renderer = renderer[8];
-                }
-                else if(frame.targets()[0].target().name() == std::string("WechatIMG255") && texid[9]) {
-                    video = new ARVideo;
-                    video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[9]);
-                    video_renderer = renderer[9];
-                }
-                else if(frame.targets()[0].target().name() == std::string("WechatIMG256") && texid[10]) {
-                    video = new ARVideo;
-                    video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[10]);
-                    video_renderer = renderer[10];
-                }
-                else if(frame.targets()[0].target().name() == std::string("WechatIMG257") && texid[11]) {
-                    video = new ARVideo;
-                    video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[11]);
-                    video_renderer = renderer[11];
-                }
-                else if(frame.targets()[0].target().name() == std::string("WechatIMG258") && texid[12]) {
-                    video = new ARVideo;
-                    video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[12]);
-                    video_renderer = renderer[12];
-                }
-                else if(frame.targets()[0].target().name() == std::string("IMG_9357") && texid[13]) {
-                    video = new ARVideo;
-                    video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[13]);
-                    video_renderer = renderer[13];
-                }
-                else if(frame.targets()[0].target().name() == std::string("IMG_9359") && texid[14]) {
-                    video = new ARVideo;
-                    video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[14]);
-                    video_renderer = renderer[14];
-                }
-                else if(frame.targets()[0].target().name() == std::string("WechatIMG249") && texid[15]) {
-                    video = new ARVideo;
-                    video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[15]);
-                    video_renderer = renderer[15];
-                }
+//                else if(frame.targets()[0].target().name() == std::string("WechatIMG248") && texid[3]) {
+//                    video = new ARVideo;
+//                    video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[3]);
+//                    video_renderer = renderer[3];
+//                }
+//                else if(frame.targets()[0].target().name() == std::string("WechatIMG250") && texid[4]) {
+//                    video = new ARVideo;
+//                    video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[4]);
+//                    video_renderer = renderer[4];
+//                }
+//                else if(frame.targets()[0].target().name() == std::string("WechatIMG251") && texid[5]) {
+//                    video = new ARVideo;
+//                    video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[5]);
+//                    video_renderer = renderer[5];
+//                }
+//                else if(frame.targets()[0].target().name() == std::string("WechatIMG252") && texid[6]) {
+//                    video = new ARVideo;
+//                    video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[6]);
+//                    video_renderer = renderer[6];
+//                }
+//                else if(frame.targets()[0].target().name() == std::string("WechatIMG253") && texid[7]) {
+//                    video = new ARVideo;
+//                    video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[7]);
+//                    video_renderer = renderer[7];
+//                }
+//                else if(frame.targets()[0].target().name() == std::string("WechatIMG254") && texid[8]) {
+//                    video = new ARVideo;
+//                    video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[8]);
+//                    video_renderer = renderer[8];
+//                }
+//                else if(frame.targets()[0].target().name() == std::string("WechatIMG255") && texid[9]) {
+//                    video = new ARVideo;
+//                    video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[9]);
+//                    video_renderer = renderer[9];
+//                }
+//                else if(frame.targets()[0].target().name() == std::string("WechatIMG256") && texid[10]) {
+//                    video = new ARVideo;
+//                    video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[10]);
+//                    video_renderer = renderer[10];
+//                }
+//                else if(frame.targets()[0].target().name() == std::string("WechatIMG257") && texid[11]) {
+//                    video = new ARVideo;
+//                    video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[11]);
+//                    video_renderer = renderer[11];
+//                }
+//                else if(frame.targets()[0].target().name() == std::string("WechatIMG258") && texid[12]) {
+//                    video = new ARVideo;
+//                    video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[12]);
+//                    video_renderer = renderer[12];
+//                }
+//                else if(frame.targets()[0].target().name() == std::string("IMG_9357") && texid[13]) {
+//                    video = new ARVideo;
+//                    video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[13]);
+//                    video_renderer = renderer[13];
+//                }
+//                else if(frame.targets()[0].target().name() == std::string("IMG_9359") && texid[14]) {
+//                    video = new ARVideo;
+//                    video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[14]);
+//                    video_renderer = renderer[14];
+//                }
+//                else if(frame.targets()[0].target().name() == std::string("WechatIMG249") && texid[15]) {
+//                    video = new ARVideo;
+//                    video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[15]);
+//                    video_renderer = renderer[15];
+//                }
             }
             if (video) {
                 video->onFound();
@@ -320,19 +320,19 @@ EasyAR::samples::HelloARVideo ar;
     ar.loadFromImage("IMG_9356.JPG");
     ar.loadFromImage("IMG_7365.JPG");
     ar.loadFromImage("WechatIMG247.jpeg");
-    ar.loadFromImage("WechatIMG248.jpeg");
-    ar.loadFromImage("WechatIMG249.jpeg");
-    ar.loadFromImage("WechatIMG250.jpeg");
-    ar.loadFromImage("WechatIMG251.jpeg");
-    ar.loadFromImage("WechatIMG252.jpeg");
-    ar.loadFromImage("WechatIMG253.jpeg");
-    ar.loadFromImage("WechatIMG254.jpeg");
-    ar.loadFromImage("WechatIMG255.jpeg");
-    ar.loadFromImage("WechatIMG256.jpeg");
-    ar.loadFromImage("WechatIMG257.jpeg");
-    ar.loadFromImage("WechatIMG258.jpeg");
-    ar.loadFromImage("IMG_9357.JPG");
-    ar.loadFromImage("IMG_9359.JPG");
+//    ar.loadFromImage("WechatIMG248.jpeg");
+//    ar.loadFromImage("WechatIMG249.jpeg");
+//    ar.loadFromImage("WechatIMG250.jpeg");
+//    ar.loadFromImage("WechatIMG251.jpeg");
+//    ar.loadFromImage("WechatIMG252.jpeg");
+//    ar.loadFromImage("WechatIMG253.jpeg");
+//    ar.loadFromImage("WechatIMG254.jpeg");
+//    ar.loadFromImage("WechatIMG255.jpeg");
+//    ar.loadFromImage("WechatIMG256.jpeg");
+//    ar.loadFromImage("WechatIMG257.jpeg");
+//    ar.loadFromImage("WechatIMG258.jpeg");
+//    ar.loadFromImage("IMG_9357.JPG");
+//    ar.loadFromImage("IMG_9359.JPG");
     ar.start();
 
     self.displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(displayLinkCallback:)];

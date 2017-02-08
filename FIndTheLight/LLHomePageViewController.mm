@@ -23,6 +23,8 @@
 #import "LLBoostView.h"
 #import "LLGetStep.h"
 
+
+
 #define DefaultLocationTimeout 10
 #define DefaultReGeocodeTimeout 5
 
@@ -68,6 +70,9 @@
     NSTimer *healthTimer;
     NSTimer *LocationTimer;
     NSTimer *UpdateStepTimer;
+    //重新绘制
+    BOOL hasDraw;
+    UIImageView *skViewBgImg;
 }
 
 
@@ -82,14 +87,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationController.navigationBar.hidden = YES;
-    self.glView = [[OpenGLView alloc] initWithFrame:self.view.bounds];
-    [self.view addSubview:self.glView];
-    [self.glView setOrientation:[UIApplication sharedApplication].statusBarOrientation];
-//    [self drawfilterImageView];
-    [self drawview];
 
-    [self drawChooseView];
-    [self ShowHiddenView];
+    
+    if (!hasDraw) {
+        self.glView = [[OpenGLView alloc] initWithFrame:self.view.bounds];
+        [self.view addSubview:self.glView];
+        [self.glView setOrientation:[UIApplication sharedApplication].statusBarOrientation];
+        [self drawview];
+        [self drawChooseView];
+        [self ShowHiddenView];
+ 
+    }
+
     [self.glView setUserInteractionEnabled:YES];
     // 第一次打开执行别样操作
     [self TheFirstTimeOpen];
@@ -125,12 +134,12 @@
 -(void)firstUpdateEnergy{
     pageInformationView.LLMainRoleEnergyValue = [[NSUserDefaults standardUserDefaults]valueForKey:@"Energy"];
     [pageInformationView initEnergyValueImage];
-    NSLog(@"UI更新第一次Energy的值");
+//    NSLog(@"UI更新第一次Energy的值");
     UpdateStepTimer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(UpdateAddStep) userInfo:nil repeats:YES];
 }
 //每5s更新一次Energy
 -(void)UpdateAddStep{
-    NSLog(@"开始每5s更新Energy");
+//    NSLog(@"开始每5s更新Energy");
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         LLGetStep *llfirstgetsteps = [[LLGetStep alloc]init];
         [llfirstgetsteps CreatAddHealth];
@@ -163,9 +172,14 @@
             [self configLocationManager];
         });
     }
-    [self.glView start];
-    NSLog(@"打开页面时含有的能量%@",[[NSUserDefaults standardUserDefaults]valueForKey:@"Energy"]);
-    NSLog(@"首页将要开始");
+    if (!hasDraw) {
+        [self.glView start];
+        hasDraw = YES;
+    }
+//    NSLog(@"---------------------------");
+//    NSLog(@"render初始化一次");
+//    NSLog(@"打开页面时含有的能量%@",[[NSUserDefaults standardUserDefaults]valueForKey:@"Energy"]);
+//    NSLog(@"首页将要开始");
 //        [self initArraywithName:@"filter_raining" andImageCount:10 ];
 
     
@@ -173,7 +187,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self.glView stop];
+//    [self.glView stop];
     NSLog(@"首页将要结束");
     //释放UpdateStepTimer
     [UpdateStepTimer invalidate];
@@ -197,6 +211,22 @@
 #pragma mark - DrawView
 
 -(void)drawview{
+    //滤镜
+    scene = [[FilterDefaultRain alloc]initWithSize:CGSizeMake(414, 736)];
+    scene.Filter_rainNumber = 300;
+    skView = [[SKView alloc]initWithFrame:CGRectMake(0, 0, 414, 736)];
+    
+    skViewBgImg = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 414, 736)];
+//    NSString *path = [[NSBundle mainBundle] pathForResource:@"filter" ofType:@"png"];
+//    skViewBgImg.image = [UIImage imageWithContentsOfFile:path];
+    skViewBgImg.image = [UIImage imageNamed:@"FilterLighting_bg_img"];
+    skViewBgImg.alpha = 0.8;
+    [self.glView addSubview:skViewBgImg];
+    
+    [skView presentScene:scene];
+    skView.backgroundColor = [UIColor clearColor];
+    [self.glView addSubview:skView];
+    
     //截图
     Screenshotbtn = [[UIButton alloc]init];
     Screenshotbtn.frame = CGRectMake(self.view.bounds.size.width*0.03,
@@ -733,16 +763,81 @@
     [chooseview addSubview:SliderBackgroudImge];
     
     [_LLsilderchange setThumbImage:[UIImage imageNamed:@"icon_light"] forState:UIControlStateNormal];
-    _LLsilderchange.maximumValue = 0.9;
-    _LLsilderchange.minimumValue = 0.15;
-    _LLsilderchange.value = 0.1;
-    [_LLsilderchange addTarget:self action:@selector(filterchange:) forControlEvents:UIControlEventValueChanged];
+    _LLsilderchange.maximumValue = 100;
+    _LLsilderchange.minimumValue = 0;
+    _LLsilderchange.value = 0;
+    [_LLsilderchange addTarget:self action:@selector(changeDefaultScene:) forControlEvents:UIControlEventValueChanged];
     [chooseview addSubview:_LLsilderchange];
-    //    [chooseview.LLChoseViewBtn addTarget:self action:@selector(changefilter:) forControlEvents:UIControlEventTouchUpInside];
+    [chooseview.LLChoseViewBtn addTarget:self action:@selector(changefilter:) forControlEvents:UIControlEventTouchUpInside];
     
     [self.glView addSubview:chooseview];
 }
 
+-(void)changefilter:(UIButton *)button{
+    NSLog(@"点击的滤镜的名%ld",(long)chooseview.LLChoseViewBtn.tag);
+}
+
+-(void)changeDefaultScene:(UISlider *)slider{
+    NSLog(@"%f",slider.value);
+    skViewBgImg.alpha = 0.8 - slider.value/100*0.7;
+    if (slider.value<=30&&slider.value>=0) {
+        [sunshine removeFromParent];
+        [rainscene removeFromParent];
+        sunshine = nil;
+        rainscene = nil;
+        if (scene==nil) {
+            scene = [[FilterDefaultRain alloc]initWithSize:skView.bounds.size];
+            //            SKTransition *changetomovecloud = [SKTransition doorsOpenVerticalWithDuration:0.5];
+            //            [skView presentScene:scene transition:changetomovecloud];
+            [skView presentScene:scene];
+        }
+        NSLog(@"在大雨区域");
+        scene.Filter_rainNumber = 300-slider.value*10;
+        [scene update:0.01];
+        
+        
+    }else if (slider.value>30&&slider.value<=75){
+        [scene removeFromParent];
+        [sunshine removeFromParent];
+        scene    = nil;
+        sunshine = nil;
+        NSLog(@"在多云区域");
+        if (rainscene==nil) {
+            rainscene = [[FilterDefaultCloud alloc]initWithSize:skView.bounds.size];
+            //            SKTransition *changetomovecloud = [SKTransition doorsOpenVerticalWithDuration:0.5];
+            //            [skView presentScene:rainscene transition:changetomovecloud];
+            [skView presentScene:rainscene];
+        }
+//        rainscene.waitTime = (slider.value-30)/30+1.5;
+//        NSLog(@"%f",rainscene.waitTime);
+//        [rainscene update:0.05];
+    }else{
+        [rainscene removeFromParent];
+        [scene removeFromParent];
+        rainscene = nil;
+        scene = nil;
+        NSLog(@"在太阳区域");
+        if (sunshine==nil) {
+            sunshine = [[FilterDefaultSunshine alloc]initWithSize:skView.bounds.size];
+            //            SKTransition *changetomovecloud = [SKTransition doorsOpenVerticalWithDuration:0.5];
+            //            [skView presentScene:sunshine transition:changetomovecloud];
+            [skView presentScene:sunshine];
+        }
+    }
+    
+}
+
+- (BOOL)shouldAutorotate {
+    return YES;
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        return UIInterfaceOrientationMaskAllButUpsideDown;
+    } else {
+        return UIInterfaceOrientationMaskAll;
+    }
+}
 
 
 //滤镜选择的动画
@@ -754,6 +849,21 @@
         [self closechooseView];
         NSLog(@"chooseview关闭了");
         showTheFilterChooseView = NO;
+        
+        [sunshine removeFromParent];
+        [rainscene removeFromParent];
+        [scene removeFromParent];
+        sunshine = nil;
+        rainscene = nil;
+        scene   = nil;
+        
+        scene = [[FilterDefaultRain alloc]initWithSize:skView.bounds.size];
+            //            SKTransition *changetomovecloud = [SKTransition doorsOpenVerticalWithDuration:0.5];
+            //            [skView presentScene:scene transition:changetomovecloud];
+            [skView presentScene:scene];
+        NSLog(@"回到大雨区域");
+        scene.Filter_rainNumber = 300;
+        [scene update:0.01];
     }else{
         [self showchooseView];
         showTheFilterChooseView = YES;

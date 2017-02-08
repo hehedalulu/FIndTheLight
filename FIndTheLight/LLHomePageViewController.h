@@ -20,8 +20,21 @@
 #import "LLMixFilterViewController.h"
 #import "LLRankViewController.h"
 
+#import "FilterDefaultRain.h"
+#import "FilterDefaultCloud.h"
+#import "FilterDefaultSunshine.h"
+
+#import <SpriteKit/SpriteKit.h>
+#import <GameplayKit/GameplayKit.h>
+
+
 @interface LLHomePageViewController : UIViewController<AMapLocationManagerDelegate,UIViewControllerTransitioningDelegate>{
     AMapLocationManager *locationManager;
+    
+    FilterDefaultRain *scene;
+    FilterDefaultCloud *rainscene;
+    FilterDefaultSunshine *sunshine;
+    SKView *skView;
 }
 
 @property (nonatomic, weak) UIView * LLsecondView;

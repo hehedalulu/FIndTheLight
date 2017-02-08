@@ -7,6 +7,7 @@
 //
 
 #import "LLChooseView.h"
+#import "LLMixFilterViewController.h"
 
 @implementation LLChooseView
 
@@ -54,14 +55,6 @@
                             @"ocean",
                             @"",nil];
     [LLFilterImageNameArray addObjectsFromArray:tempchosenArray];
-    
-    NSMutableArray *templockkImgArray = [[NSMutableArray alloc]initWithObjects:
-                            @"desert_lock",
-                            @"snow",
-                            @"desert",
-                            @"ocean",
-                            @"",nil];
-    
 }
 
 
@@ -84,6 +77,7 @@
                                            self.bounds.size.width*0.213,
                                            self.bounds.size.width*0.27);
 //        [_LLChoseViewBtn setTitle: _LLNameFilterArray[i] forState:UIControlStateNormal];
+        _LLChoseViewBtn.tag = i;
         _LLChoseViewBtn.backgroundColor = [UIColor clearColor];
         UIImageView *btnBackImg = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0,
                                                                                self.bounds.size.width*0.213,
@@ -112,7 +106,6 @@
 //    UIButton *filter1 = [UIButton alloc]initWithFrame:CGRectMake(<#CGFloat x#>, <#CGFloat y#>, <#CGFloat width#>, <#CGFloat height#>)
 
 }
-
 
 
 
