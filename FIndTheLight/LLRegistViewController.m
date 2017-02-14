@@ -58,6 +58,11 @@
     [_moviePlayer2.view addSubview:_alphaView2];
 
 }
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [_moviePlayer2 stop];
+}
 -(BOOL)prefersStatusBarHidden{
     
     return YES;

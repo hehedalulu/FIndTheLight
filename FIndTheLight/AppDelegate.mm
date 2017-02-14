@@ -10,7 +10,8 @@
 #include "easyar/utility.hpp"
 #import <AMapFoundationKit/AMapFoundationKit.h>
 #import <BmobSDK/Bmob.h>
-
+#import "LLPunchSetArray.h"
+#import "LLGetStep.h"
 
 @interface AppDelegate ()
 
@@ -75,13 +76,22 @@
         NSLog(@"非第一次当天首次打开应用,当前能量是%@",
               [[NSUserDefaults standardUserDefaults]valueForKey:@"Energy"]
               );
+        
     }else{//一样 有可能是第一次次打开 有可能是当天非首次打开
         //不是当天首次打开应用 将步数差加到Energy中
+        
+        LLGetStep *getstep = [[LLGetStep alloc]init];
+        [getstep CreatAddHealth];
+        NSLog(@"首屏读取当天的步数");
         if ([[[NSUserDefaults standardUserDefaults]valueForKey:@"isFirst"] isEqualToString:@"YES"]) {
             //如果是第一次
-            //NSLog(@"第一次打开");
+            NSLog(@"第一次打开");
         }else{
+            
+            
             NSLog(@"当天非首次打开应用,当天能量之前为%@",[[NSUserDefaults standardUserDefaults]valueForKey:@"NowDayEnergy"]);
+            LLPunchSetArray *setArray = [[LLPunchSetArray alloc]init];
+            [setArray setStepsArrayWithDaysCount:60 Date:today];
         }
         //[[NSUserDefaults standardUserDefaults]setValue:EnergyString forKey:@"Energy"];
         //NSLog(@"现在当天能量为%d，之前总能量是%d,现在总能量为%d",afterEnergy,Energy,result);

@@ -64,6 +64,10 @@
     [_moviePlayer3.view addSubview:_alpha3];
 
 }
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [_moviePlayer3 stop];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

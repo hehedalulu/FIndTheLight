@@ -54,6 +54,10 @@
     
 }
 
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [_moviePlayer stop];
+}
 -(BOOL)prefersStatusBarHidden{
     
     return YES;

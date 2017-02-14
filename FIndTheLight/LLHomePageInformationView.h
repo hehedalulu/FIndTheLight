@@ -21,4 +21,5 @@
 @property(nonatomic , strong) NSString *LLHomeLevelValues;
 
 -(void)initEnergyValueImage;
+-(void)changeEnergyLabel;
 @end

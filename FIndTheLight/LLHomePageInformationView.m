@@ -169,10 +169,8 @@
     EnergyMax.font = [UIFont fontWithName:@"Marker Felt" size:12];
         EnergyMax.adjustsFontSizeToFitWidth = YES;
     EnergyMax.textColor = [UIColor colorWithRed:212.0/255.0 green:202.0/255.0 blue:255.0/255.0 alpha:1];
-
     
     int PhysicalValue = [_LLMainRoleEnergyValue intValue]/200;
-    
 
     EnergyV.frame = CGRectMake([UIScreen mainScreen].bounds.size.width*0.169,
                                [UIScreen mainScreen].bounds.size.width*0.285,
@@ -205,22 +203,25 @@
     
 }
 
-//-(void)initLevelValueImage{
-//    UIView *HomeLevelBackImage = [[UIView alloc]init];
-//    HomeLevelBackImage.backgroundColor = [UIColor colorWithRed:198.0/255.0 green:95.0/255.0 blue:3.0/255.0 alpha:0.5];
-//    HomeLevelBackImage.frame = CGRectMake(90, 110, 50, 10);
-//    [HomeLevelBackImage.layer setMasksToBounds:YES];
-//    [HomeLevelBackImage.layer setCornerRadius:3];
-//    [self addSubview:HomeLevelBackImage];
-//    
-//    int LevelValue = 20;
-//    
-//    UIView *HomeLevelValueImage = [[UIView alloc]init];
-//    HomeLevelValueImage.backgroundColor = [UIColor colorWithRed:253.0/255.0 green:135.0/255.0 blue:29.0/255.0 alpha:1];
-//    HomeLevelValueImage.frame = CGRectMake(0, 0, LevelValue, 10);
-//    [HomeLevelValueImage.layer setMasksToBounds:YES];
-//    [HomeLevelValueImage.layer setCornerRadius:3];
-//    [HomeLevelBackImage addSubview: HomeLevelValueImage];
-//    
-//}
+-(void)changeEnergyLabel{
+    EnergyV.text = nil;
+        if (_LLMainRoleEnergyValue == nil) {
+    EnergyV.text = @"0";
+        }else if([_LLMainRoleEnergyValue intValue] >= 10000 ){
+            EnergyV.text = @"10000";
+        }else{
+            EnergyV.text = _LLMainRoleEnergyValue;
+        }
+    
+//
+//    int PhysicalValue = [_LLMainRoleEnergyValue intValue]/200;
+//    if (_LLMainRoleEnergyValue == nil) {
+//        HomePhysicalValueImage.frame = CGRectMake(0, 0, 0,
+//                                                  [UIScreen mainScreen].bounds.size.width*0.0266);
+//    }else{
+//        HomePhysicalValueImage.frame = CGRectMake(0, 0, PhysicalValue,
+//                                                  [UIScreen mainScreen].bounds.size.width*0.0266);
+//    }
+}
+
 @end

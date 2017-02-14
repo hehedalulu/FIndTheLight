@@ -58,7 +58,7 @@
     [self addChild:bombNode];
     
     //爆炸效果动画
-    SKAction *animationAction = [SKAction animateWithTextures:allTextureArray timePerFrame:0.08];
+    SKAction *animationAction = [SKAction animateWithTextures:allTextureArray timePerFrame:0.03];
     SKAction *actionWait = [SKAction waitForDuration:2.0];
     
     //repeatActionForever这个动作的效果是让动画重复执行.

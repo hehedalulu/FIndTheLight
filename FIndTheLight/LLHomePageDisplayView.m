@@ -29,7 +29,7 @@
 //    _LLHomeDisplayLabel.center.x = self.center.x;
     _LLHomeDisplayLabel.font = [UIFont fontWithName:@"MF TongXin (Noncommercial)" size:16];
     _LLHomeDisplayLabel.textColor = [UIColor colorWithRed:254.0/255.0 green:239.0/255.0 blue:189.0/255.0 alpha:1];
-    _LLHomeDisplayLabel.text = @"定位中…";
+    _LLHomeDisplayLabel.text = @"";
     _LLHomeDisplayLabel.textAlignment = NSTextAlignmentCenter;
     _LLHomeDisplayLabel.adjustsFontSizeToFitWidth = YES;
     [self addSubview:_LLHomeDisplayLabel];

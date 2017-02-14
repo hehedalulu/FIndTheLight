@@ -50,23 +50,15 @@
     LLFilterImageNameArray = [NSMutableArray array];
     NSMutableArray *tempchosenArray = [[NSMutableArray alloc]initWithObjects:
                             @"default",
-                            @"snow",
-                            @"desert",
-                            @"ocean",
+                            @"snow_lock",
+                            @"ocean_lock",
+                            @"ocean_lock",
                             @"",nil];
     [LLFilterImageNameArray addObjectsFromArray:tempchosenArray];
 }
 
-
 -(void)FilterChooseBtn{
-//    UILabel *EnergyMax = [[UILabel alloc]initWithFrame:CGRectMake(0, 20, 80, 30)];
-//    EnergyMax.text = @"10000";
-//    EnergyMax.font = [UIFont fontWithName:@"Marker Felt" size:12];
-//    EnergyMax.adjustsFontSizeToFitWidth = YES;
-//    EnergyMax.textColor = [UIColor colorWithRed:212.0/255.0 green:202.0/255.0 blue:255.0/255.0 alpha:1];
-////    [self addSubview:EnergyMax];
-//    
-//    [backgroundScrollView addSubview:EnergyMax];
+
     for (int i = 0 ;i <_LLNameFilterArray.count; i++) {
         
         int PositionX  = i * self.bounds.size.width*0.28 + self.bounds.size.width*0.0373;
@@ -85,7 +77,11 @@
         btnBackImg.image = [UIImage imageNamed:[LLFilterImageNameArray objectAtIndex:i]];
         [_LLChoseViewBtn addSubview:btnBackImg];
         [backgroundScrollView addSubview:_LLChoseViewBtn];
-        
+        if (i==0) {
+            UIImageView *chose = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"chosen"]];
+            chose.frame = CGRectMake(btnBackImg.bounds.size.height/5, btnBackImg.bounds.size.height/3, btnBackImg.bounds.size.width/2, btnBackImg.bounds.size.width/2);
+            [btnBackImg addSubview:chose];
+        }
         UILabel *FilterNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(PositionX,
                                                                             self.bounds.size.width*0.28,
                                                                             self.bounds.size.width*0.213, 30)];

@@ -43,11 +43,13 @@
                         <segue destination="UGt-wU-YA9" kind="show" identifier="LLRank" animates="NO" id="QrS-zd-l8O"/>
                         <segue destination="2gt-Qn-XvF" kind="show" identifier="LLMixFilter" animates="NO" id="oK7-sk-q5r"/>
                         <segue destination="JaL-bh-oQE" kind="show" identifier="LLPunch" animates="NO" id="kYO-dY-g44"/>
+                        <segue destination="JD4-Sr-s66" kind="show" identifier="LLBox" id="xzU-rB-EIm"/>
+                        <segue destination="Ssp-Xd-ycb" kind="show" identifier="LLSet" id="zmK-n4-YAg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="87" y="81"/>
+            <point key="canvasLocation" x="78" y="102"/>
         </scene>
         <!--Mix Filter View Controller-->
         <scene sceneID="sP3-Am-lm6">
@@ -102,6 +104,104 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wzX-bY-GQl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1028" y="-75"/>
+        </scene>
+        <!--Light Box View Controller-->
+        <scene sceneID="9dO-sB-RMO">
+            <objects>
+                <viewController id="JD4-Sr-s66" customClass="LLLightBoxViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="3WL-0k-KEO"/>
+                        <viewControllerLayoutGuide type="bottom" id="PfF-T1-7fo"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="nkz-uX-sLc">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" alpha="0.5" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JHe-FV-V8r">
+                                <rect key="frame" x="0.0" y="114" width="414" height="246"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.79158653850000005" green="0.79158653850000005" blue="0.79158653850000005" alpha="1" colorSpace="calibratedRGB"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6IQ-Ee-GvF">
+                                <rect key="frame" x="44" y="184" width="54" height="42"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6uh-6s-dkT">
+                                <rect key="frame" x="74" y="285" width="54" height="42"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ixl-23-R5L">
+                                <rect key="frame" x="305" y="170" width="54" height="42"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Qfm-S8-9MZ">
+                                <rect key="frame" x="147" y="148" width="120" height="153"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" alpha="0.29999999999999999" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rbe-56-tWp">
+                                <rect key="frame" x="0.0" y="389" width="414" height="298"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" alpha="0.80000000000000004" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LLJ-o2-gny">
+                                <rect key="frame" x="20" y="419" width="105" height="113"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" alpha="0.80000001192092896" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FRE-kz-0mD">
+                                <rect key="frame" x="156" y="560" width="105" height="113"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" alpha="0.80000001192092896" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IYa-Rs-TVz">
+                                <rect key="frame" x="298" y="419" width="105" height="113"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" alpha="0.80000001192092896" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xkc-Ds-rep">
+                                <rect key="frame" x="153" y="419" width="105" height="113"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" alpha="0.80000001192092896" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eTh-ZU-yYF">
+                                <rect key="frame" x="20" y="560" width="105" height="113"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" alpha="0.80000001192092896" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="phj-1A-7zJ">
+                                <rect key="frame" x="298" y="560" width="105" height="113"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XUy-9l-cvl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="186.95652173913044" y="890.21739130434787"/>
+        </scene>
+        <!--Set View Controller-->
+        <scene sceneID="iby-40-Xrt">
+            <objects>
+                <viewController id="Ssp-Xd-ycb" customClass="LLSetViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="eb1-Ku-WAI"/>
+                        <viewControllerLayoutGuide type="bottom" id="h9d-fI-7kR"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="t4e-fG-RNZ">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.97884615379999995" green="0.79050270950000001" blue="0.67766181719999996" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ndE-Vq-FSv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2160.8695652173915" y="41.576086956521742"/>
         </scene>
         <!--Self Information-->
         <scene sceneID="HfS-2Y-ddH">

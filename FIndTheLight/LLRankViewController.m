@@ -81,7 +81,7 @@
 
 -(void)dismissView{
     //[self dismissViewControllerAnimated:YES completion:nil];
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    [self.navigationController popToRootViewControllerAnimated:NO];
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
