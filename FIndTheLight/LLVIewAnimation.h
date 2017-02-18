@@ -11,7 +11,10 @@
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 #import "LLModelView.h"
-@interface LLVIewAnimation : NSObject
+@interface LLVIewAnimation : NSObject{
+    NSNotification *ModelAppearNotice;
+    NSNotification *SuiPianAppearNotice;
+}
 
 -(void)LocalModelAppearAnimationWithImgView:(UIImageView *)imageView;
 -(void)LocalModelDisAppearAnimationWithImgView:(UIImageView *)imageView;

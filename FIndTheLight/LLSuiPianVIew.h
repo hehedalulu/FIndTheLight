@@ -18,4 +18,5 @@
 
 @property (nonatomic) UILabel *LLSuiPianTotalLabel;
 
+
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "LLModelView.h"
+#import "LLLocalModel.h"
 #import <POP/POP.h>
 @implementation LLModelView
 
@@ -14,20 +15,27 @@
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect {
+    //生成模型
+    LLLocalModel *localModel = [[LLLocalModel alloc]init];
+    
     _LLLocalModel = [[UIImageView alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width/2, [UIScreen mainScreen].bounds.size.width/2, 0, 0)];
 //        NSString *path = [[NSBundle mainBundle] pathForResource:@"optical_lamp.png" ofType:nil];
 //        UIImage *inputimage = [UIImage imageWithContentsOfFile:path];
-    UIImage *inputimage = [UIImage imageNamed:@"optical_lamp.png"];
+    
+//    UIImage *inputimage = [UIImage imageNamed:@"optical_lamp.png"];
+    UIImage *inputimage = [localModel SetLocalModelImage];
     _LLLocalModel.image = inputimage;
     [self addSubview:_LLLocalModel];
     
     _LLLocalModelLevel = [[UIImageView alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width/2, [UIScreen mainScreen].bounds.size.width/2, 0, 0)];
-    UIImage *inputimage2 = [UIImage imageNamed:@"optical_rank.png"];
+//    UIImage *inputimage2 = [UIImage imageNamed:@"optical_rank.png"];
+    UIImage *inputimage2 = [localModel SetLocalLevelImage];
     _LLLocalModelLevel.image = inputimage2;
     [self addSubview:_LLLocalModelLevel];
     
     _LLLocalName = [[UILabel alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width/2, [UIScreen mainScreen].bounds.size.width/2, 0, 0)];
-    _LLLocalName.text = @"灯泡";
+//    _LLLocalName.text = @"灯泡";
+    _LLLocalName.text =  [localModel SetLocalNameString];
 //    _LLLocalName.font = [UIFont fontWithName:@"MF TongXin (Noncommercial)" size:25];
     _LLLocalName.font = [UIFont systemFontOfSize:18];
     _LLLocalName.textColor = [UIColor colorWithRed:254.0/255.0 green:239.0/255.0 blue:189.0/255.0 alpha:1];
@@ -42,7 +50,8 @@
     _LLLocalLightValue = [[UILabel alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.40,
                                                                  [UIScreen mainScreen].bounds.size.width*0.6,
                                                                   80, 20)];
-    _LLLocalLightValue.text = @"1000";
+//    _LLLocalLightValue.text = @"1000";
+    _LLLocalLightValue.text = [localModel SetLocalLightValue];
     _LLLocalLightValue.textAlignment = NSTextAlignmentCenter;
     _LLLocalLightValue.textColor = [UIColor colorWithRed:254.0/255.0 green:239.0/255.0 blue:189.0/255.0 alpha:1];
     _LLLocalLightValue.font = [UIFont fontWithName:@"MF TongXin (Noncommercial)" size:17];

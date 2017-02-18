@@ -37,16 +37,23 @@
     count = 0;
     isSelectedItem = YES;
     self.navigationController.interactivePopGestureRecognizer.enabled = NO;
-    self.view.backgroundColor = [UIColor colorWithRed:39.0/255.0 green:56.0/255.0 blue:87.0/255.0 alpha:1];
+    self.view.backgroundColor = [UIColor colorWithRed:22.0/255.0 green:27.0/255.0 blue:46.0/255.0 alpha:1];
     [self drawStepView];
-    UILabel *pagename = [[UILabel alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.12, [UIScreen mainScreen].bounds.size.width*0.12, [UIScreen mainScreen].bounds.size.width*0.36, [UIScreen mainScreen].bounds.size.width*0.15)];
+    
+    UILabel *pagename = [[UILabel alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.12,
+                                                                 [UIScreen mainScreen].bounds.size.width*0.05,
+                                                                 [UIScreen mainScreen].bounds.size.width*0.36,
+                                                                 [UIScreen mainScreen].bounds.size.width*0.15)];
     pagename.font = [UIFont fontWithName:@"MF TongXin (Noncommercial)" size:25];
     pagename.text = @".能量记录";
     pagename.textColor = [UIColor colorWithRed:214.0/255.0 green:208.0/255.0 blue:242.0/255.0 alpha:1];
     [self.view addSubview:pagename];
     
-    UIButton *dismissBtn = [[UIButton alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.025, [UIScreen mainScreen].bounds.size.width*0.15, [UIScreen mainScreen].bounds.size.width*0.1, [UIScreen mainScreen].bounds.size.width*0.1)];
-    [dismissBtn setImage:[UIImage imageNamed:@"chacha.png"] forState:UIControlStateNormal];
+    UIButton *dismissBtn = [[UIButton alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.025,
+                                                                     [UIScreen mainScreen].bounds.size.width*0.08,
+                                                                     [UIScreen mainScreen].bounds.size.width*0.1,
+                                                                     [UIScreen mainScreen].bounds.size.width*0.1)];
+    [dismissBtn setImage:[UIImage imageNamed:@"close.png"] forState:UIControlStateNormal];
     [dismissBtn addTarget:self action:@selector(dismissView) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:dismissBtn];
     
@@ -68,7 +75,10 @@
     // 设置边缘的间距，默认是{0，0，0，0}
  //   layout.sectionInset = UIEdgeInsetsMake(20, 20, 20, 20);
     
-    LLStepsView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 140, 414, 100) collectionViewLayout:layout];
+    LLStepsView = [[UICollectionView alloc]initWithFrame:CGRectMake(0,
+                                                                    [UIScreen mainScreen].bounds.size.width*0.20,
+                                                                    [UIScreen mainScreen].bounds.size.width,
+                                                                    [UIScreen mainScreen].bounds.size.width*0.2316) collectionViewLayout:layout];
     LLStepsView.backgroundColor = [UIColor colorWithRed:100.0/255.0 green:114.0/255.0 blue:188.0/255.0 alpha:1];
     LLStepsView.delegate = self;
     LLStepsView.dataSource = self;
@@ -78,6 +88,10 @@
 //    NSIndexPath *path = [NSIndexPath indexPathForItem:4 inSection:0];
 //    [LLStepsView scrollToItemAtIndexPath:path atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
     LLStepsView.contentOffset = CGPointMake(LLStepsView.bounds.size.width*4, 0);
+    
+    UIImageView *StepViewBG = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, LLStepsView.bounds.size.width, LLStepsView.bounds.size.height)];
+    StepViewBG.image = [UIImage imageNamed:@"calendar-layer.png"];
+    [LLStepsView addSubview:StepViewBG];
     // 通过xib注册
     [LLStepsView registerClass:[LLPunchStepsCollectionViewCell class] forCellWithReuseIdentifier:@"Cell"];
     [self.view addSubview: LLStepsView];
@@ -91,11 +105,19 @@
 
 -(void)drawStepView{
     
-    backgroundView = [[UIView alloc]initWithFrame:CGRectMake(10, 270, self.view.bounds.size.width-20, 350)];
-    backgroundView.backgroundColor = [UIColor colorWithRed:17.0/255.0 green:38.0/255.0 blue:59.0/255.0 alpha:1];
+    backgroundView = [[UIView alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.02,
+                                                             [UIScreen mainScreen].bounds.size.width*0.50,
+                                                             [UIScreen mainScreen].bounds.size.width*0.96,
+                                                             [UIScreen mainScreen].bounds.size.width)];
+//    backgroundView.backgroundColor = [UIColor colorWithRed:17.0/255.0 green:38.0/255.0 blue:59.0/255.0 alpha:1];
     [self.view addSubview:backgroundView];
     
-    UILabel *todaylabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 20, backgroundView.bounds.size.width, 30)];
+    UIImageView *backImage= [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, backgroundView.bounds.size.width, backgroundView.bounds.size.height)];
+    backImage.image = [UIImage imageNamed:@"progress-layer.png"];
+    [backgroundView addSubview:backImage];
+    UILabel *todaylabel = [[UILabel alloc]initWithFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.width*0.04,
+                                                                   backgroundView.bounds.size.width,
+                                                                   [UIScreen mainScreen].bounds.size.width*0.0726)];
     todaylabel.textAlignment = NSTextAlignmentCenter;
     todaylabel.font = [UIFont fontWithName:@"MF TongXin (Noncommercial)" size:18];
     NSDate *today = [NSDate date];
@@ -106,52 +128,67 @@
     todaylabel.textColor = [UIColor colorWithRed:214.0/255.0 green:208.0/255.0 blue:242.0/255.0 alpha:1];
     [backgroundView addSubview:todaylabel];
     
-    UIImageView *outsidecircle = [[UIImageView alloc]initWithFrame:CGRectMake(backgroundView.bounds.size.width/2-60, backgroundView.bounds.size.height/2-85, 120, 120)];
-    outsidecircle.backgroundColor = [UIColor colorWithRed:35.0/255.0 green:69.0/255.0 blue:189.0/255.0 alpha:1];
+    UIImageView *outsidecircle = [[UIImageView alloc]initWithFrame:CGRectMake(backgroundView.bounds.size.width/2-[UIScreen mainScreen].bounds.size.width*0.3514/2,
+                                                                              backgroundView.bounds.size.height/5.5,
+                                                                              [UIScreen mainScreen].bounds.size.width*0.3514,
+                                                                              [UIScreen mainScreen].bounds.size.width*0.3514)];
+    outsidecircle.image = [UIImage imageNamed:@"step-number-layer.png"];
     [outsidecircle.layer setMasksToBounds:YES];
-    [outsidecircle.layer setCornerRadius:60];
     [backgroundView addSubview:outsidecircle];
     
-    UIImageView *insidecircle = [[UIImageView alloc]initWithFrame:CGRectMake(backgroundView.bounds.size.width/2-40, backgroundView.bounds.size.height/2-65, 80, 80)];
-    insidecircle.backgroundColor = [UIColor colorWithRed:83.0/255.0 green:95.0/255.0 blue:231.0/255.0 alpha:1];
+    UIImageView *insidecircle = [[UIImageView alloc]initWithFrame:CGRectMake(([UIScreen mainScreen].bounds.size.width*0.3514-[UIScreen mainScreen].bounds.size.width*0.245)/2,
+                                                                             ([UIScreen mainScreen].bounds.size.width*0.3514-[UIScreen mainScreen].bounds.size.width*0.245)/2,
+                                                                             [UIScreen mainScreen].bounds.size.width*0.245, [UIScreen mainScreen].bounds.size.width*0.245)];
+    insidecircle.backgroundColor = [UIColor clearColor];
     [insidecircle.layer setMasksToBounds:YES];
-    [insidecircle.layer setCornerRadius:40];
-    [backgroundView addSubview: insidecircle];
+    [outsidecircle addSubview: insidecircle];
     
     step = [[UILabel alloc]initWithFrame:CGRectMake(0, insidecircle.bounds.size.height/2-20, insidecircle.bounds.size.width, 40)];
     step.textAlignment = NSTextAlignmentCenter;
     NSString *oldtodayenergy = [[NSUserDefaults standardUserDefaults]valueForKey:@"NowDayEnergy"];
     step.text = oldtodayenergy;
+    if (oldtodayenergy.intValue>=10000) {
+        step.textColor = [UIColor colorWithRed:251.0/255.0 green:175.0/255.0 blue:173.0/255.0 alpha:1];
+    }else{
+        step.textColor = [UIColor colorWithRed:214.0/255.0 green:208.0/255.0 blue:242.0/255.0 alpha:1];
+    }
     step.font = [UIFont fontWithName:@"MF TongXin (Noncommercial)" size:25];
-    step.textColor = [UIColor colorWithRed:251.0/255.0 green:175.0/255.0 blue:173.0/255.0 alpha:1];
+    
     [insidecircle addSubview:step];
     changeStepsLabel = [CADisplayLink displayLinkWithTarget:self selector:@selector(updateStepsLabel)];
     [changeStepsLabel addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
     
     
-    UILabel *sufixlabel = [[UILabel alloc]initWithFrame:CGRectMake(0, insidecircle.bounds.size.height/2+17, insidecircle.bounds.size.width, 20)];
+    UILabel *sufixlabel = [[UILabel alloc]initWithFrame:CGRectMake(0, insidecircle.bounds.size.height/2+[UIScreen mainScreen].bounds.size.width*0.041,
+                                                                   insidecircle.bounds.size.width, [UIScreen mainScreen].bounds.size.width*0.0483)];
     sufixlabel.textAlignment = NSTextAlignmentCenter;
     sufixlabel.text = @"步";
     sufixlabel.font = [UIFont fontWithName:@"MF TongXin (Noncommercial)" size:18];
-    sufixlabel.textColor = [UIColor colorWithRed:251.0/255.0 green:175.0/255.0 blue:173.0/255.0 alpha:1];
+    sufixlabel.textColor = [UIColor colorWithRed:214.0/255.0 green:208.0/255.0 blue:242.0/255.0 alpha:1];
     [insidecircle addSubview:sufixlabel];
     
     
-    UILabel *category1 = [[UILabel alloc]initWithFrame:CGRectMake(50, 250, 60, 20)];
+    UILabel *category1 = [[UILabel alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.12, [UIScreen mainScreen].bounds.size.width*0.65,
+                                                                  [UIScreen mainScreen].bounds.size.width*0.20,
+                                                                  [UIScreen mainScreen].bounds.size.width*0.0483)];
     category1.textAlignment = NSTextAlignmentRight;
     category1.text = @"图书馆";
     category1.font = [UIFont fontWithName:@"MF TongXin (Noncommercial)" size:18];
     category1.textColor = [UIColor colorWithRed:214.0/255.0 green:208.0/255.0 blue:242.0/255.0 alpha:1];
     [backgroundView addSubview:category1];
     
-    UILabel *category2 = [[UILabel alloc]initWithFrame:CGRectMake(50, 280, 60, 20)];
+    UILabel *category2 = [[UILabel alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.12, [UIScreen mainScreen].bounds.size.width*0.72,
+                                                                  [UIScreen mainScreen].bounds.size.width*0.20,
+                                                                  [UIScreen mainScreen].bounds.size.width*0.0483)];
     category2.textAlignment = NSTextAlignmentRight;
     category2.text = @"食堂";
     category2.font = [UIFont fontWithName:@"MF TongXin (Noncommercial)" size:18];
     category2.textColor = [UIColor colorWithRed:214.0/255.0 green:208.0/255.0 blue:242.0/255.0 alpha:1];
     [backgroundView addSubview:category2];
     
-    UILabel *category3 = [[UILabel alloc]initWithFrame:CGRectMake(50, 310, 60, 20)];
+    UILabel *category3 = [[UILabel alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.12, [UIScreen mainScreen].bounds.size.width*0.79,
+                                                                  [UIScreen mainScreen].bounds.size.width*0.20,
+                                                                  [UIScreen mainScreen].bounds.size.width*0.0483)];
     category3.textAlignment = NSTextAlignmentRight;
     category3.text = @"教学楼";
     category3.font = [UIFont fontWithName:@"MF TongXin (Noncommercial)" size:18];
@@ -162,8 +199,9 @@
         int HeightY = j*30;
         for (int i=0; i<10; i++) {
             int widthX = i*18;
-            UIImageView *unpunchcard = [[UIImageView alloc]initWithFrame:CGRectMake(125+widthX, 250+HeightY, 35, 20)];
-            unpunchcard.image = [UIImage imageNamed:@"bluecard.png"];
+            UIImageView *unpunchcard = [[UIImageView alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.32+widthX,
+                                                                                    [UIScreen mainScreen].bounds.size.width*0.65+HeightY, 30, 24)];
+            unpunchcard.image = [UIImage imageNamed:@"notfound.png"];
             [backgroundView addSubview:unpunchcard];
         }
     }
@@ -171,22 +209,25 @@
 
     for (int i=0; i<3; i++) {
             int widthX = i*18;
-            UIImageView *unpunchcard = [[UIImageView alloc]initWithFrame:CGRectMake(125+widthX, 250, 35, 20)];
-            unpunchcard.image = [UIImage imageNamed:@"greencard.png"];
+            UIImageView *unpunchcard = [[UIImageView alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.32+widthX,
+                                                                                    [UIScreen mainScreen].bounds.size.width*0.65, 30, 24)];
+            unpunchcard.image = [UIImage imageNamed:@"day.png"];
             [backgroundView addSubview:unpunchcard];
     }
     
     for (int i=0; i<8; i++) {
         int widthX = i*18;
-        UIImageView *unpunchcard = [[UIImageView alloc]initWithFrame:CGRectMake(125+widthX, 280, 35, 20)];
-        unpunchcard.image = [UIImage imageNamed:@"greencard.png"];
+        UIImageView *unpunchcard = [[UIImageView alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.32+widthX,
+                                                                                [UIScreen mainScreen].bounds.size.width*0.72, 30, 24)];
+        unpunchcard.image = [UIImage imageNamed:@"day.png"];
         [backgroundView addSubview:unpunchcard];
     }
     
     for (int i=0; i<5; i++) {
         int widthX = i*18;
-        UIImageView *unpunchcard = [[UIImageView alloc]initWithFrame:CGRectMake(125+widthX, 310, 35, 20)];
-        unpunchcard.image = [UIImage imageNamed:@"greencard.png"];
+        UIImageView *unpunchcard = [[UIImageView alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.32+widthX,
+                                                                                [UIScreen mainScreen].bounds.size.width*0.79, 30, 24)];
+        unpunchcard.image = [UIImage imageNamed:@"day.png"];
         [backgroundView addSubview:unpunchcard];
     }
     
@@ -196,7 +237,10 @@
 -(void)DrawCircleWithEnergy:(NSString *)energy{
     //画圈圈
     double circlePi = energy.intValue*M_PI/5000 - M_PI*0.5;
-    bezierbackView = [[UIView alloc]initWithFrame:CGRectMake(backgroundView.bounds.size.width/2-80, backgroundView.bounds.size.height/2-105, 160, 160)];
+    bezierbackView = [[UIView alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.245,
+                                                             [UIScreen mainScreen].bounds.size.width*0.124,
+                                                             [UIScreen mainScreen].bounds.size.width*0.469,
+                                                             [UIScreen mainScreen].bounds.size.width*0.469)];
     bezierbackView.backgroundColor = [UIColor clearColor];
     [backgroundView addSubview:bezierbackView];
     
@@ -205,7 +249,9 @@
     //2.使用UIBezierPath 的类方法绘制圆弧，中心我们选择当前窗口的中心
     //    UIBezierPath *path = [UIBezierPath bezierPathWithArcCenter:CGPointMake(bezierbackView.bounds.size.width/2, bezierbackView.bounds.size.height/2) radius:70 startAngle:M_PI*(-90)/180.0f endAngle:M_PI*(200)/180.0f clockwise:YES];
     
-    UIBezierPath *path = [UIBezierPath bezierPathWithArcCenter:CGPointMake(bezierbackView.bounds.size.width/2, bezierbackView.bounds.size.height/2) radius:70 startAngle:-M_PI_2 endAngle:circlePi clockwise:YES];
+    UIBezierPath *path = [UIBezierPath bezierPathWithArcCenter:CGPointMake(bezierbackView.bounds.size.width/2, bezierbackView.bounds.size.height/2)
+                                                        radius:[UIScreen mainScreen].bounds.size.width*0.21
+                                                    startAngle:-M_PI_2 endAngle:circlePi clockwise:YES];
     
     CAShapeLayer * _progressLayer = [CAShapeLayer layer];
     //指定frame 大小
@@ -217,7 +263,7 @@
     
     _progressLayer.lineCap = kCALineCapRound;
     // 指定线条宽度
-    _progressLayer.lineWidth = 15;
+    _progressLayer.lineWidth = [UIScreen mainScreen].bounds.size.width*0.042;
     //到这里我们的弧线已经制作完成
     [bezierbackView.layer addSublayer:_progressLayer];
     
@@ -228,7 +274,9 @@
     //    [bezierbackView.layer addSublayer:gradientLayer];
     
     //set gradient colors
-    gradientLayer.colors = @[(__bridge id)[UIColor colorWithRed:50.0/255.0 green:87.0/255.0 blue:246.0/255.0 alpha:1].CGColor, (__bridge id)[UIColor colorWithRed:110.0/255.0 green:106.0/255.0 blue:247.0/255.0 alpha:1].CGColor, (__bridge id)[UIColor colorWithRed:44.0/255.0 green:187.0/255.0 blue:220.0/255.0 alpha:1].CGColor];
+    gradientLayer.colors = @[(__bridge id)[UIColor colorWithRed:123.0/255.0 green:67.0/255.0 blue:239.0/255.0 alpha:1].CGColor,
+                             (__bridge id)[UIColor colorWithRed:234.0/255.0 green:105.0/255.0 blue:187.0/255.0 alpha:1].CGColor,
+                             (__bridge id)[UIColor colorWithRed:255.0/255.0 green:165.0/255.0 blue:165.0/255.0 alpha:1].CGColor];
     
     //set locations
     gradientLayer.locations = @[@0.1, @0.5, @0.8];
@@ -422,7 +470,7 @@
 }
 
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    return CGSizeMake(80, 100);
+    return CGSizeMake([UIScreen mainScreen].bounds.size.width*0.18, [UIScreen mainScreen].bounds.size.width*0.2316);
 }
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return LLWeekArray.count;
@@ -451,9 +499,9 @@
 //            cell.LLPunchDayLabel.textColor = [UIColor colorWithRed:251.0/255.0 green:175.0/255.0 blue:173.0/255.0 alpha:1];
 //            cell.LLPunchWeekLabel.textColor = [UIColor colorWithRed:251.0/255.0 green:175.0/255.0 blue:173.0/255.0 alpha:1];
 //            cell.LLPunchStepsLabel.textColor = [UIColor colorWithRed:251.0/255.0 green:175.0/255.0 blue:173.0/255.0 alpha:1];
-            cell.LLPunchDayLabel.textColor = [UIColor colorWithRed:94.0/255.0 green:109.0/255.0 blue:152.0/255.0 alpha:1];
-            cell.LLPunchWeekLabel.textColor = [UIColor colorWithRed:94.0/255.0 green:109.0/255.0 blue:152.0/255.0 alpha:1];
-            cell.LLPunchStepsLabel.textColor = [UIColor colorWithRed:94.0/255.0 green:109.0/255.0 blue:152.0/255.0 alpha:1];
+            cell.LLPunchDayLabel.textColor = [UIColor colorWithRed:251.0/255.0 green:175.0/255.0 blue:173.0/255.0 alpha:1];
+            cell.LLPunchWeekLabel.textColor = [UIColor colorWithRed:251.0/255.0 green:175.0/255.0 blue:173.0/255.0 alpha:1];
+            cell.LLPunchStepsLabel.textColor = [UIColor colorWithRed:251.0/255.0 green:175.0/255.0 blue:173.0/255.0 alpha:1];
         }
         else{
             cell.LLPunchAward.hidden = YES;;
@@ -526,6 +574,11 @@
 //    step.text = nil;
     changeStepsLabel.paused = YES;
     step.text  = [LLStepsArray objectAtIndex:indexPath.item];
+    if (step.text.intValue>=10000) {
+        step.textColor = [UIColor colorWithRed:251.0/255.0 green:175.0/255.0 blue:173.0/255.0 alpha:1];
+    }else{
+        step.textColor = [UIColor colorWithRed:214.0/255.0 green:208.0/255.0 blue:242.0/255.0 alpha:1];
+    }
     [bezierbackView removeFromSuperview];
     [self DrawCircleWithEnergy:[LLStepsArray objectAtIndex:indexPath.item]];
 }

@@ -292,6 +292,35 @@
 		5BBC22671DE96E3C008DAAD4 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BBC22661DE96E3C008DAAD4 /* MapKit.framework */; };
 		5BBC22691DE96F2A008DAAD4 /* page.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BBC22681DE96F2A008DAAD4 /* page.png */; };
 		5BBC226F1DE9BBA9008DAAD4 /* LLSearchAroundLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BBC226E1DE9BBA9008DAAD4 /* LLSearchAroundLocation.m */; };
+		5BEBD9B01E5356E400C69A53 /* newview.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEBD9AF1E5356E400C69A53 /* newview.m */; };
+		5BEBD9B41E54ADDE00C69A53 /* LLLocalModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEBD9B31E54ADDE00C69A53 /* LLLocalModel.m */; };
+		5BEBD9B81E54B34F00C69A53 /* LLLocalSuiPian.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEBD9B71E54B34F00C69A53 /* LLLocalSuiPian.m */; };
+		5BEBD9BB1E55733000C69A53 /* LocalSuiPian1.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BEBD9B91E55733000C69A53 /* LocalSuiPian1.png */; };
+		5BEBD9BC1E55733000C69A53 /* LocalSuiPian2.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BEBD9BA1E55733000C69A53 /* LocalSuiPian2.png */; };
+		5BEBD9D21E559D9A00C69A53 /* calendar-layer@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BEBD9BE1E559D9A00C69A53 /* calendar-layer@2x.png */; };
+		5BEBD9D31E559D9A00C69A53 /* calendar-layer@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BEBD9BF1E559D9A00C69A53 /* calendar-layer@3x.png */; };
+		5BEBD9D41E559D9A00C69A53 /* close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BEBD9C01E559D9A00C69A53 /* close@2x.png */; };
+		5BEBD9D51E559D9A00C69A53 /* close@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BEBD9C11E559D9A00C69A53 /* close@3x.png */; };
+		5BEBD9D61E559D9A00C69A53 /* day@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BEBD9C21E559D9A00C69A53 /* day@2x.png */; };
+		5BEBD9D71E559D9A00C69A53 /* day@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BEBD9C31E559D9A00C69A53 /* day@3x.png */; };
+		5BEBD9D81E559D9A00C69A53 /* night@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BEBD9C41E559D9A00C69A53 /* night@2x.png */; };
+		5BEBD9D91E559D9A00C69A53 /* night@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BEBD9C51E559D9A00C69A53 /* night@3x.png */; };
+		5BEBD9DA1E559D9A00C69A53 /* notfound@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BEBD9C61E559D9A00C69A53 /* notfound@2x.png */; };
+		5BEBD9DB1E559D9A00C69A53 /* notfound@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BEBD9C71E559D9A00C69A53 /* notfound@3x.png */; };
+		5BEBD9DC1E559D9A00C69A53 /* parting-line@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BEBD9C81E559D9A00C69A53 /* parting-line@2x.png */; };
+		5BEBD9DD1E559D9A00C69A53 /* parting-line@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BEBD9C91E559D9A00C69A53 /* parting-line@3x.png */; };
+		5BEBD9DE1E559D9A00C69A53 /* progress-layer@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BEBD9CA1E559D9A00C69A53 /* progress-layer@2x.png */; };
+		5BEBD9DF1E559D9A00C69A53 /* progress-layer@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BEBD9CB1E559D9A00C69A53 /* progress-layer@3x.png */; };
+		5BEBD9E01E559D9A00C69A53 /* progress@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BEBD9CC1E559D9A00C69A53 /* progress@2x.png */; };
+		5BEBD9E11E559D9A00C69A53 /* progress@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BEBD9CD1E559D9A00C69A53 /* progress@3x.png */; };
+		5BEBD9E21E559D9A00C69A53 /* star@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BEBD9CE1E559D9A00C69A53 /* star@2x.png */; };
+		5BEBD9E31E559D9A00C69A53 /* star@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BEBD9CF1E559D9A00C69A53 /* star@3x.png */; };
+		5BEBD9E41E559D9A00C69A53 /* step-number-layer@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BEBD9D01E559D9A00C69A53 /* step-number-layer@2x.png */; };
+		5BEBD9E51E559D9A00C69A53 /* step-number-layer@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BEBD9D11E559D9A00C69A53 /* step-number-layer@3x.png */; };
+		5BEBD9E91E55BDCF00C69A53 /* LLMusicYeah.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEBD9E81E55BDCF00C69A53 /* LLMusicYeah.m */; };
+		5BEBD9EB1E55C01700C69A53 /* ClickWaitingBall.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5BEBD9EA1E55C01700C69A53 /* ClickWaitingBall.wav */; };
+		5BEBD9ED1E55C0C400C69A53 /* changeFIlter.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5BEBD9EC1E55C0C400C69A53 /* changeFIlter.wav */; };
+		5BEBD9EF1E55C3C600C69A53 /* ClickMenu.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5BEBD9EE1E55C3C600C69A53 /* ClickMenu.wav */; };
 		FC96C6933DCFE39718E0D49B /* libPods-FIndTheLight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C60B7F74B7D76A4EA73F6D1 /* libPods-FIndTheLight.a */; };
 /* End PBXBuildFile section */
 
@@ -623,6 +652,40 @@
 		5BBC22681DE96F2A008DAAD4 /* page.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = page.png; sourceTree = "<group>"; };
 		5BBC226D1DE9BBA9008DAAD4 /* LLSearchAroundLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLSearchAroundLocation.h; sourceTree = "<group>"; };
 		5BBC226E1DE9BBA9008DAAD4 /* LLSearchAroundLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLSearchAroundLocation.m; sourceTree = "<group>"; };
+		5BEBD9AA1E534F9100C69A53 /* fourdesire.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = fourdesire.mp4; sourceTree = "<group>"; };
+		5BEBD9AE1E5356E400C69A53 /* newview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = newview.h; sourceTree = "<group>"; };
+		5BEBD9AF1E5356E400C69A53 /* newview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = newview.m; sourceTree = "<group>"; };
+		5BEBD9B21E54ADDE00C69A53 /* LLLocalModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLLocalModel.h; sourceTree = "<group>"; };
+		5BEBD9B31E54ADDE00C69A53 /* LLLocalModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLLocalModel.m; sourceTree = "<group>"; };
+		5BEBD9B61E54B34F00C69A53 /* LLLocalSuiPian.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLLocalSuiPian.h; sourceTree = "<group>"; };
+		5BEBD9B71E54B34F00C69A53 /* LLLocalSuiPian.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLLocalSuiPian.m; sourceTree = "<group>"; };
+		5BEBD9B91E55733000C69A53 /* LocalSuiPian1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LocalSuiPian1.png; sourceTree = "<group>"; };
+		5BEBD9BA1E55733000C69A53 /* LocalSuiPian2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LocalSuiPian2.png; sourceTree = "<group>"; };
+		5BEBD9BE1E559D9A00C69A53 /* calendar-layer@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "calendar-layer@2x.png"; sourceTree = "<group>"; };
+		5BEBD9BF1E559D9A00C69A53 /* calendar-layer@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "calendar-layer@3x.png"; sourceTree = "<group>"; };
+		5BEBD9C01E559D9A00C69A53 /* close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close@2x.png"; sourceTree = "<group>"; };
+		5BEBD9C11E559D9A00C69A53 /* close@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close@3x.png"; sourceTree = "<group>"; };
+		5BEBD9C21E559D9A00C69A53 /* day@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "day@2x.png"; sourceTree = "<group>"; };
+		5BEBD9C31E559D9A00C69A53 /* day@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "day@3x.png"; sourceTree = "<group>"; };
+		5BEBD9C41E559D9A00C69A53 /* night@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "night@2x.png"; sourceTree = "<group>"; };
+		5BEBD9C51E559D9A00C69A53 /* night@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "night@3x.png"; sourceTree = "<group>"; };
+		5BEBD9C61E559D9A00C69A53 /* notfound@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notfound@2x.png"; sourceTree = "<group>"; };
+		5BEBD9C71E559D9A00C69A53 /* notfound@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notfound@3x.png"; sourceTree = "<group>"; };
+		5BEBD9C81E559D9A00C69A53 /* parting-line@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "parting-line@2x.png"; sourceTree = "<group>"; };
+		5BEBD9C91E559D9A00C69A53 /* parting-line@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "parting-line@3x.png"; sourceTree = "<group>"; };
+		5BEBD9CA1E559D9A00C69A53 /* progress-layer@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-layer@2x.png"; sourceTree = "<group>"; };
+		5BEBD9CB1E559D9A00C69A53 /* progress-layer@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-layer@3x.png"; sourceTree = "<group>"; };
+		5BEBD9CC1E559D9A00C69A53 /* progress@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress@2x.png"; sourceTree = "<group>"; };
+		5BEBD9CD1E559D9A00C69A53 /* progress@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress@3x.png"; sourceTree = "<group>"; };
+		5BEBD9CE1E559D9A00C69A53 /* star@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "star@2x.png"; sourceTree = "<group>"; };
+		5BEBD9CF1E559D9A00C69A53 /* star@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "star@3x.png"; sourceTree = "<group>"; };
+		5BEBD9D01E559D9A00C69A53 /* step-number-layer@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "step-number-layer@2x.png"; sourceTree = "<group>"; };
+		5BEBD9D11E559D9A00C69A53 /* step-number-layer@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "step-number-layer@3x.png"; sourceTree = "<group>"; };
+		5BEBD9E71E55BDCF00C69A53 /* LLMusicYeah.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLMusicYeah.h; sourceTree = "<group>"; };
+		5BEBD9E81E55BDCF00C69A53 /* LLMusicYeah.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLMusicYeah.m; sourceTree = "<group>"; };
+		5BEBD9EA1E55C01700C69A53 /* ClickWaitingBall.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ClickWaitingBall.wav; sourceTree = "<group>"; };
+		5BEBD9EC1E55C0C400C69A53 /* changeFIlter.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = changeFIlter.wav; sourceTree = "<group>"; };
+		5BEBD9EE1E55C3C600C69A53 /* ClickMenu.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ClickMenu.wav; sourceTree = "<group>"; };
 		6F632AC2D22B40AAA769E321 /* Pods-FIndTheLight.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FIndTheLight.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FIndTheLight/Pods-FIndTheLight.debug.xcconfig"; sourceTree = "<group>"; };
 		E15BE13EC95AE0EEC7C0E35B /* Pods-FIndTheLight.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FIndTheLight.release.xcconfig"; path = "Pods/Target Support Files/Pods-FIndTheLight/Pods-FIndTheLight.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -712,8 +775,9 @@
 				5B3BB8AC1E33CB24004DA752 /* LLPunchStepsCollectionViewCell.h */,
 				5B3BB8AD1E33CB24004DA752 /* LLPunchStepsCollectionViewCell.m */,
 				5B46958D1E4D95CE00D6B7DC /* LLPunchSetArray.h */,
-				5B9ED8CB1E50990D00016EA2 /* jiangzhang.png */,
 				5B46958E1E4D95CE00D6B7DC /* LLPunchSetArray.m */,
+				5BEBD9BD1E559D9A00C69A53 /* punch card */,
+				5B9ED8CB1E50990D00016EA2 /* jiangzhang.png */,
 				5B3BB8B61E34F2F9004DA752 /* bluecard.png */,
 				5B3BB8B31E34E4F6004DA752 /* greencard.png */,
 			);
@@ -747,7 +811,6 @@
 				5B9ED8DD1E51A79500016EA2 /* LLVIewAnimation.h */,
 				5B9ED8DE1E51A79500016EA2 /* LLVIewAnimation.m */,
 				5B29482F1E09CC4C0062E9EC /* BoostView */,
-				5B2947921E05B8D60062E9EC /* MatureView */,
 				5B7B329C1E01118000BB02D5 /* WaitingBall */,
 				5B729A451DF4116F000FE6E9 /* iCarousel */,
 				5B729A411DF39A0D000FE6E9 /* ChooseFilter */,
@@ -1118,6 +1181,7 @@
 		5BBC21861DE81DAA008DAAD4 /* FIndTheLight */ = {
 			isa = PBXGroup;
 			children = (
+				5BEBD9E61E55BD9C00C69A53 /* 音效 */,
 				5BBC21901DE81DAA008DAAD4 /* Main.storyboard */,
 				5B7B32901DFF85EE00BB02D5 /* 登录注册 */,
 				5B729A4B1DF5810C000FE6E9 /* 记步 */,
@@ -1141,6 +1205,9 @@
 				5BBC21931DE81DAA008DAAD4 /* Assets.xcassets */,
 				5BBC21951DE81DAA008DAAD4 /* LaunchScreen.storyboard */,
 				5BBC21981DE81DAA008DAAD4 /* Info.plist */,
+				5BEBD9AE1E5356E400C69A53 /* newview.h */,
+				5BEBD9AF1E5356E400C69A53 /* newview.m */,
+				5BEBD9AA1E534F9100C69A53 /* fourdesire.mp4 */,
 				5BBC218A1DE81DAA008DAAD4 /* AppDelegate.h */,
 				5BBC218B1DE81DAA008DAAD4 /* AppDelegate.mm */,
 				5BBC21881DE81DAA008DAAD4 /* main.m */,
@@ -1201,6 +1268,7 @@
 		5BBC21B31DE81E9A008DAAD4 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				5BEBD9B11E54AD0400C69A53 /* 日常光体 */,
 				5BBC226D1DE9BBA9008DAAD4 /* LLSearchAroundLocation.h */,
 				5BBC226E1DE9BBA9008DAAD4 /* LLSearchAroundLocation.m */,
 				5B29482B1E099AA40062E9EC /* LLGetNowTime.h */,
@@ -1309,6 +1377,68 @@
 			path = assets;
 			sourceTree = "<group>";
 		};
+		5BEBD9B11E54AD0400C69A53 /* 日常光体 */ = {
+			isa = PBXGroup;
+			children = (
+				5BEBD9B51E54B31C00C69A53 /* Model */,
+				5B2947921E05B8D60062E9EC /* MatureView */,
+			);
+			name = "日常光体";
+			sourceTree = "<group>";
+		};
+		5BEBD9B51E54B31C00C69A53 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				5BEBD9B21E54ADDE00C69A53 /* LLLocalModel.h */,
+				5BEBD9B31E54ADDE00C69A53 /* LLLocalModel.m */,
+				5BEBD9B61E54B34F00C69A53 /* LLLocalSuiPian.h */,
+				5BEBD9B71E54B34F00C69A53 /* LLLocalSuiPian.m */,
+				5BEBD9B91E55733000C69A53 /* LocalSuiPian1.png */,
+				5BEBD9BA1E55733000C69A53 /* LocalSuiPian2.png */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		5BEBD9BD1E559D9A00C69A53 /* punch card */ = {
+			isa = PBXGroup;
+			children = (
+				5BEBD9BE1E559D9A00C69A53 /* calendar-layer@2x.png */,
+				5BEBD9BF1E559D9A00C69A53 /* calendar-layer@3x.png */,
+				5BEBD9C01E559D9A00C69A53 /* close@2x.png */,
+				5BEBD9C11E559D9A00C69A53 /* close@3x.png */,
+				5BEBD9C21E559D9A00C69A53 /* day@2x.png */,
+				5BEBD9C31E559D9A00C69A53 /* day@3x.png */,
+				5BEBD9C41E559D9A00C69A53 /* night@2x.png */,
+				5BEBD9C51E559D9A00C69A53 /* night@3x.png */,
+				5BEBD9C61E559D9A00C69A53 /* notfound@2x.png */,
+				5BEBD9C71E559D9A00C69A53 /* notfound@3x.png */,
+				5BEBD9C81E559D9A00C69A53 /* parting-line@2x.png */,
+				5BEBD9C91E559D9A00C69A53 /* parting-line@3x.png */,
+				5BEBD9CA1E559D9A00C69A53 /* progress-layer@2x.png */,
+				5BEBD9CB1E559D9A00C69A53 /* progress-layer@3x.png */,
+				5BEBD9CC1E559D9A00C69A53 /* progress@2x.png */,
+				5BEBD9CD1E559D9A00C69A53 /* progress@3x.png */,
+				5BEBD9CE1E559D9A00C69A53 /* star@2x.png */,
+				5BEBD9CF1E559D9A00C69A53 /* star@3x.png */,
+				5BEBD9D01E559D9A00C69A53 /* step-number-layer@2x.png */,
+				5BEBD9D11E559D9A00C69A53 /* step-number-layer@3x.png */,
+			);
+			name = "punch card";
+			path = "resource/punch card";
+			sourceTree = SOURCE_ROOT;
+		};
+		5BEBD9E61E55BD9C00C69A53 /* 音效 */ = {
+			isa = PBXGroup;
+			children = (
+				5BEBD9E71E55BDCF00C69A53 /* LLMusicYeah.h */,
+				5BEBD9E81E55BDCF00C69A53 /* LLMusicYeah.m */,
+				5BEBD9EA1E55C01700C69A53 /* ClickWaitingBall.wav */,
+				5BEBD9EC1E55C0C400C69A53 /* changeFIlter.wav */,
+				5BEBD9EE1E55C3C600C69A53 /* ClickMenu.wav */,
+			);
+			name = "音效";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1388,12 +1518,15 @@
 				5B7B33781E01122600BB02D5 /* waitingBall-40.png in Resources */,
 				5B7B335E1E01122600BB02D5 /* waitingBall-17.png in Resources */,
 				5B9ED8DC1E51A1EA00016EA2 /* optical_rank@3x.png in Resources */,
+				5BEBD9D71E559D9A00C69A53 /* day@3x.png in Resources */,
 				5B7B33B31E01122700BB02D5 /* waitingBall-94.png in Resources */,
 				5BBC22121DE82085008DAAD4 /* WechatIMG249.jpeg in Resources */,
 				5B7B33831E01122600BB02D5 /* waitingBall-50.png in Resources */,
 				5B7B33661E01122600BB02D5 /* waitingBall-24.png in Resources */,
+				5BEBD9D61E559D9A00C69A53 /* day@2x.png in Resources */,
 				5B7B33451E01122600BB02D5 /* waitingBall-120.png in Resources */,
 				5B7B33981E01122600BB02D5 /* waitingBall-7.png in Resources */,
+				5BEBD9EF1E55C3C600C69A53 /* ClickMenu.wav in Resources */,
 				5B4695B61E4EE58800D6B7DC /* ocean_lock@2x.png in Resources */,
 				5B7B337B1E01122600BB02D5 /* waitingBall-43.png in Resources */,
 				5B7B333C1E01122600BB02D5 /* waitingBall-112.png in Resources */,
@@ -1410,12 +1543,14 @@
 				5B7B33B01E01122700BB02D5 /* waitingBall-91.png in Resources */,
 				5B9B09FA1E13F307006CA8A3 /* layer@2x.png in Resources */,
 				5B7B332F1E01122600BB02D5 /* waitingBall-100.png in Resources */,
+				5BEBD9DC1E559D9A00C69A53 /* parting-line@2x.png in Resources */,
 				5B9ED8DA1E51A1EA00016EA2 /* optical_lightball@3x.png in Resources */,
 				5BBC220E1DE82085008DAAD4 /* WechatIMG245.jpeg in Resources */,
 				5B9B09F91E13F307006CA8A3 /* btn_confirm@3x.png in Resources */,
 				5B7B337E1E01122600BB02D5 /* waitingBall-46.png in Resources */,
 				5B7B33891E01122600BB02D5 /* waitingBall-56.png in Resources */,
 				5BBC22151DE82085008DAAD4 /* WechatIMG252.jpeg in Resources */,
+				5BEBD9DA1E559D9A00C69A53 /* notfound@2x.png in Resources */,
 				5B7B338A1E01122600BB02D5 /* waitingBall-57.png in Resources */,
 				5B7B33751E01122600BB02D5 /* waitingBall-38.png in Resources */,
 				5B7B33921E01122600BB02D5 /* waitingBall-64.png in Resources */,
@@ -1447,8 +1582,11 @@
 				5B7B336F1E01122600BB02D5 /* waitingBall-32.png in Resources */,
 				5B7B339C1E01122600BB02D5 /* waitingBall-73.png in Resources */,
 				5BBC22191DE82085008DAAD4 /* WechatIMG256.jpeg in Resources */,
+				5BEBD9ED1E55C0C400C69A53 /* changeFIlter.wav in Resources */,
 				5B7B33631E01122600BB02D5 /* waitingBall-21.png in Resources */,
 				5B7B33791E01122600BB02D5 /* waitingBall-41.png in Resources */,
+				5BEBD9EB1E55C01700C69A53 /* ClickWaitingBall.wav in Resources */,
+				5BEBD9E31E559D9A00C69A53 /* star@3x.png in Resources */,
 				5B7B33761E01122600BB02D5 /* waitingBall-39.png in Resources */,
 				5B7B334D1E01122600BB02D5 /* waitingBall-128.png in Resources */,
 				5B7B33731E01122600BB02D5 /* waitingBall-36.png in Resources */,
@@ -1476,6 +1614,7 @@
 				5B7B339F1E01122600BB02D5 /* waitingBall-76.png in Resources */,
 				5B729A4A1DF42665000FE6E9 /* 7005.mp3 in Resources */,
 				5B850CCD1E467CE300BDDD23 /* SmallRain.sks in Resources */,
+				5BEBD9D41E559D9A00C69A53 /* close@2x.png in Resources */,
 				5B9ED8D81E51A1EA00016EA2 /* optical_lamp@3x.png in Resources */,
 				5B7B33961E01122600BB02D5 /* waitingBall-68.png in Resources */,
 				5B4695B01E4EE58800D6B7DC /* ocean_chosen@2x.png in Resources */,
@@ -1484,10 +1623,16 @@
 				5B850CC81E467CC500BDDD23 /* rainbow.png in Resources */,
 				5B7B335A1E01122600BB02D5 /* waitingBall-14.png in Resources */,
 				5B7B33821E01122600BB02D5 /* waitingBall-5.png in Resources */,
+				5BEBD9BC1E55733000C69A53 /* LocalSuiPian2.png in Resources */,
 				5BBC22291DE8233B008DAAD4 /* Podfile in Resources */,
 				5BBC220A1DE82084008DAAD4 /* new_pumkinlamp.mp4 in Resources */,
 				5B2948051E07EBD90062E9EC /* IMG_7365.JPG in Resources */,
 				5B7B334B1E01122600BB02D5 /* waitingBall-126.png in Resources */,
+				5BEBD9D21E559D9A00C69A53 /* calendar-layer@2x.png in Resources */,
+				5BEBD9D81E559D9A00C69A53 /* night@2x.png in Resources */,
+				5BEBD9E21E559D9A00C69A53 /* star@2x.png in Resources */,
+				5BEBD9E51E559D9A00C69A53 /* step-number-layer@3x.png in Resources */,
+				5BEBD9DF1E559D9A00C69A53 /* progress-layer@3x.png in Resources */,
 				5B7B334F1E01122600BB02D5 /* waitingBall-13.png in Resources */,
 				5B7B33601E01122600BB02D5 /* waitingBall-19.png in Resources */,
 				5B4695AF1E4EE58800D6B7DC /* desert_chosen@3x.png in Resources */,
@@ -1501,10 +1646,12 @@
 				5B7B33311E01122600BB02D5 /* waitingBall-102.png in Resources */,
 				5B7B33971E01122600BB02D5 /* waitingBall-69.png in Resources */,
 				5B7B338F1E01122600BB02D5 /* waitingBall-61.png in Resources */,
+				5BEBD9E41E559D9A00C69A53 /* step-number-layer@2x.png in Resources */,
 				5B7B334A1E01122600BB02D5 /* waitingBall-125.png in Resources */,
 				5B7B33411E01122600BB02D5 /* waitingBall-117.png in Resources */,
 				5B7B33391E01122600BB02D5 /* waitingBall-11.png in Resources */,
 				5B7B33511E01122600BB02D5 /* waitingBall-131.png in Resources */,
+				5BEBD9DD1E559D9A00C69A53 /* parting-line@3x.png in Resources */,
 				5B7B33381E01122600BB02D5 /* waitingBall-109.png in Resources */,
 				5BBC21941DE81DAA008DAAD4 /* Assets.xcassets in Resources */,
 				5B7B333B1E01122600BB02D5 /* waitingBall-111.png in Resources */,
@@ -1534,12 +1681,15 @@
 				5B7B33371E01122600BB02D5 /* waitingBall-108.png in Resources */,
 				5B7B33551E01122600BB02D5 /* waitingBall-135.png in Resources */,
 				5B7B336A1E01122600BB02D5 /* waitingBall-28.png in Resources */,
+				5BEBD9D91E559D9A00C69A53 /* night@3x.png in Resources */,
 				5B7B33A01E01122600BB02D5 /* waitingBall-77.png in Resources */,
 				5B7B334C1E01122600BB02D5 /* waitingBall-127.png in Resources */,
 				5BBC22081DE82084008DAAD4 /* lantern.mp4 in Resources */,
 				5B7B338C1E01122600BB02D5 /* waitingBall-59.png in Resources */,
 				5B4695381E4A008000D6B7DC /* filter@2x.png in Resources */,
 				5B850CCC1E467CE300BDDD23 /* MyParticle.sks in Resources */,
+				5BEBD9DE1E559D9A00C69A53 /* progress-layer@2x.png in Resources */,
+				5BEBD9BB1E55733000C69A53 /* LocalSuiPian1.png in Resources */,
 				5B850CC71E467CC500BDDD23 /* hexagon.png in Resources */,
 				5B7B339B1E01122600BB02D5 /* waitingBall-72.png in Resources */,
 				5B7B33A51E01122700BB02D5 /* waitingBall-81.png in Resources */,
@@ -1549,6 +1699,7 @@
 				5B7B33811E01122600BB02D5 /* waitingBall-49.png in Resources */,
 				5B7B335C1E01122600BB02D5 /* waitingBall-15.png in Resources */,
 				5BBC220F1DE82085008DAAD4 /* WechatIMG246.jpeg in Resources */,
+				5BEBD9E01E559D9A00C69A53 /* progress@2x.png in Resources */,
 				5B7B33AB1E01122700BB02D5 /* waitingBall-87.png in Resources */,
 				5B7B335B1E01122600BB02D5 /* waitingBall-140.png in Resources */,
 				5B7B33521E01122600BB02D5 /* waitingBall-132.png in Resources */,
@@ -1566,6 +1717,7 @@
 				5B7B33721E01122600BB02D5 /* waitingBall-35.png in Resources */,
 				5B7B33B11E01122700BB02D5 /* waitingBall-92.png in Resources */,
 				5B0D39031E522A0B0018328A /* suipian.png in Resources */,
+				5BEBD9D31E559D9A00C69A53 /* calendar-layer@3x.png in Resources */,
 				5B7B33991E01122600BB02D5 /* waitingBall-70.png in Resources */,
 				5B7B339E1E01122600BB02D5 /* waitingBall-75.png in Resources */,
 				5B7B33A21E01122600BB02D5 /* waitingBall-79.png in Resources */,
@@ -1577,6 +1729,7 @@
 				5BBC220D1DE82085008DAAD4 /* video.mp4 in Resources */,
 				5B9ED8DB1E51A1EA00016EA2 /* optical_rank@2x.png in Resources */,
 				5BBC22141DE82085008DAAD4 /* WechatIMG251.jpeg in Resources */,
+				5BEBD9D51E559D9A00C69A53 /* close@3x.png in Resources */,
 				5B7B33591E01122600BB02D5 /* waitingBall-139.png in Resources */,
 				5BBC221B1DE82085008DAAD4 /* WechatIMG258.jpeg in Resources */,
 				5B7B335F1E01122600BB02D5 /* waitingBall-18.png in Resources */,
@@ -1594,6 +1747,7 @@
 				5B850CBD1E467C5600BDDD23 /* cloud2.png in Resources */,
 				5B7B33651E01122600BB02D5 /* waitingBall-23.png in Resources */,
 				5B3BB8B91E3527F6004DA752 /* WechatIMG5.jpeg in Resources */,
+				5BEBD9E11E559D9A00C69A53 /* progress@3x.png in Resources */,
 				5B7B33571E01122600BB02D5 /* waitingBall-137.png in Resources */,
 				5B7B33AF1E01122700BB02D5 /* waitingBall-90.png in Resources */,
 				5B9B09F81E13F307006CA8A3 /* btn_confirm@2x.png in Resources */,
@@ -1601,6 +1755,7 @@
 				5B7B33671E01122600BB02D5 /* waitingBall-25.png in Resources */,
 				5B4695391E4A008000D6B7DC /* filter@3x.png in Resources */,
 				5B7B33401E01122600BB02D5 /* waitingBall-116.png in Resources */,
+				5BEBD9DB1E559D9A00C69A53 /* notfound@3x.png in Resources */,
 				5B7B33A11E01122600BB02D5 /* waitingBall-78.png in Resources */,
 				5B7B336E1E01122600BB02D5 /* waitingBall-31.png in Resources */,
 				5B7B333A1E01122600BB02D5 /* waitingBall-110.png in Resources */,
@@ -1669,8 +1824,10 @@
 				5B2948321E09CCAE0062E9EC /* LLBoostView.m in Sources */,
 				5BBC22321DE82925008DAAD4 /* LLHomePageViewController.mm in Sources */,
 				5B9B09FE1E164B56006CA8A3 /* LLSelfInformation.m in Sources */,
+				5BEBD9E91E55BDCF00C69A53 /* LLMusicYeah.m in Sources */,
 				5BBC221E1DE82085008DAAD4 /* renderer.cc in Sources */,
 				5B3BB8AE1E33CB24004DA752 /* LLPunchStepsCollectionViewCell.m in Sources */,
+				5BEBD9B81E54B34F00C69A53 /* LLLocalSuiPian.m in Sources */,
 				5B2947951E05B9000062E9EC /* LLMatureView.m in Sources */,
 				5BBC22021DE82084008DAAD4 /* ar.cc in Sources */,
 				5B7B33BB1E0140C600BB02D5 /* LLTimerLabel.m in Sources */,
@@ -1697,7 +1854,9 @@
 				5BBC21891DE81DAA008DAAD4 /* main.m in Sources */,
 				5BBC222E1DE8248E008DAAD4 /* LLHomePageDisplayView.m in Sources */,
 				5B46958F1E4D95CE00D6B7DC /* LLPunchSetArray.m in Sources */,
+				5BEBD9B01E5356E400C69A53 /* newview.m in Sources */,
 				5B9ED8CF1E519F9700016EA2 /* LLModelView.m in Sources */,
+				5BEBD9B41E54ADDE00C69A53 /* LLLocalModel.m in Sources */,
 				5B850CB11E467A8800BDDD23 /* FilterDefaultRain.m in Sources */,
 				5B4695931E4ED91D00D6B7DC /* LLLightBoxViewController.m in Sources */,
 				5BBC226F1DE9BBA9008DAAD4 /* LLSearchAroundLocation.m in Sources */,

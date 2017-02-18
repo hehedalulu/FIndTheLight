@@ -23,6 +23,13 @@
     [PopMatureView setCompletionBlock:^(POPAnimation *popname, BOOL hasfinish) {
         [self LocalModelChange:imageView];
     }];
+    
+//    //获取通知中心单例对象
+//    NSNotificationCenter *LocalModelAppearcenter = [NSNotificationCenter defaultCenter];
+//    //添加当前类对象为一个观察者，name和object设置为nil，表示接收一切通知
+//    [LocalModelAppearcenter addObserver:self selector:@selector(notice:) name:@"123" object:nil];
+    //创建一个消息对象
+
 }
 //本地光体模型消失时的动画
 -(void)LocalModelDisAppearAnimationWithImgView:(UIImageView *)imageView{
@@ -41,7 +48,7 @@
 -(void)LocalModelChange:(UIImageView *)imageView{
     POPSpringAnimation *PopMatureView = [POPSpringAnimation animation];
     PopMatureView.property = [POPAnimatableProperty propertyWithName:kPOPViewSize];
-//    PopMatureView.toValue = [NSValue valueWithCGRect:CGRectMake([UIScreen mainScreen].bounds.size.width/2-100,
+//    PopMatureView.toValue = [NSValue valueWit hCGRect:CGRectMake([UIScreen mainScreen].bounds.size.width/2-100,
 //                                                                [UIScreen mainScreen].bounds.size.height/2-120,
 //                                                                160,
 //                                                                200)];
@@ -64,7 +71,15 @@
     PopMatureView.springBounciness = 10.0;
     PopMatureView.springSpeed      = 2.0;
 //    PopMatureView.repeatCount = 3;
-    [imageView pop_addAnimation:PopMatureView forKey:@"POPModelViewX"];
+    [imageView pop_addAnimation:PopMatureView forKey:@"POPModelViewXY"];
+    [PopMatureView setCompletionBlock:^(POPAnimation *popname, BOOL hasfinish) {
+        
+        ModelAppearNotice = [NSNotification notificationWithName:@"LocalModelAppearFinish" object:@"123"];
+        //发送消息
+        NSLog(@"本地光体动画播完。。");
+        [[NSNotificationCenter defaultCenter]postNotification:ModelAppearNotice];
+    }];
+
 }
 
 
@@ -222,6 +237,12 @@
                                                                 100,
                                                                 100)];
     [imageView pop_addAnimation:PopMatureView forKey:@"POPModelView"];
+    [PopMatureView setCompletionBlock:^(POPAnimation *popname, BOOL hasfinish) {
+        SuiPianAppearNotice = [NSNotification notificationWithName:@"LocalSuiPianAppearFinish" object:@"1234"];
+        //发送消息
+        NSLog(@"本地光体动画播完。。");
+        [[NSNotificationCenter defaultCenter]postNotification:SuiPianAppearNotice];
+    }];
 }
 
 -(void)LocalSuiPianNameAppearWithLabel:(UILabel *)label{

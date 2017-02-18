@@ -27,6 +27,7 @@
 #import <SpriteKit/SpriteKit.h>
 #import <GameplayKit/GameplayKit.h>
 
+#import "LLMusicYeah.h"
 
 @interface LLHomePageViewController : UIViewController<AMapLocationManagerDelegate,UIViewControllerTransitioningDelegate>{
     AMapLocationManager *locationManager;

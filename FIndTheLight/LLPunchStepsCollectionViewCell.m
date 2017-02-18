@@ -19,7 +19,7 @@
     
     _LLPunchDayLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, self.bounds.size.height/3, self.bounds.size.width, self.bounds.size.height/3)];
     _LLPunchDayLabel.textAlignment = NSTextAlignmentCenter;
-    _LLPunchDayLabel.font = [UIFont fontWithName:@"MF TongXin (Noncommercial)" size:18];
+    _LLPunchDayLabel.font = [UIFont fontWithName:@"MF TongXin (Noncommercial)" size:16];
     _LLPunchDayLabel.text = @"999";
     _LLPunchDayLabel.textColor = [UIColor colorWithRed:94.0/255.0 green:109.0/255.0 blue:152.0/255.0 alpha:1];
     [self.contentView  addSubview:_LLPunchDayLabel];
@@ -27,7 +27,7 @@
     _LLPunchStepsLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, self.bounds.size.height*2/3, self.bounds.size.width, self.bounds.size.height/3)];
     _LLPunchStepsLabel.textAlignment = NSTextAlignmentCenter;
     _LLPunchStepsLabel.text = @"0步";
-    _LLPunchStepsLabel.font = [UIFont fontWithName:@"MF TongXin (Noncommercial)" size:18];
+    _LLPunchStepsLabel.font = [UIFont fontWithName:@"MF TongXin (Noncommercial)" size:17];
     _LLPunchStepsLabel.textColor = [UIColor colorWithRed:94.0/255.0 green:109.0/255.0 blue:152.0/255.0 alpha:1];
     [self.contentView addSubview:_LLPunchStepsLabel];
     
@@ -36,8 +36,8 @@
     _LLPunchAward = [[UIImageView alloc]init];
 //    if (_LLhasOver10000) {
 //        NSLog(@"超过10000");
-        _LLPunchAward.frame = CGRectMake(0, self.bounds.size.height/8, self.bounds.size.width/2, self.bounds.size.height/2);
-        _LLPunchAward.image = [UIImage imageNamed:@"jiangzhang.png"];
+        _LLPunchAward.frame = CGRectMake(self.bounds.size.height/20, self.bounds.size.height/10, self.bounds.size.width/5, self.bounds.size.height/5.5);
+        _LLPunchAward.image = [UIImage imageNamed:@"star.png"];
         _LLPunchAward.hidden = YES;
         [self addSubview:_LLPunchAward];
     
@@ -58,7 +58,7 @@
 //}
 - (void)addButton{
     _LLPunchWeekLabel = [[UILabel alloc]initWithFrame:CGRectMake(0,0, self.bounds.size.width, self.bounds.size.height/3)];
-    _LLPunchWeekLabel.font = [UIFont fontWithName:@"MF TongXin (Noncommercial)" size:18];
+    _LLPunchWeekLabel.font = [UIFont fontWithName:@"MF TongXin (Noncommercial)" size:16];
     _LLPunchWeekLabel.textColor = [UIColor colorWithRed:94.0/255.0 green:109.0/255.0 blue:152.0/255.0 alpha:1];
     _LLPunchWeekLabel.textAlignment = NSTextAlignmentCenter;
 //    _LLPunchWeekLabel.tag = 1;

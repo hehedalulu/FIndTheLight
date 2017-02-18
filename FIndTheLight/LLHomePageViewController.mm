@@ -79,16 +79,19 @@
     //重新绘制
     BOOL hasDraw;
     UIImageView *skViewBgImg;
-    CADisplayLink *updateEnergy;
-    
     UIButton *showthehintBtn;
     UITapGestureRecognizer *closeChooseViewTap;
     
-    LLVIewAnimation *LLanimation;
+    
     LLModelView *llMatureModel;
     LLSuiPianVIew *llsuiPianView;
     UITapGestureRecognizer *tapMatureModel;
     int TapMatureModelCount;
+    //工具
+    LLVIewAnimation *LLanimation;
+    LLMusicYeah *llmusic;
+    LLAddStepsByEMMotion *addStepsByEMMotion;
+    CADisplayLink *changeWaitingBallState;
 }
 
 
@@ -103,9 +106,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationController.navigationBar.hidden = YES;
+    [self Tools];
 
-    LLanimation = [[LLVIewAnimation alloc]init];
-    
     if (!hasDraw) {
         self.glView = [[OpenGLView alloc] initWithFrame:self.view.bounds];
         [self.view addSubview:self.glView];
@@ -119,8 +121,10 @@
     [self.glView setUserInteractionEnabled:YES];
     // 第一次打开执行别样操作
     [self TheFirstTimeOpen];
+    
 
-    [NSTimer scheduledTimerWithTimeInterval:30.0 target:self selector:@selector(Location) userInfo:nil repeats:YES];
+
+//    [NSTimer scheduledTimerWithTimeInterval:30.0 target:self selector:@selector(Location) userInfo:nil repeats:YES];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -133,9 +137,12 @@
         [self performSelector:@selector(firstLocation) withObject:nil afterDelay:5];
     }else{
         //不是第一次后台线程也5s更新一次数据
-//        UpdateStepTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(UpdateAddStep) userInfo:nil repeats:YES];
-        LLAddStepsByEMMotion *testl = [[LLAddStepsByEMMotion alloc]init];
-        [testl PedometerGetSteps];
+        //  后台执行：
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            [addStepsByEMMotion PedometerGetSteps];
+        });
+        
+
 
     }
 }
@@ -152,25 +159,13 @@
 }
 //第一次更新Energy
 -(void)firstUpdateEnergy{
-//    pageInformationView.LLMainRoleEnergyValue = [[NSUserDefaults standardUserDefaults]valueForKey:@"Energy"];
-//    [pageInformationView initEnergyValueImage];
-//    NSLog(@"UI更新第一次Energy的值");
-//    UpdateStepTimer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(UpdateAddStep) userInfo:nil repeats:YES];
     LLAddStepsByEMMotion *ttee = [[LLAddStepsByEMMotion alloc]init];
     [ttee PedometerGetSteps];
     pageInformationView.LLMainRoleEnergyValue = [[NSUserDefaults standardUserDefaults]valueForKey:@"Energy"];
     [pageInformationView changeEnergyLabel];
 }
-//每5s更新一次Energy
--(void)UpdateAddStep{
-//    NSLog(@"开始每5s更新Energy");
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        LLGetStep *llfirstgetsteps = [[LLGetStep alloc]init];
-        [llfirstgetsteps CreatAddHealth];
-    });
-    pageInformationView.LLMainRoleEnergyValue = [[NSUserDefaults standardUserDefaults]valueForKey:@"Energy"];
-    [pageInformationView initEnergyValueImage];
-}
+
+
 //后期改成引导页面时监控 定位 （制定获取权限顺序）
 -(void)firstLocation{
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
@@ -202,7 +197,37 @@
     if (!hasDraw) {
         [self.glView start];
         hasDraw = YES;
+//          后台执行：
+//        dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+//        dispatch_async(queue, ^{
+//            NSLog(@"时时刷新");
+////            changeWaitingBallState = [CADisplayLink displayLinkWithTarget:self selector:@selector(changeUpdatestate)];
+////            [changeWaitingBallState addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+//
+//        
+//        });
+        
+//        NSTimeInterval period = 1.0; //设置时间间隔
+//        
+//        dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+//        
+//        dispatch_source_t _timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
+//        
+//        dispatch_source_set_timer(_timer, dispatch_walltime(NULL, 0), period * NSEC_PER_SEC, 0); //每秒执行
+//        
+//        dispatch_source_set_event_handler(_timer, ^{
+//            
+//            //在这里执行事件
+//            
+//        });
+//        
+//        dispatch_resume(_timer);
+        
+//        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+//            [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(changeUpdatestate) userInfo:@"abc" repeats:YES];
+//        });
     }
+    
 //    NSLog(@"---------------------------");
 //    NSLog(@"render初始化一次");
 //    NSLog(@"打开页面时含有的能量%@",[[NSUserDefaults standardUserDefaults]valueForKey:@"Energy"]);
@@ -238,6 +263,7 @@
 #pragma mark - DrawView
 
 -(void)drawview{
+    
     //滤镜
     scene = [[FilterDefaultRain alloc]initWithSize:CGSizeMake(414, 736)];
     scene.Filter_rainNumber = 2000;
@@ -284,24 +310,18 @@
                                    self.view.bounds.size.width*0.282,
                                    self.view.bounds.size.width*0.145);
     displayView.backgroundColor = [UIColor clearColor];
-    if (displayView.LLHomeDisplayLabel.text <= 0) {
-        displayView.LLHomeDisplayLabel.font = [UIFont fontWithName:@"MF TongXin (Noncommercial)" size:17];
-        displayView.LLHomeDisplayLabel.text = @"正在定位中";
-    }
+
     [self.glView addSubview:displayView];
     
     TapdisplayView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(changeNearLocation:)];
     [displayView addGestureRecognizer:TapdisplayView];
     
     pageInformationView = [[LLHomePageInformationView alloc]init];
-//    [self LoadStepCount];
-//    pageInformationView.LLMainRoleEnergyValue = MainRoleFootStep;
-    pageInformationView.LLMainRoleEnergyValue = 0;
+    pageInformationView.LLMainRoleEnergyValue = [[NSUserDefaults standardUserDefaults]valueForKey:@"Energy"];
     pageInformationView.frame = CGRectMake([UIScreen mainScreen].bounds.size.width*0.638, [UIScreen mainScreen].bounds.size.width*0.08, [UIScreen mainScreen].bounds.size.width*0.5652, [UIScreen mainScreen].bounds.size.width*0.3623);
     pageInformationView.backgroundColor = [UIColor clearColor];
     [self.glView addSubview:pageInformationView];
-    updateEnergy = [CADisplayLink displayLinkWithTarget:self selector:@selector(updateEnergyLabel)];
-    [updateEnergy addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+
     
     
     LLHomeMenubtn = [[UIButton alloc]init];
@@ -360,42 +380,11 @@
         [waitingBall addGestureRecognizer:TapMaturedWaitingBall];
         
     }
-    CADisplayLink *changeWaitingBallState = [CADisplayLink displayLinkWithTarget:self selector:@selector(changestate)];
-    [changeWaitingBallState addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+
     
-    
-    
-    //测试用
-    UIButton *ceshi = [[UIButton alloc]initWithFrame:CGRectMake(10, 300,40, 40)];
-    ceshi.backgroundColor = [UIColor yellowColor];
-    [ceshi addTarget:self action:@selector(ceshi) forControlEvents:UIControlEventTouchUpInside];
-    [self.glView addSubview:ceshi];
+
 }
 
--(void)ceshi{
-    NSLog(@"点击了");
-    llMatureModel = [[LLModelView alloc]init];
-    [llMatureModel drawRect:CGRectMake(0, 0, self.glView.bounds.size.width, self.glView.bounds.size.height)];
-    llMatureModel.backgroundColor = [UIColor clearColor];
-    [self.glView addSubview:llMatureModel];
-    TapMatureModelCount = 0;
-    tapMatureModel = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapMatureModel)];
-    [llMatureModel addGestureRecognizer:tapMatureModel];
-    LLDissmissView.hidden = NO;
-    [self.glView addSubview:LLDissmissView];
-    
-    llsuiPianView = [[LLSuiPianVIew alloc]init];
-    [llsuiPianView drawRect:CGRectMake(0, 0, self.glView.bounds.size.width, self.glView.bounds.size.height)];
-    llsuiPianView.backgroundColor = [UIColor clearColor];
-    [self.glView addSubview:llsuiPianView];
-    llsuiPianView.hidden = YES;
-    //本地光体生成后跳出的光体
-    [LLanimation LocalModelAppearAnimationWithImgView:llMatureModel.LLLocalModel];
-    [LLanimation LocalModelLevelAppearAnimationWithImge:llMatureModel.LLLocalModelLevel];
-    [LLanimation LocalModelNameAppearAnimationWithLabel:llMatureModel.LLLocalName];
-    [self performSelector:@selector(LocalModelWaitingBallMove) withObject:nil afterDelay:1.0];
-    [self performSelector:@selector(LocalModelLightValueMove) withObject:nil afterDelay:1.5];
-}
 
 -(void)LocalModelWaitingBallMove{
     llMatureModel.LLLocalWaitingBall.hidden = NO;
@@ -414,37 +403,34 @@
 
 //______________________________________________________________________________
 
--(void)changestate{
-    if ([LLCountTimerLabel.text isEqualToString:@"已成熟"]) {
-        HasWaitingBallMatured = YES;
-        //去掉长按短按手势
-        [waitingBall removeGestureRecognizer:TapImmatureWaitingBall];
-        TapMaturedWaitingBall = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(TapMaturedWaitingBall:)];
-        [waitingBall addGestureRecognizer:TapMaturedWaitingBall];
-    }
-}
 
--(void)updateEnergyLabel{
-//    NSLog(@"不断回调;");
-    pageInformationView.LLMainRoleEnergyValue = [[NSUserDefaults standardUserDefaults]valueForKey:@"Energy"];
-    [pageInformationView changeEnergyLabel];
-    
-}
+
+
 
 
 
 -(void)ShowHiddenView{
-  
+    
     LLDissmissView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
 //    LLDissmissView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.7];
     LLDissmissView.backgroundColor = [UIColor clearColor];
     LLDissmissView.hidden = YES;
 //    [self.glView addSubview:LLDissmissView];
     
+    llMatureModel = [[LLModelView alloc]init];
+    llsuiPianView = [[LLSuiPianVIew alloc]init];
     
     
     UITapGestureRecognizer *tapMatureViewToHome = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(dismissMatureView)];
     [LLDissmissView addGestureRecognizer:tapMatureViewToHome];
+    
+    NSNotificationCenter * center1 = [NSNotificationCenter defaultCenter];
+    //添加当前类对象为一个观察者，name和object设置为nil，表示接收一切通知
+    [center1 addObserver:self selector:@selector(LocalModelAppearFinish:) name:@"LocalModelAppearFinish" object:nil];
+    
+    NSNotificationCenter * center2 = [NSNotificationCenter defaultCenter];
+    //添加当前类对象为一个观察者，name和object设置为nil，表示接收一切通知
+    [center2 addObserver:self selector:@selector(LocalSuiPianAppearFinish:) name:@"LocalSuiPianAppearFinish" object:nil];
     
 //    LLMatureBackgroudView = [[UIImageView alloc]initWithFrame:CGRectMake(self.view.center.x, self.view.center.y, 0, 0)];
 //    [LLMatureBackgroudView.layer setCornerRadius:10];
@@ -566,12 +552,16 @@
     [self LoadStepCount];
     //当前步行能量
     llBoostView.LLNowEnergy = [MainRoleFootStep intValue];
+    NSLog(@"当前能量%d",llBoostView.LLNowEnergy);
     //加速完成所需能量 ＝ 秒数
     LLGetNowTime *llgetnowtime = [[LLGetNowTime alloc]init];
     long int Intervaltime = [llgetnowtime LLGetIntervalTime];
-    int NeedMinute = (int)Intervaltime%60;
-    int NeedSecond = (int)(Intervaltime-NeedMinute*60);
-    llBoostView.LLMatureNeedEnergy = 10000 - NeedMinute*100-NeedSecond;
+    int NeedMinute = (int)(3600-Intervaltime)/60;
+    if (NeedMinute==60) {
+        NeedMinute =100;
+    }
+    int NeedSecond = (int)(3600-Intervaltime-NeedMinute*60);
+    llBoostView.LLMatureNeedEnergy = NeedMinute*100+NeedSecond;
     NSLog(@"加速所需分钟%d,加速所需秒数%d,加速所需能量%ld",NeedMinute,NeedSecond,llBoostView.LLMatureNeedEnergy);
     //llBoostView.LLMatureNeedEnergy  = 3600 - Intervaltime;
     
@@ -612,17 +602,20 @@
     long int MatureNeedTime = 3600 - Intervaltime;
     
     NSString *energyString = [[NSUserDefaults standardUserDefaults] objectForKey:@"Energy"];
+//    NSLog(@"EnergyEnergyEnergyEnergyEnergyEnergyEnergyEnergyEnergyEnergy%@",energyString);
     int energy = [energyString intValue];
     
-    int hadMinute = energy%100;
-    int hadSecond = energy - hadMinute*60;
+    int hadMinute = energy/100;
+    int hadSecond = energy - hadMinute*100;
     
     int energytransTotime = hadMinute*60 + hadSecond;
-    
+    NSLog(@"能量转换成的时间%d",energytransTotime);
+    NSLog(@"成熟所需时间%ld",MatureNeedTime);
     if(energytransTotime <= 0){
             [self dismissBoostView];
-    }else if( energytransTotime <= MatureNeedTime && energytransTotime>0){
+    }else if( energy <= llBoostView.LLMatureNeedEnergy && energytransTotime>0){
             [self dismissBoostView];
+        
         
             NSString *CurrentIntervalTimeString = [[NSUserDefaults standardUserDefaults]valueForKey:@"LLLastRecordTime"];
             NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -630,30 +623,32 @@
             NSDate *CurrentIntervalTime = [formatter dateFromString:CurrentIntervalTimeString];
         
         //    // 更具当前date和时间间隔生成的得到一个新的date对象
-            NSDate *newDate = [CurrentIntervalTime dateByAddingTimeInterval:-energy];
+            NSDate *newDate = [CurrentIntervalTime dateByAddingTimeInterval:-energytransTotime];
             NSString *newDateString = [formatter stringFromDate:newDate];
             [[NSUserDefaults standardUserDefaults]setValue:newDateString forKey:@"LLLastRecordTime"];
         [[NSUserDefaults standardUserDefaults]setValue:@"0" forKey:@"Energy"];
         //更新UI
         //成熟时间减去步行能量
-        MatureNeedTime = MatureNeedTime - energy;
+        MatureNeedTime = MatureNeedTime - energytransTotime;
         [LLCountTimerLabel pop_removeAllAnimations];
 //            LLCountTimerLabel.text = nil;
         //    NSLog(@"%ld",Remaintime);
         [self CountTimerAnimation:MatureNeedTime];
+        
     }else{
         [self dismissBoostView];
+        NSLog(@"够");
         [LLCountTimerLabel pop_removeAllAnimations];
         LLCountTimerLabel.text = @"已成熟";
         //数据层
-        NSString *CurrentIntervalTimeString = [[NSUserDefaults standardUserDefaults]valueForKey:@"LLLastRecordTime"];
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-        NSDate *CurrentIntervalTime = [formatter dateFromString:CurrentIntervalTimeString];
-        // 更具当前date和时间间隔生成的得到一个新的date对象
-        NSDate *newDate = [CurrentIntervalTime dateByAddingTimeInterval:-MatureNeedTime];
-        NSString *newDateString = [formatter stringFromDate:newDate];
-        [[NSUserDefaults standardUserDefaults]setValue:newDateString forKey:@"LLLastRecordTime"];
+//        NSString *CurrentIntervalTimeString = [[NSUserDefaults standardUserDefaults]valueForKey:@"LLLastRecordTime"];
+//        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+//        [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+//        NSDate *CurrentIntervalTime = [formatter dateFromString:CurrentIntervalTimeString];
+//        // 更具当前date和时间间隔生成的得到一个新的date对象
+//        NSDate *newDate = [CurrentIntervalTime dateByAddingTimeInterval:-MatureNeedTime];
+//        NSString *newDateString = [formatter stringFromDate:newDate];
+//        [[NSUserDefaults standardUserDefaults]setValue:newDateString forKey:@"LLLastRecordTime"];
         [[NSUserDefaults standardUserDefaults]setValue:@"0" forKey:@"Energy"];
     }
 
@@ -692,66 +687,77 @@
     
 }
 -(void)showWaitingBallMatureView{
-//    POPSpringAnimation *PopMatureView = [POPSpringAnimation animation];
-//    PopMatureView.property = [POPAnimatableProperty propertyWithName:kPOPViewFrame];
-//    PopMatureView.toValue = [NSValue valueWithCGRect:CGRectMake(self.view.center.x-140, self.view.center.y-190,
-//                                                                [UIScreen mainScreen].bounds.size.width*0.676,
-//                                                                [UIScreen mainScreen].bounds.size.width*0.9)];
-    LLDissmissView.hidden = NO;
-    [self performSelector:@selector(ceshi) withObject:nil afterDelay:0.4];
-//    PopMatureView.springBounciness = 10.0;
-//    PopMatureView.springSpeed      = 10.0;
-//    [LLMatureBackgroudView pop_addAnimation:PopMatureView forKey:@"shortDismissView"];
-    
-}
 
-//-(void)initMaturethingsView{
-//    llmature.LLMatureImageView.frame = CGRectMake(40, 30, 200,200);
-//    llmature.LLGradeImageView.frame = CGRectMake(210, 210, 40, 40);
-//    llmature.LLMaturePpImageView.frame = CGRectMake(10, 300, 50, 50);
-//    llmature.LLMatureThingsLabel.frame = CGRectMake(80, 255, 80, 30);
-//    llmature.LLMaturePpThingsLabel.frame = CGRectMake(70, 315, 60, 20);
-//    llmature.LLCollectLabel.frame = CGRectMake(10, 0, 80, 20);
-//    llmature.LLProgressBgIMG.frame = CGRectMake(150, 320, 90, 20);
-//    llmature.LLProgressIMG.frame = CGRectMake(0, 0, 40, 20);
-//}
+    LLDissmissView.hidden = NO;
+    sleep(0.4);
+    NSLog(@"点击了");
+    
+    [llMatureModel drawRect:CGRectMake(0, 0, self.glView.bounds.size.width, self.glView.bounds.size.height)];
+    llMatureModel.backgroundColor = [UIColor clearColor];
+    [self.glView addSubview:llMatureModel];
+//    TapMatureModelCount = 0;
+    tapMatureModel = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapMatureModel)];
+    [llMatureModel addGestureRecognizer:tapMatureModel];
+    LLDissmissView.hidden = NO;
+    [self.glView addSubview:LLDissmissView];
+    
+    
+    [llsuiPianView drawRect:CGRectMake(0, 0, self.glView.bounds.size.width, self.glView.bounds.size.height)];
+    llsuiPianView.backgroundColor = [UIColor clearColor];
+    [self.glView addSubview:llsuiPianView];
+    llsuiPianView.hidden = YES;
+    //本地光体生成后跳出的光体
+    [LLanimation LocalModelAppearAnimationWithImgView:llMatureModel.LLLocalModel];
+    [LLanimation LocalModelLevelAppearAnimationWithImge:llMatureModel.LLLocalModelLevel];
+    [LLanimation LocalModelNameAppearAnimationWithLabel:llMatureModel.LLLocalName];
+    [self performSelector:@selector(LocalModelWaitingBallMove) withObject:nil afterDelay:1.0];
+    [self performSelector:@selector(LocalModelLightValueMove) withObject:nil afterDelay:1.5];
+}
 
 
 -(void)dismissMatureView{
     NSLog(@"点击model");
+
+    
+    
+    
     if (TapMatureModelCount==0) {
-        TapMatureModelCount++;
+//        TapMatureModelCount++;
         [LLanimation LocalModelDisAppearAnimationWithImgView:llMatureModel.LLLocalModel];
         [LLanimation LocalModelLevelDisAppearAnimationWithImge:llMatureModel.LLLocalModelLevel];
         [LLanimation LocalModelNameDisAppearAnimationWithLabel:llMatureModel.LLLocalName];
+//
         [self performSelector:@selector(showSuiPianView) withObject:nil afterDelay:1.5];
+//        sleep(1.5);
+        [LLanimation LocalSuiPianAppearWithImg:llsuiPianView.LLSuiPianImg];
+        [LLanimation LocalSuiPianCountWithLabel:llsuiPianView.LLSuiPianTotalLabel];
+        [LLanimation LocalSuiPianNameAppearWithLabel:llsuiPianView.LLSuipianName];
+        
     }else{
         [LLanimation LocalSuiPianDisAppearWithImg:llsuiPianView.LLSuiPianImg];
         [LLanimation LocalSuiPianCountDisWithLabel:llsuiPianView.LLSuiPianTotalLabel];
         [LLanimation LocalSuiPianNameDisAppearWithLabel:llsuiPianView.LLSuipianName];
+        //碎片页面动画结束后消失
         LLDissmissView.hidden = YES;
     }
-    
-    
-//    POPSpringAnimation *PopMatureView = [POPSpringAnimation animation];
-//    PopMatureView.property = [POPAnimatableProperty propertyWithName:kPOPViewFrame];
-//    PopMatureView.toValue = [NSValue valueWithCGRect:CGRectMake(self.view.center.x, self.view.center.y, 0, 0)];
-//    LLDissmissView.hidden = YES;
-//    llmature.LLMatureImageView.frame = CGRectMake(40, 30, 0,0);
-//    llmature.LLGradeImageView.frame = CGRectMake(210, 210, 0, 0);
-//    llmature.LLMaturePpImageView.frame = CGRectMake(10, 300, 0, 0);
-//    llmature.LLMatureThingsLabel.frame = CGRectMake(80, 255, 0, 0);
-//    llmature.LLMaturePpThingsLabel.frame = CGRectMake(70, 315, 0, 0);
-//    llmature.LLCollectLabel.frame = CGRectMake(10, 0, 0, 0);
-//    llmature.LLProgressBgIMG.frame = CGRectMake(150, 320, 0,0);
-//    llmature.LLProgressIMG.frame = CGRectMake(0, 0, 0, 0);
-//    
-//    PopMatureView.springBounciness = 10.0;
-//    PopMatureView.springSpeed      = 10.0;
-//    [LLMatureBackgroudView pop_addAnimation:PopMatureView forKey:@"shortDismissView"];
+
 }
+
+-(void)LocalModelAppearFinish:(id)sender{
+    NSLog(@"%@",sender);
+    NSLog(@"接收到光体动画结束");
+    TapMatureModelCount = 0;
+}
+
+
+-(void)LocalSuiPianAppearFinish:(id)sender{
+    NSLog(@"%@",sender);
+    NSLog(@"接收到碎片动画结束");
+    TapMatureModelCount = 1;
+}
+
 -(void)showSuiPianView{
-    TapMatureModelCount++;
+//    TapMatureModelCount++;
     llsuiPianView.hidden = NO;
     [LLanimation LocalSuiPianAppearWithImg:llsuiPianView.LLSuiPianImg];
     [LLanimation LocalSuiPianCountWithLabel:llsuiPianView.LLSuiPianTotalLabel];
@@ -787,6 +793,7 @@
 
 
 -(void)ShortTapImmatureWaitingBall:(UITapGestureRecognizer *)gesture{
+    [llmusic playSound:@"ClickWaitingBall" type:@"wav"];
 //    NSLog(@"未成熟状态下点按");
     //waitingball弹起来
     POPSpringAnimation *waitingBallSize = [POPSpringAnimation animation];
@@ -799,31 +806,6 @@
     [waitingBall pop_addAnimation:waitingBallSize forKey:@"sizePOP"];
     [self performSelector:@selector(recover) withObject:nil afterDelay:0.2];
     [self performSelector:@selector(showWaitingBallBoostView) withObject:nil afterDelay:0.6];
-    
-/*本来是短按减少10s 现在废弃
-     //能量减少 时间减少
-    NSString *CurrentIntervalTimeString = [[NSUserDefaults standardUserDefaults]valueForKey:@"LLLastRecordTime"];
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-    //NSString转NSDate
-    NSDate *CurrentIntervalTime = [formatter dateFromString:CurrentIntervalTimeString];
-
-    // 更具当前date和时间间隔生成的得到一个新的date对象
-    NSDate *newDate = [CurrentIntervalTime dateByAddingTimeInterval:-9];
-    NSString *newDateString = [formatter stringFromDate:newDate];
-    [[NSUserDefaults standardUserDefaults]setValue:newDateString forKey:@"LLLastRecordTime"];
-    
-    LLGetNowTime *llgetnowtime = [[LLGetNowTime alloc]init];
-    long int Intervaltime = [llgetnowtime LLGetIntervalTime];
-    long int Remaintime = LLWaitingBallMatureTime - Intervaltime;
-        NSLog(@"时间变少");
-        [LLCountTimerLabel pop_removeAllAnimations];
-  //       LLCountTimerLabel.text = nil;
-        NSLog(@"%ld",Remaintime);
-        [self CountTimerAnimation:Remaintime];
-
-*/
-    
 
 }
 
@@ -839,6 +821,7 @@
 
 
 -(void)TapMaturedWaitingBall:(UITapGestureRecognizer *)gesture{
+    [llmusic playSound:@"ClickWaitingBall" type:@"wav"];
     NSLog(@"TapMaturedWaitingBall");
     
     NSDate *RecordNowTime = [NSDate date];
@@ -969,7 +952,7 @@
 
 //滤镜选择的动画
 -(void)showFilterChooseView{
-    
+    [llmusic playSound:@"changeFIlter" type:@"wav"];
     if (showTheFilterChooseView) {
         [self closechooseView];
         NSLog(@"chooseview关闭了");
@@ -1219,10 +1202,8 @@
 
 #pragma mark - pop菜单
 - (void)showMenu {
+    [llmusic playSound:@"ClickMenu" type:@"wav"];
     NSMutableArray *items = [[NSMutableArray alloc] initWithCapacity:3];
-    
-
-    
     MenuItem *menuItem = [MenuItem itemWithTitle:@"能量记录" iconName:@"nengliangjilu"];
     [items addObject:menuItem];
     
@@ -1311,5 +1292,52 @@
 //                                            animated:YES
 //                                          completion:NULL];
     [self performSegueWithIdentifier:@"LLRank" sender:nil];
+}
+#pragma mark - 工具类
+//每5s更新一次Energy
+//-(void)UpdateAddStep{
+//    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+//        LLGetStep *llfirstgetsteps = [[LLGetStep alloc]init];
+//        [llfirstgetsteps CreatAddHealth];
+//    });
+//    pageInformationView.LLMainRoleEnergyValue = [[NSUserDefaults standardUserDefaults]valueForKey:@"Energy"];
+//    [pageInformationView initEnergyValueImage];
+//}
+-(void)Tools{
+    //动效
+    LLanimation = [[LLVIewAnimation alloc]init];
+    //音效
+    llmusic = [[LLMusicYeah alloc]init];
+    //实时步数
+    addStepsByEMMotion = [[LLAddStepsByEMMotion alloc]init];
+    
+}
+#pragma mark - FTP实时更新UI
+-(void)changeUpdatestate{
+    NSLog(@"正在定位中");
+    //更新等待球的状态
+    if ([LLCountTimerLabel.text isEqualToString:@"已成熟"]) {
+        HasWaitingBallMatured = YES;
+        //去掉长按短按手势
+        [waitingBall removeGestureRecognizer:TapImmatureWaitingBall];
+        TapMaturedWaitingBall = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(TapMaturedWaitingBall:)];
+        [waitingBall addGestureRecognizer:TapMaturedWaitingBall];
+    }else{
+        HasWaitingBallMatured = NO;
+        [waitingBall removeGestureRecognizer:TapMaturedWaitingBall];
+        TapImmatureWaitingBall = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(ShortTapImmatureWaitingBall:)];
+        [waitingBall addGestureRecognizer:TapImmatureWaitingBall];
+    }
+    //更新定位状态
+//    [self Location];
+//    if (displayView.LLHomeDisplayLabel.text == nil||[[NSUserDefaults standardUserDefaults]valueForKey:@"LLNearestLocation"]==nil) {
+//        displayView.LLHomeDisplayLabel.font = [UIFont fontWithName:@"MF TongXin (Noncommercial)" size:17];
+//        displayView.LLHomeDisplayLabel.text = @"正在定位中";
+//        NSLog(@"正在定位中");
+//    }
+//    //更新能量的数字
+//    pageInformationView.LLMainRoleEnergyValue = [[NSUserDefaults standardUserDefaults]valueForKey:@"Energy"];
+//    [pageInformationView changeEnergyLabel];
+    
 }
 @end

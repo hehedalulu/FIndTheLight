@@ -34,19 +34,40 @@
 
     
     NSDateFormatter *dayformater = [[NSDateFormatter alloc]init];
-    dayformater.dateFormat = @"eeee";
+    dayformater.dateFormat = @"EEEE";
     
     for (int i = 19; i >= 0; i--) {
         NSTimeInterval  interval = - 24*60*60*i; //1:天数
         NSDate *addDate = [date dateByAddingTimeInterval:interval];
-        NSString *addString = [NSString stringWithFormat:@"%@",[dayformater stringFromDate:addDate]];
+        NSString *weekString = [NSString stringWithFormat:@"%@",[dayformater stringFromDate:addDate]];
+        NSString *addString = [self ChangeToWeekString:weekString];
         [WeekArray addObject:addString];
     }
-//    NSLog(@"%@",WeekArray);
+    NSLog(@"%@",WeekArray);
    
     
     return WeekArray;
 }
+
+
+-(NSString *)ChangeToWeekString:(NSString *)WeekString{
+    if ([WeekString isEqualToString:@"星期一"]) {
+        return @"周一";
+    }else if ([WeekString isEqualToString:@"星期二"]){
+        return @"周二";
+    }else if ([WeekString isEqualToString:@"星期三"]){
+        return @"周三";
+    }else if ([WeekString isEqualToString:@"星期四"]){
+        return @"周四";
+    }else if ([WeekString isEqualToString:@"星期五"]){
+        return @"周五";
+    }else if ([WeekString isEqualToString:@"星期六"]){
+        return @"周六";
+    }else{
+        return @"周日";
+    }
+}
+
 
 
 -(NSMutableArray *)setStepsArrayWithDaysCount:(int)DaysCount Date:(NSDate *)date{
