@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:fourdesire.mp4">
+   </FileRef>
+   <FileRef
       location = "group:FIndTheLight.xcodeproj">
    </FileRef>
    <FileRef

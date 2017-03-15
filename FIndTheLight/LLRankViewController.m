@@ -8,9 +8,9 @@
 
 #import "LLRankViewController.h"
 #import "MJRefresh.h"
-
+#import "AnimationTableView.h"
 @interface LLRankViewController (){
-    UITableView *lltableView;
+    AnimationTableView *lltableView;
     NSMutableArray *LLusernameArray;
 }
 
@@ -20,21 +20,33 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor colorWithRed:39.0/255.0 green:56.0/255.0 blue:87.0/255.0 alpha:1];
-    UILabel *pagename = [[UILabel alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.12, [UIScreen mainScreen].bounds.size.width*0.12, [UIScreen mainScreen].bounds.size.width*0.36, [UIScreen mainScreen].bounds.size.width*0.15)];
+    self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+    self.view.backgroundColor = [UIColor colorWithRed:23.0/255.0 green:27.0/255.0 blue:47.0/255.0 alpha:1];
+    
+    
+    UILabel *pagename = [[UILabel alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.12,
+                                                                 [UIScreen mainScreen].bounds.size.width*0.05,
+                                                                 [UIScreen mainScreen].bounds.size.width*0.36,
+                                                                 [UIScreen mainScreen].bounds.size.width*0.15)];
     pagename.font = [UIFont fontWithName:@"MF TongXin (Noncommercial)" size:25];
     pagename.text = @".排行榜";
-    pagename.textColor = [UIColor colorWithRed:254.0/255.0 green:239.0/255.0 blue:189.0/255.0 alpha:1];
+    pagename.textColor = [UIColor colorWithRed:214.0/255.0 green:208.0/255.0 blue:242.0/255.0 alpha:1];
     [self.view addSubview:pagename];
     
-    UIButton *dismissBtn = [[UIButton alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.025, [UIScreen mainScreen].bounds.size.width*0.15, [UIScreen mainScreen].bounds.size.width*0.1, [UIScreen mainScreen].bounds.size.width*0.1)];
-    [dismissBtn setImage:[UIImage imageNamed:@"chacha.png"] forState:UIControlStateNormal];
+    UIButton *dismissBtn = [[UIButton alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.025,
+                                                                     [UIScreen mainScreen].bounds.size.width*0.08,
+                                                                     [UIScreen mainScreen].bounds.size.width*0.1,
+                                                                     [UIScreen mainScreen].bounds.size.width*0.1)];
+    [dismissBtn setImage:[UIImage imageNamed:@"close.png"] forState:UIControlStateNormal];
     [dismissBtn addTarget:self action:@selector(dismissView) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:dismissBtn];
     
     [self initTitleUI];
     
-    lltableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 180, self.view.bounds.size.width, 550)];
+    lltableView = [[AnimationTableView alloc]initWithFrame:CGRectMake(0,
+                                                               [UIScreen mainScreen].bounds.size.width*0.27,
+                                                               [UIScreen mainScreen].bounds.size.width,
+                                                               [UIScreen mainScreen].bounds.size.height-[UIScreen mainScreen].bounds.size.width*0.27)];
     lltableView.delegate = self;
     lltableView.dataSource = self;
     lltableView.backgroundColor = [UIColor clearColor];
@@ -58,24 +70,60 @@
     
 }
 -(void)initTitleUI{
-    UILabel *TotalgamerLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 130, 180, 30)];
+    UIImageView *PHBImage = [[UIImageView alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.0483,
+                                                                         [UIScreen mainScreen].bounds.size.width*0.2126,
+                                                                         [UIScreen mainScreen].bounds.size.width*0.036,
+                                                                         [UIScreen mainScreen].bounds.size.width*0.036)];
+    PHBImage.image = [UIImage imageNamed:@"icon-ranking.png"];
+    [self.view addSubview:PHBImage];
+    
+    
+    UILabel *TotalgamerLabel = [[UILabel alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.0967,
+                                                                        [UIScreen mainScreen].bounds.size.width*0.2126,
+                                                                        [UIScreen mainScreen].bounds.size.width*0.4348,
+                                                                        [UIScreen mainScreen].bounds.size.width*0.036)];
     int totalCount = 100;
     TotalgamerLabel.text = [NSString stringWithFormat:@"全校榜  共%d人",totalCount];
-    TotalgamerLabel.font = [UIFont fontWithName:@"MF TongXin (Noncommercial)" size:20];
-    TotalgamerLabel.textColor = [UIColor colorWithRed:254.0/255.0 green:239.0/255.0 blue:189.0/255.0 alpha:1];
+    TotalgamerLabel.font = [UIFont systemFontOfSize:15];
+    TotalgamerLabel.textColor = [UIColor colorWithRed:158.0/255.0 green:149.0/255.0 blue:196.0/255.0 alpha:1];
     [self.view addSubview:TotalgamerLabel];
     
-    UIImageView *myicon = [[UIImageView alloc]initWithFrame:CGRectMake(355, 120, 50, 50)];
+    
+    UIImageView *myiconBg = [[UIImageView alloc ]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.8575,
+                                                                          [UIScreen mainScreen].bounds.size.width*0.157,
+                                                                          [UIScreen mainScreen].bounds.size.width*0.112,
+                                                                          [UIScreen mainScreen].bounds.size.width*0.112)];
+    myiconBg.image = [UIImage imageNamed:@"photo_layer_big.png"];
+    [self.view addSubview:myiconBg];
+    
+    UIImageView *myicon = [[UIImageView alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.8575,
+                                                                       [UIScreen mainScreen].bounds.size.width*0.157,
+                                                                       [UIScreen mainScreen].bounds.size.width*0.108,
+                                                                       [UIScreen mainScreen].bounds.size.width*0.108)];
     [myicon.layer setMasksToBounds:YES];
     [myicon.layer setCornerRadius:25];
     myicon.image = [UIImage imageNamed:@"WechatIMG5.jpeg"];
     //myicon.backgroundColor = [UIColor colorWithRed:17.0/255.0 green:38.0/255.0 blue:59.0/255.0 alpha:1];
     [self.view addSubview:myicon];
     
-    UILabel *myrank = [[UILabel alloc]initWithFrame:CGRectMake(280, 130, 75, 30)];
-    myrank.text = @"第 1 名";
-    myrank.font = [UIFont fontWithName:@"MF TongXin (Noncommercial)" size:20];
-    myrank.textColor = [UIColor colorWithRed:254.0/255.0 green:239.0/255.0 blue:189.0/255.0 alpha:1];
+    UILabel *myname = [[UILabel alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.6425,
+                                                               [UIScreen mainScreen].bounds.size.width*0.1689,
+                                                               [UIScreen mainScreen].bounds.size.width*0.1811,
+                                                               [UIScreen mainScreen].bounds.size.width*0.036)];
+    myname.text = @"lulu";
+    myname.textColor = [UIColor colorWithRed:223.0/255.0 green:215.0/255.0 blue:255.0/255.0 alpha:1];
+    myname.font = [UIFont systemFontOfSize:15];
+    myname.textAlignment = NSTextAlignmentRight;
+    [self.view addSubview:myname];
+    
+    UILabel *myrank = [[UILabel alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.6425,
+                                                               [UIScreen mainScreen].bounds.size.width*0.2126,
+                                                               [UIScreen mainScreen].bounds.size.width*0.1811,
+                                                               [UIScreen mainScreen].bounds.size.width*0.036)];
+    myrank.text = @"第1名";
+    myrank.textAlignment = NSTextAlignmentRight;
+    myrank.font = [UIFont systemFontOfSize:15];
+    myrank.textColor = [UIColor colorWithRed:250.0/255.0 green:162.0/255.0 blue:174.0/255.0 alpha:1];
     [self.view addSubview:myrank];
 }
 
@@ -108,41 +156,81 @@
 -(void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section{
     view.tintColor = [UIColor clearColor];
 }
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    
-    return 5;
-    
-}
+//-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section:(NSInteger)section{
+//    
+//    return 5;
+//    
+//}
 
+//-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+//    return 20;
+//}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    return 80;
+    return [UIScreen mainScreen].bounds.size.width*0.175;
     
 }
+
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    //    [self.tabelView customizeCell:cell];
+    //    [self.tabelView appearCell:cell andDirection:directionRight andRow:indexPath.row];
+    //    [self.tabelView appearCell:cell andDirection:directionRight];
+    [lltableView appearCell:cell andScale:0.1];
+    
+    
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"id1"];
     
  
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"id1"];
         //cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        tableView.separatorStyle = NO;
+
+    
         cell.backgroundColor = [UIColor clearColor];
-        UIImageView *cellbackgroundView = [[UIImageView alloc]initWithFrame:CGRectMake(10, 0, [UIScreen mainScreen].bounds.size.width-20, 80)];
-        cellbackgroundView.backgroundColor =[UIColor colorWithRed:17.0/255.0 green:38.0/255.0 blue:59.0/255.0 alpha:1];
+        UIImageView *cellbackgroundView = [[UIImageView alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.02416,
+                                                                                       0,
+                                                                                       [UIScreen mainScreen].bounds.size.width*0.9517,
+                                                                                       [UIScreen mainScreen].bounds.size.width*0.15)];
+        cellbackgroundView.image = [UIImage imageNamed:@"info_layer_others.png"];
         [cell addSubview:cellbackgroundView];
         
-        UILabel *ranklabel = [[UILabel alloc]initWithFrame:CGRectMake(20, cellbackgroundView.bounds.size.height/2-20, 40, 40)];
+        UILabel *ranklabel = [[UILabel alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.03865,
+                                                                      cellbackgroundView.bounds.size.height/2-[UIScreen mainScreen].bounds.size.width*0.0483,
+                                                                      [UIScreen mainScreen].bounds.size.width*0.097,
+                                                                      [UIScreen mainScreen].bounds.size.width*0.097)];
         ranklabel.text = [NSString stringWithFormat:@"%ld",indexPath.section+1];
         ranklabel.font = [UIFont fontWithName:@"MF TongXin (Noncommercial)" size:20];
-        ranklabel.textColor = [UIColor colorWithRed:254.0/255.0 green:239.0/255.0 blue:189.0/255.0 alpha:1];
+    
+        ranklabel.textColor = [UIColor colorWithRed:223.0/255.0 green:215.0/255.0 blue:255.0/255.0 alpha:1];
         [cellbackgroundView addSubview:ranklabel];
         
-        UILabel *userNickName = [[UILabel alloc]initWithFrame:CGRectMake(135, cellbackgroundView.bounds.size.height/2-20, 150, 40)];
-        userNickName.font = [UIFont fontWithName:@"MF TongXin (Noncommercial)" size:20];
-        userNickName.textColor = [UIColor colorWithRed:254.0/255.0 green:239.0/255.0 blue:189.0/255.0 alpha:1];
+        UILabel *userNickName = [[UILabel alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.22,
+                                                                         cellbackgroundView.bounds.size.height/2-20,
+                                                                         [UIScreen mainScreen].bounds.size.width*0.3623,
+                                                                         [UIScreen mainScreen].bounds.size.width*0.097)];
+       // userNickName.font = [UIFont fontWithName:@"MF TongXin (Noncommercial)" size:20];
+        userNickName.font = [UIFont systemFontOfSize:19];
+        userNickName.textColor = [UIColor colorWithRed:223.0/255.0 green:215.0/255.0 blue:255.0/255.0 alpha:1];
         userNickName.text = [LLusernameArray objectAtIndex:indexPath.section];
     
-        UIImageView *usericon = [[UIImageView alloc]initWithFrame:CGRectMake(60, 10, 60, 60)];
+    
+        UIImageView *userIconBg = [[UIImageView alloc ]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.107,
+                                                                                [UIScreen mainScreen].bounds.size.width*0.03,
+                                                                                [UIScreen mainScreen].bounds.size.width*0.086,
+                                                                                [UIScreen mainScreen].bounds.size.width*0.086)];
+        userIconBg.image = [UIImage imageNamed:@"photo_layer_small.png"];
+        [cellbackgroundView addSubview:userIconBg];
+    
+    
+        UIImageView *usericon = [[UIImageView alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.11,
+                                                                             [UIScreen mainScreen].bounds.size.width*0.036,
+                                                                             [UIScreen mainScreen].bounds.size.width*0.08,
+                                                                             [UIScreen mainScreen].bounds.size.width*0.08)];
         int judge = indexPath.section%2;
         if (judge == 0 ) {
             usericon.image = [UIImage imageNamed:@"liuliu.JPG"];
@@ -151,21 +239,42 @@
         }
         
         [usericon.layer setMasksToBounds:YES];
-        [usericon.layer setCornerRadius:30];
+        [usericon.layer setCornerRadius:usericon.bounds.size.width/2];
         [cellbackgroundView addSubview:usericon];
         [cellbackgroundView addSubview:userNickName];
         
-    UILabel *userLight = [[UILabel alloc]initWithFrame:CGRectMake(300, cellbackgroundView.bounds.size.height/2-20, 100, 40)];
-    userLight.font = [UIFont fontWithName:@"MF TongXin (Noncommercial)" size:20];
-    userLight.textColor = [UIColor colorWithRed:254.0/255.0 green:239.0/255.0 blue:189.0/255.0 alpha:1];
+    UILabel *userLight = [[UILabel alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.7,
+                                                                  cellbackgroundView.bounds.size.height/2-[UIScreen mainScreen].bounds.size.width*0.0483,
+                                                                  [UIScreen mainScreen].bounds.size.width*0.2415,
+                                                                  [UIScreen mainScreen].bounds.size.width*0.097)];
+    userLight.font = [UIFont fontWithName:@"MF TongXin (Noncommercial)" size:18];
+    userLight.textAlignment = NSTextAlignmentRight;
+    userLight.textColor = [UIColor colorWithRed:223.0/255.0 green:215.0/255.0 blue:255.0/255.0 alpha:1];
     long userLightValue = 1000-indexPath.section*100;
     userLight.text =[NSString stringWithFormat:@"%ld",userLightValue];
     [cell addSubview:userLight];
     
+
+    
     return cell;
     
 }
-
+/*
+- (void)appearCell:(UITableViewCell *)cell andScale:(CGFloat)scale
+{
+    CATransform3D rotate = CATransform3DMakeScale( 0.0, scale, scale);
+    cell.layer.shadowColor = [UIColor blackColor].CGColor;
+    cell.layer.shadowOffset = CGSizeMake(10, 10);
+    cell.alpha = 0;
+    cell.layer.transform = rotate;
+    [UIView beginAnimations:@"scale" context:nil];
+    [UIView setAnimationDuration:1.0];
+    cell.layer.transform = CATransform3DIdentity;
+    cell.alpha = 1;
+    cell.layer.shadowOffset = CGSizeMake(0, 0);
+    [UIView commitAnimations];
+}
+*/
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     [tableView deselectRowAtIndexPath:indexPath animated:NO];// 取消选中效果

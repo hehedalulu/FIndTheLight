@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LLSetViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>
+@interface LLSetViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>{
+    UIButton *SelfButton;
+}
 
 @end

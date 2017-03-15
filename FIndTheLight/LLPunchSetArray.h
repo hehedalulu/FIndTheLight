@@ -21,10 +21,14 @@
 
 -(NSMutableArray *)setWeekArrayWithDate:(NSDate *)date;
 
+-(NSMutableArray *)setDateArrayWithDate:(NSDate *)date;
+
 -(NSMutableArray *)setStepsArrayWithDaysCount:(int)DaysCount Date:(NSDate *)date;
 
 -(NSMutableArray *)UpStepsArrayWithDaysCount:(int)DaysCount Date:(NSDate *)date;
 
 -(NSMutableArray *)newStepsArrayWithDaysCount:(int)DaysCount Date:(NSDate *)date;
+
+
 @property (nonatomic) NSDate *LLPunchinitday;
 @end

@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LLLightBoxDetailView.h"
+#import "Masonry.h"
 
-@interface LLLightBoxViewController : UIViewController
+@interface LLLightBoxViewController : UIViewController<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>{
+    LLLightBoxDetailView *detailView;
+    UIImageView *CollectionBackgroundView;
+}
 
 @end

@@ -8,14 +8,18 @@
 
 #import "LLPunchViewController.h"
 #import "LLPunchStepsCollectionViewCell.h"
-#import "XZMRefresh.h"
+//#import "XZMRefresh.h"
 #import "LLPunchSetArray.h"
+#import "LLEveryDaystep.h"
+#import "LLPunchManger.h"
 
 @interface LLPunchViewController (){
     UICollectionView *LLStepsView;
-    NSMutableArray *LLWeekArray;
-    NSMutableArray *LLDayArray;
-    NSMutableArray *LLStepsArray;
+//    NSMutableArray *LLWeekArray;
+//    NSMutableArray *LLDayArray;
+//    NSMutableArray *LLStepsArray;
+//    NSMutableArray *LLDateArray;
+    NSMutableArray *LLDayModelArray;
     
     UILabel *step;
     CADisplayLink *changeStepsLabel;
@@ -34,10 +38,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    dateformatter = [[NSDateFormatter alloc]init];
+    dateformatter.dateFormat = @"yyyy-MM-dd";
+    [self initCalendarStepsArray];
     count = 0;
     isSelectedItem = YES;
     self.navigationController.interactivePopGestureRecognizer.enabled = NO;
-    self.view.backgroundColor = [UIColor colorWithRed:22.0/255.0 green:27.0/255.0 blue:46.0/255.0 alpha:1];
+    self.view.backgroundColor = [UIColor colorWithRed:23.0/255.0 green:27.0/255.0 blue:47.0/255.0 alpha:1];
     [self drawStepView];
     
     UILabel *pagename = [[UILabel alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.12,
@@ -75,11 +82,19 @@
     // 设置边缘的间距，默认是{0，0，0，0}
  //   layout.sectionInset = UIEdgeInsetsMake(20, 20, 20, 20);
     
+    UIImageView *StepViewBG = [[UIImageView alloc]initWithFrame:CGRectMake(0,
+                                                                           [UIScreen mainScreen].bounds.size.width*0.20,
+                                                                           [UIScreen mainScreen].bounds.size.width,
+                                                                           [UIScreen mainScreen].bounds.size.width*0.2316)];
+    StepViewBG.image = [UIImage imageNamed:@"calendar-layer.png"];
+    [self.view addSubview:StepViewBG];
+    
     LLStepsView = [[UICollectionView alloc]initWithFrame:CGRectMake(0,
                                                                     [UIScreen mainScreen].bounds.size.width*0.20,
                                                                     [UIScreen mainScreen].bounds.size.width,
                                                                     [UIScreen mainScreen].bounds.size.width*0.2316) collectionViewLayout:layout];
-    LLStepsView.backgroundColor = [UIColor colorWithRed:100.0/255.0 green:114.0/255.0 blue:188.0/255.0 alpha:1];
+//    LLStepsView.backgroundColor = [UIColor colorWithRed:100.0/255.0 green:114.0/255.0 blue:188.0/255.0 alpha:1];
+    LLStepsView.backgroundColor = [UIColor clearColor];
     LLStepsView.delegate = self;
     LLStepsView.dataSource = self;
     LLStepsView.alwaysBounceHorizontal = YES;
@@ -87,16 +102,14 @@
     
 //    NSIndexPath *path = [NSIndexPath indexPathForItem:4 inSection:0];
 //    [LLStepsView scrollToItemAtIndexPath:path atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
-    LLStepsView.contentOffset = CGPointMake(LLStepsView.bounds.size.width*4, 0);
-    
-    UIImageView *StepViewBG = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, LLStepsView.bounds.size.width, LLStepsView.bounds.size.height)];
-    StepViewBG.image = [UIImage imageNamed:@"calendar-layer.png"];
-    [LLStepsView addSubview:StepViewBG];
+    LLStepsView.contentOffset = CGPointMake(LLDayModelArray.count*[UIScreen mainScreen].bounds.size.width*0.19, 0);
+//    NSLog(@"偏移量%f 数组%lu",LLStepsView.contentOffset.x,(unsigned long)LLDayModelArray.count);
+
     // 通过xib注册
     [LLStepsView registerClass:[LLPunchStepsCollectionViewCell class] forCellWithReuseIdentifier:@"Cell"];
     [self.view addSubview: LLStepsView];
-    [self initCalendarStepsArray];
-    [self RightPinchreload];
+    
+//    [self RightPinchreload];
 
     
 }
@@ -104,6 +117,7 @@
 
 
 -(void)drawStepView{
+    
     
     backgroundView = [[UIView alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.02,
                                                              [UIScreen mainScreen].bounds.size.width*0.50,
@@ -115,7 +129,7 @@
     UIImageView *backImage= [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, backgroundView.bounds.size.width, backgroundView.bounds.size.height)];
     backImage.image = [UIImage imageNamed:@"progress-layer.png"];
     [backgroundView addSubview:backImage];
-    UILabel *todaylabel = [[UILabel alloc]initWithFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.width*0.04,
+    todaylabel = [[UILabel alloc]initWithFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.width*0.04,
                                                                    backgroundView.bounds.size.width,
                                                                    [UIScreen mainScreen].bounds.size.width*0.0726)];
     todaylabel.textAlignment = NSTextAlignmentCenter;
@@ -145,9 +159,9 @@
     
     step = [[UILabel alloc]initWithFrame:CGRectMake(0, insidecircle.bounds.size.height/2-20, insidecircle.bounds.size.width, 40)];
     step.textAlignment = NSTextAlignmentCenter;
-    NSString *oldtodayenergy = [[NSUserDefaults standardUserDefaults]valueForKey:@"NowDayEnergy"];
-    step.text = oldtodayenergy;
-    if (oldtodayenergy.intValue>=10000) {
+    ThedayStep = [[NSUserDefaults standardUserDefaults]valueForKey:@"NowDayEnergy"];
+    step.text = ThedayStep;
+    if (ThedayStep.intValue>=10000) {
         step.textColor = [UIColor colorWithRed:251.0/255.0 green:175.0/255.0 blue:173.0/255.0 alpha:1];
     }else{
         step.textColor = [UIColor colorWithRed:214.0/255.0 green:208.0/255.0 blue:242.0/255.0 alpha:1];
@@ -201,38 +215,128 @@
             int widthX = i*18;
             UIImageView *unpunchcard = [[UIImageView alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.32+widthX,
                                                                                     [UIScreen mainScreen].bounds.size.width*0.65+HeightY, 30, 24)];
-            unpunchcard.image = [UIImage imageNamed:@"notfound.png"];
+            unpunchcard.image = [UIImage imageNamed:@"Punchnotfound.png"];
             [backgroundView addSubview:unpunchcard];
         }
     }
     
+    [self DrawPunchCardView:today];
+    [self DrawCircleWithEnergy:ThedayStep];
+    
 
-    for (int i=0; i<3; i++) {
-            int widthX = i*18;
-            UIImageView *unpunchcard = [[UIImageView alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.32+widthX,
-                                                                                    [UIScreen mainScreen].bounds.size.width*0.65, 30, 24)];
-            unpunchcard.image = [UIImage imageNamed:@"day.png"];
-            [backgroundView addSubview:unpunchcard];
-    }
-    
-    for (int i=0; i<8; i++) {
-        int widthX = i*18;
-        UIImageView *unpunchcard = [[UIImageView alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.32+widthX,
-                                                                                [UIScreen mainScreen].bounds.size.width*0.72, 30, 24)];
-        unpunchcard.image = [UIImage imageNamed:@"day.png"];
-        [backgroundView addSubview:unpunchcard];
-    }
-    
-    for (int i=0; i<5; i++) {
-        int widthX = i*18;
-        UIImageView *unpunchcard = [[UIImageView alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.32+widthX,
-                                                                                [UIScreen mainScreen].bounds.size.width*0.79, 30, 24)];
-        unpunchcard.image = [UIImage imageNamed:@"day.png"];
-        [backgroundView addSubview:unpunchcard];
-    }
-    
-    [self DrawCircleWithEnergy:oldtodayenergy];
 }
+#pragma mark - 画打卡动画
+
+-(void)DrawPunchCardView:(NSDate *)date{
+    
+    punchView = [[UIView alloc]init];
+    punchView.backgroundColor = [UIColor clearColor];
+    punchView.frame = CGRectMake(0, 0, backgroundView.bounds.size.width, backgroundView.bounds.size.height);
+    [backgroundView addSubview:punchView];
+    
+    LLPunchManger *punchManger = [[LLPunchManger alloc]init];
+//    [punchManger CheckDatePunch:date];
+    [punchManger TestDatePunch:date];
+    //图书馆上午
+    for (int i=0; i<punchManger.LLPunchLibraryAMCount; i++) {
+        int widthX = i*18;
+        UIImageView *punchcard = [[UIImageView alloc]initWithFrame:
+                                    CGRectMake([UIScreen mainScreen].bounds.size.width*0.32+widthX,
+                                               [UIScreen mainScreen].bounds.size.width*0.65, 30, 24)];
+        punchcard.image = [UIImage imageNamed:@"day.png"];
+        punchcard.alpha = 0;
+        [punchView addSubview:punchcard];
+        
+        [UIView animateWithDuration:0.3 delay:0.2*i options:UIViewAnimationOptionCurveLinear animations:^{
+            punchcard.alpha = 1;
+        } completion:^(BOOL finished) {
+            
+        }];
+    }
+    //图书馆下午
+    for (int i=0; i<punchManger.LLPunchLibraryPMCount; i++) {
+        //出去上之前数据的x轴
+        int WidthInitX = punchManger.LLPunchLibraryAMCount*18;
+        int widthX = i*18;
+        UIImageView *punchcard = [[UIImageView alloc]initWithFrame:
+                                    CGRectMake([UIScreen mainScreen].bounds.size.width*0.32+widthX+WidthInitX,
+                                               [UIScreen mainScreen].bounds.size.width*0.65, 30, 24)];
+        punchcard.image = [UIImage imageNamed:@"night.png"];
+        punchcard.alpha = 0;
+        [punchView addSubview:punchcard];
+        
+        
+        [UIView animateWithDuration:0.3 delay:0.2*(i+punchManger.LLPunchLibraryAMCount) options:UIViewAnimationOptionCurveLinear animations:^{
+            punchcard.alpha = 1;
+        } completion:^(BOOL finished) {
+            
+        }];
+    }
+    
+    //食堂上午
+    for (int i=0; i<punchManger.LLPunchRestaurantAMCount; i++) {
+        int widthX = i*18;
+        UIImageView *punchcard = [[UIImageView alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.32+widthX,
+                                                                                [UIScreen mainScreen].bounds.size.width*0.72, 30, 24)];
+        punchcard.image = [UIImage imageNamed:@"day.png"];
+        punchcard.alpha = 0;
+        [punchView addSubview:punchcard];
+        
+        [UIView animateWithDuration:0.3 delay:0.2*i options:UIViewAnimationOptionCurveLinear animations:^{
+            punchcard.alpha = 1;
+        } completion:^(BOOL finished) {
+            
+        }];
+    }
+    //食堂下午
+    for (int i=0; i<punchManger.LLPunchRestaurantPMCount; i++) {
+        int WidthInitX = punchManger.LLPunchRestaurantAMCount*18;
+        int widthX = i*18;
+        UIImageView *punchcard = [[UIImageView alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.32+widthX+WidthInitX,
+                                                                              [UIScreen mainScreen].bounds.size.width*0.72, 30, 24)];
+        punchcard.image = [UIImage imageNamed:@"night.png"];
+        punchcard.alpha = 0;
+        [punchView addSubview:punchcard];
+        
+        [UIView animateWithDuration:0.3 delay:0.2*(i+punchManger.LLPunchRestaurantAMCount) options:UIViewAnimationOptionCurveLinear animations:^{
+            punchcard.alpha = 1;
+        } completion:^(BOOL finished) {
+            
+        }];
+    }
+    
+    //教学楼上午
+    for (int i=0; i<punchManger.LLPunchTeachAMCount; i++) {
+        int widthX = i*18;
+        UIImageView *punchcard = [[UIImageView alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.32+widthX,
+                                                                                [UIScreen mainScreen].bounds.size.width*0.79, 30, 24)];
+        punchcard.image = [UIImage imageNamed:@"day.png"];
+        punchcard.alpha = 0;
+        [punchView addSubview:punchcard];
+        [UIView animateWithDuration:0.3 delay:0.2*i options:UIViewAnimationOptionCurveLinear animations:^{
+            punchcard.alpha = 1;
+        } completion:^(BOOL finished) {
+            
+        }];
+    }
+    //教学楼下午
+    for (int i=0; i<punchManger.LLPunchTeachAMCount; i++) {
+        int WidthInitX = punchManger.LLPunchTeachAMCount*18;
+        int widthX = i*18;
+        UIImageView *punchcard = [[UIImageView alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.32+widthX+WidthInitX,
+                                                                              [UIScreen mainScreen].bounds.size.width*0.79, 30, 24)];
+        punchcard.image = [UIImage imageNamed:@"night.png"];
+        punchcard.alpha = 0;
+        [punchView addSubview:punchcard];
+        [UIView animateWithDuration:0.3 delay:0.2*(i+punchManger.LLPunchTeachAMCount) options:UIViewAnimationOptionCurveLinear animations:^{
+            punchcard.alpha = 1;
+        } completion:^(BOOL finished) {
+            
+        }];
+    }
+
+}
+#pragma  mark - 画圈圈动画
 
 -(void)DrawCircleWithEnergy:(NSString *)energy{
     //画圈圈
@@ -274,9 +378,21 @@
     //    [bezierbackView.layer addSublayer:gradientLayer];
     
     //set gradient colors
-    gradientLayer.colors = @[(__bridge id)[UIColor colorWithRed:123.0/255.0 green:67.0/255.0 blue:239.0/255.0 alpha:1].CGColor,
-                             (__bridge id)[UIColor colorWithRed:234.0/255.0 green:105.0/255.0 blue:187.0/255.0 alpha:1].CGColor,
-                             (__bridge id)[UIColor colorWithRed:255.0/255.0 green:165.0/255.0 blue:165.0/255.0 alpha:1].CGColor];
+    if (ThedayStep.intValue>=10000) {
+        gradientLayer.colors = nil;
+        NSLog(@"gradientLayer.colors更改1");
+        gradientLayer.colors = @[(__bridge id)[UIColor colorWithRed:123.0/255.0 green:67.0/255.0 blue:239.0/255.0 alpha:1].CGColor,
+                                 (__bridge id)[UIColor colorWithRed:234.0/255.0 green:105.0/255.0 blue:187.0/255.0 alpha:1].CGColor,
+                                 (__bridge id)[UIColor colorWithRed:255.0/255.0 green:165.0/255.0 blue:165.0/255.0 alpha:1].CGColor];
+    }else{
+        NSLog(@"gradientLayer.colors更改2");
+        gradientLayer.colors = nil;
+        gradientLayer.colors = @[(__bridge id)[UIColor colorWithRed:60.0/255.0 green:88.0/255.0 blue:255.0/255.0 alpha:1].CGColor,
+                                 (__bridge id)[UIColor colorWithRed:121.0/255.0 green:121.0/255.0 blue:255.0/255.0 alpha:1].CGColor,
+                                 (__bridge id)[UIColor colorWithRed:42.0/255.0 green:195.0/255.0 blue:218.0/255.0 alpha:1].CGColor];
+    }
+
+
     
     //set locations
     gradientLayer.locations = @[@0.1, @0.5, @0.8];
@@ -318,91 +434,98 @@
 }
 
 
-#pragma mark <UICollectionViewDataSource> 日历数据源
+#pragma mark - <UICollectionViewDataSource> 日历数据源
 
-- (void)RightPinchreload
-{
-//    [LLStepsView xzm_addNormalHeaderWithTarget:self action:@selector(reloadNewData:)];
-    [LLStepsView xzm_addGifHeaderWithTarget:self action:@selector(reloadNewData:)];
-    [LLStepsView xzm_addGifFooterWithTarget:self action:@selector(reloadOldData:)];
-    
-    LLStepsView.xzm_gifHeader.updatedTimeHidden = YES;
-    LLStepsView.xzm_gifHeader.stateHidden = YES;
-    [LLStepsView.xzm_header setTitle:@"" forState:XZMRefreshStateNormal];
-    [LLStepsView.xzm_header setTitle:@"" forState:XZMRefreshStatePulling];
-    [LLStepsView.xzm_header setTitle:@"" forState:XZMRefreshStateRefreshing];
-    
-    LLStepsView.xzm_gifFooter.stateHidden = YES;
-    [LLStepsView.xzm_gifFooter setTitle:@"" forState:XZMRefreshStateNormal];
-    [LLStepsView.xzm_gifFooter setTitle:@"" forState:XZMRefreshStatePulling];
-    [LLStepsView.xzm_gifFooter setTitle:@"" forState:XZMRefreshStateRefreshing];
-    
-    NSMutableArray *idleImages = [NSMutableArray array];
-    for (NSUInteger i = 1; i<=60; i++) {
-        UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"dropdown_anim__000%zd", i]];
-        [idleImages addObject:image];
-    }
-    [LLStepsView.xzm_gifHeader setImages:idleImages forState:XZMRefreshStateNormal];
-    [LLStepsView.xzm_gifFooter setImages:idleImages forState:XZMRefreshStateNormal];
-    
-    // 设置正在刷新状态的动画图片
-    NSMutableArray *refreshingImages = [NSMutableArray array];
-    for (NSUInteger i = 1; i<=3; i++) {
-        UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"dropdown_loading_0%zd", i]];
-        [refreshingImages addObject:image];
-    }
-    [LLStepsView.xzm_gifHeader setImages:refreshingImages forState:XZMRefreshStateRefreshing];
-    [LLStepsView.xzm_gifFooter setImages:refreshingImages forState:XZMRefreshStateRefreshing];
-    
-    // 马上进入刷新状态
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        [LLStepsView.xzm_gifHeader beginRefreshing];
-//        NSLog(@"开始刷新");
-//    });
-}
+//- (void)RightPinchreload
+//{
+////    [LLStepsView xzm_addNormalHeaderWithTarget:self action:@selector(reloadNewData:)];
+//    [LLStepsView xzm_addGifHeaderWithTarget:self action:@selector(reloadNewData:)];
+//    [LLStepsView xzm_addGifFooterWithTarget:self action:@selector(reloadOldData:)];
+//    
+//    LLStepsView.xzm_gifHeader.updatedTimeHidden = YES;
+//    LLStepsView.xzm_gifHeader.stateHidden = YES;
+//    [LLStepsView.xzm_header setTitle:@"" forState:XZMRefreshStateNormal];
+//    [LLStepsView.xzm_header setTitle:@"" forState:XZMRefreshStatePulling];
+//    [LLStepsView.xzm_header setTitle:@"" forState:XZMRefreshStateRefreshing];
+//    
+//    LLStepsView.xzm_gifFooter.stateHidden = YES;
+//    [LLStepsView.xzm_gifFooter setTitle:@"" forState:XZMRefreshStateNormal];
+//    [LLStepsView.xzm_gifFooter setTitle:@"" forState:XZMRefreshStatePulling];
+//    [LLStepsView.xzm_gifFooter setTitle:@"" forState:XZMRefreshStateRefreshing];
+//    
+//    NSMutableArray *idleImages = [NSMutableArray array];
+//    for (NSUInteger i = 1; i<=60; i++) {
+//        UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"dropdown_anim__000%zd", i]];
+//        [idleImages addObject:image];
+//    }
+//    [LLStepsView.xzm_gifHeader setImages:idleImages forState:XZMRefreshStateNormal];
+//    [LLStepsView.xzm_gifFooter setImages:idleImages forState:XZMRefreshStateNormal];
+//    
+//    // 设置正在刷新状态的动画图片
+//    NSMutableArray *refreshingImages = [NSMutableArray array];
+//    for (NSUInteger i = 1; i<=3; i++) {
+//        UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"dropdown_loading_0%zd", i]];
+//        [refreshingImages addObject:image];
+//    }
+//    [LLStepsView.xzm_gifHeader setImages:refreshingImages forState:XZMRefreshStateRefreshing];
+//    [LLStepsView.xzm_gifFooter setImages:refreshingImages forState:XZMRefreshStateRefreshing];
+//    
+//    // 马上进入刷新状态
+////    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+////        [LLStepsView.xzm_gifHeader beginRefreshing];
+////        NSLog(@"开始刷新");
+////    });
+//}
 
 -(void)initCalendarStepsArray{
     //如果是当天第一次打开能量记录页面 就把步数更新到第一次使用应用的那一天
-    NSDate *nowday = [NSDate date];
-//    NSTimeZone *timeZone = [NSTimeZone systemTimeZone]; // 获取的是系统的时区
-//    NSInteger Correctinterval = [timeZone secondsFromGMTForDate: nowday];// local时间距离GMT的秒数
-//    NSDate *today = [nowday dateByAddingTimeInterval: Correctinterval];
+//    NSDate *nowday = [NSDate date];
     
-//    NSDate *todayDate  =  [[NSUserDefaults standardUserDefaults]valueForKey:@"today"];
-//    if ([self isSameDayForDate:today andDate:todayDate]) {
-//        NSDate *firstUseDate = [[NSUserDefaults standardUserDefaults]valueForKey:@"firstOpenAPPString"];
-//        //更新到第一次使用应用的那天
-//        NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-//        unsigned int unitFlags = kCFCalendarUnitDay;
-//        NSDateComponents *comps = [gregorian components:unitFlags fromDate:firstUseDate  toDate:today  options:0];
-//        long days = [comps day]+1;
-//        NSLog(@"天数===%ld",days);
-////        NSMutableArray *StepsArray = [[NSMutableArray alloc]initWithCapacity:days];
-////        NSLog(@"第一次使用的日期%@",today);
-//    
-//    }
-
-
+//    LLPunchSetArray *setArray = [[LLPunchSetArray alloc]init];
+//    LLWeekArray = [[NSMutableArray alloc]init];
+//    LLWeekArray = [setArray setWeekArrayWithDate:nowday];
     
-    LLPunchSetArray *setArray = [[LLPunchSetArray alloc]init];
+//    LLDayArray = [[NSMutableArray alloc]init];
+//    LLDayArray = [setArray setDayArrayWithDate:nowday];
     
-    LLWeekArray = [[NSMutableArray alloc]init];
-    LLWeekArray = [setArray setWeekArrayWithDate:nowday];
+//    LLStepsArray = [[NSMutableArray alloc]init];
+//    LLStepsArray = [setArray newStepsArrayWithDaysCount:19 Date:nowday];
     
-    LLDayArray = [[NSMutableArray alloc]init];
-    LLDayArray = [setArray setDayArrayWithDate:nowday];
+//    LLDateArray = [[NSMutableArray alloc]init];
+//    LLDateArray = [setArray setDateArrayWithDate:nowday];
     
-    LLStepsArray = [[NSMutableArray alloc]init];
-    LLStepsArray = [setArray newStepsArrayWithDaysCount:19 Date:nowday];
+    
 //    NSLog(@"StepsArray%lu",(unsigned long)LLStepsArray.count);
 //    NSLog(@"weekArray%lu",(unsigned long)LLWeekArray.count);
-//
+    
+    LLDayModelArray = [[NSMutableArray alloc]init];
+    
+    
+    RLMRealm * realm = [RLMRealm defaultRealm];
+    RLMResults * tempArray = [LLEveryDaystep allObjectsInRealm:[RLMRealm defaultRealm]];
+    
+    NSMutableArray *PicNameArray = [[NSMutableArray alloc]init];
+    
+    //加载数值
+    [realm transactionWithBlock:^{
+        for (LLEveryDaystep *model  in tempArray) {
+//            if ([model. isEqualToString:@"东九"]) {
+//                [PicNameArray addObject:model.ARPicName];
+//            }
+            [LLDayModelArray addObject:model];
+
+        }
+        [realm commitWriteTransaction]; //注意  这里不能写在for循环里面 写入数据库， 要在循环改变完只好
+        
+    }];
+    
+    for (NSString*string in PicNameArray) {
+        NSLog(@"模型中的图片名称%@",string);
+    }
 }
 
 
-- (BOOL)isSameDayForDate:(NSDate *)date1 andDate:(NSDate*)date2
-
-{
+- (BOOL)isSameDayForDate:(NSDate *)date1 andDate:(NSDate*)date2{
     
     if (nil == date1 || nil == date2){
         return NO;
@@ -418,74 +541,30 @@
 }
 
 
--(void)reloadNewData:(XZMRefreshHeader *)header{
-    isSelectedItem = YES;
-    [LLWeekArray removeAllObjects];
-    [LLDayArray removeAllObjects];
-    [LLStepsArray removeAllObjects];
-    count++;
-    NSDate *date = [NSDate date];
-    NSDate *datee = [date dateByAddingTimeInterval: -86400*count*20];
-    NSLog(@"%@",datee);
-    
-    
-    
-    LLPunchSetArray *setArray = [[LLPunchSetArray alloc]init];
 
-    LLWeekArray = [setArray setWeekArrayWithDate:datee];
-    LLDayArray = [setArray setDayArrayWithDate:datee];
-    LLStepsArray = [setArray UpStepsArrayWithDaysCount:20 Date:datee];
-//    LLStepsView = nil;
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [LLStepsView reloadData];
-        [header endRefreshing];
-//    });
-}
--(void)reloadOldData:(XZMRefreshFooter *)footer{
-    isSelectedItem = YES;
-    [LLWeekArray removeAllObjects];
-    [LLDayArray removeAllObjects];
-    [LLStepsArray removeAllObjects];
-    
-    if (count == 0) {
-        [self initCalendarStepsArray];
-        [footer endRefreshing];
-        return;
-    }
-    count--;
-    NSDate *date = [NSDate date];
-    NSDate *datee = [date dateByAddingTimeInterval: -86400*count*20];
-    NSLog(@"%@",datee);
-    
-    LLPunchSetArray *setArray = [[LLPunchSetArray alloc]init];
-    
-    LLWeekArray = [setArray setWeekArrayWithDate:datee];
-    LLDayArray = [setArray setDayArrayWithDate:datee];
-    LLStepsArray = [setArray UpStepsArrayWithDaysCount:20 Date:datee];
-    //    LLStepsView = nil;
-    //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-    [LLStepsView reloadData];
-    [footer endRefreshing];
-    //    });
-}
 
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     return CGSizeMake([UIScreen mainScreen].bounds.size.width*0.18, [UIScreen mainScreen].bounds.size.width*0.2316);
 }
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return LLWeekArray.count;
+    return LLDayModelArray.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *identifier = @"Cell";
     LLPunchStepsCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
-
-    cell.LLPunchWeekLabel.text = [LLWeekArray objectAtIndex:indexPath.item];
-    cell.LLPunchDayLabel.text = [LLDayArray objectAtIndex:indexPath.item];
-    cell.LLPunchStepsLabel.text = [LLStepsArray objectAtIndex:indexPath.item];
+    
+    cell.backgroundColor = [UIColor clearColor];
+    LLEveryDaystep *model = [LLDayModelArray objectAtIndex:indexPath.item];
+    cell.LLPunchWeekLabel.text = model.LLEverydayWeekday;
+    cell.LLPunchDayLabel.text = model.LLEveryDateString;
+    cell.LLPunchStepsLabel.text = model.LLEverydayStep;
+//    cell.LLPunchWeekLabel.text = [LLWeekArray objectAtIndex:indexPath.item];
+//    cell.LLPunchDayLabel.text = [LLDayArray objectAtIndex:indexPath.item];
+//    cell.LLPunchStepsLabel.text = [LLStepsArray objectAtIndex:indexPath.item];
     if (count==0) {
         NSLog(@"count ==0");
-        if (indexPath.item ==19) {
+        if (indexPath.item ==LLDayModelArray.count-1) {
             cell.LLPunchAward.hidden = YES;
 //            [cell setNeedsLayout];
             cell.LLPunchDayLabel.textColor = [UIColor colorWithRed:251.0/255.0 green:175.0/255.0 blue:173.0/255.0 alpha:1];
@@ -496,12 +575,9 @@
         else if (cell.LLPunchStepsLabel.text.intValue>=10000){
             cell.LLPunchAward.hidden = NO;
 //            [cell setNeedsLayout];
-//            cell.LLPunchDayLabel.textColor = [UIColor colorWithRed:251.0/255.0 green:175.0/255.0 blue:173.0/255.0 alpha:1];
-//            cell.LLPunchWeekLabel.textColor = [UIColor colorWithRed:251.0/255.0 green:175.0/255.0 blue:173.0/255.0 alpha:1];
-//            cell.LLPunchStepsLabel.textColor = [UIColor colorWithRed:251.0/255.0 green:175.0/255.0 blue:173.0/255.0 alpha:1];
-            cell.LLPunchDayLabel.textColor = [UIColor colorWithRed:251.0/255.0 green:175.0/255.0 blue:173.0/255.0 alpha:1];
-            cell.LLPunchWeekLabel.textColor = [UIColor colorWithRed:251.0/255.0 green:175.0/255.0 blue:173.0/255.0 alpha:1];
-            cell.LLPunchStepsLabel.textColor = [UIColor colorWithRed:251.0/255.0 green:175.0/255.0 blue:173.0/255.0 alpha:1];
+            cell.LLPunchDayLabel.textColor = [UIColor colorWithRed:94.0/255.0 green:109.0/255.0 blue:152.0/255.0 alpha:1];
+            cell.LLPunchWeekLabel.textColor = [UIColor colorWithRed:94.0/255.0 green:109.0/255.0 blue:152.0/255.0 alpha:1];
+            cell.LLPunchStepsLabel.textColor = [UIColor colorWithRed:94.0/255.0 green:109.0/255.0 blue:152.0/255.0 alpha:1];
         }
         else{
             cell.LLPunchAward.hidden = YES;;
@@ -514,9 +590,9 @@
         if (cell.LLPunchStepsLabel.text.intValue>=10000){
             cell.LLPunchAward.hidden = NO;
             //            [cell setNeedsLayout];
-            cell.LLPunchDayLabel.textColor = [UIColor colorWithRed:251.0/255.0 green:175.0/255.0 blue:173.0/255.0 alpha:1];
-            cell.LLPunchWeekLabel.textColor = [UIColor colorWithRed:251.0/255.0 green:175.0/255.0 blue:173.0/255.0 alpha:1];
-            cell.LLPunchStepsLabel.textColor = [UIColor colorWithRed:251.0/255.0 green:175.0/255.0 blue:173.0/255.0 alpha:1];
+            cell.LLPunchDayLabel.textColor = [UIColor colorWithRed:94.0/255.0 green:109.0/255.0 blue:152.0/255.0 alpha:1];
+            cell.LLPunchWeekLabel.textColor = [UIColor colorWithRed:94.0/255.0 green:109.0/255.0 blue:152.0/255.0 alpha:1];
+            cell.LLPunchStepsLabel.textColor = [UIColor colorWithRed:94.0/255.0 green:109.0/255.0 blue:152.0/255.0 alpha:1];
         }
         else{
             cell.LLPunchAward.hidden = YES;;
@@ -541,12 +617,11 @@
             //收起
             NSLog(@"old cell");
         }
-        
         //不是自身
     } else {
     }
-
     return cell;
+
 }
 
 #pragma mark - <UICollectionViewDelegate>
@@ -559,7 +634,12 @@
     if (SelectedIndex != nil && indexPath.item == SelectedIndex.item) {
         //将选中的和所有索引都加进数组中
         //        indexPaths = [NSArray arrayWithObjects:indexPath,selectedIndex, nil];
-        isSelectedItem = !isSelectedItem;
+        if(indexPath == SelectedIndex){
+//            isSelectedItem = !isSelectedItem;
+        }else{
+            isSelectedItem = !isSelectedItem;
+        }
+        
         
     }else if (SelectedIndex != nil && indexPath.item != SelectedIndex.item) {
         indexPaths = [NSArray arrayWithObjects:indexPath,SelectedIndex, nil];
@@ -573,14 +653,27 @@
     [LLStepsView reloadItemsAtIndexPaths:indexPaths];
 //    step.text = nil;
     changeStepsLabel.paused = YES;
-    step.text  = [LLStepsArray objectAtIndex:indexPath.item];
+    LLEveryDaystep *model = [[LLEveryDaystep alloc]init];
+    model = [LLDayModelArray objectAtIndex:indexPath.item];
+    
+    step.text  = model.LLEverydayStep;
+    todaylabel.text = nil;
+    todaylabel.text = model.LLEverydayDate;
     if (step.text.intValue>=10000) {
         step.textColor = [UIColor colorWithRed:251.0/255.0 green:175.0/255.0 blue:173.0/255.0 alpha:1];
     }else{
         step.textColor = [UIColor colorWithRed:214.0/255.0 green:208.0/255.0 blue:242.0/255.0 alpha:1];
     }
     [bezierbackView removeFromSuperview];
-    [self DrawCircleWithEnergy:[LLStepsArray objectAtIndex:indexPath.item]];
+    [punchView removeFromSuperview];
+    ThedayStep = step.text;
+//    DrawCircleWithEnergy =
+    [self DrawCircleWithEnergy:ThedayStep];
+//    nsda
+    NSDate *thisdate = [dateformatter dateFromString:model.LLEverydayDate];
+    
+    [self DrawPunchCardView:thisdate];
+
 }
 
 -(void)viewDidDisappear:(BOOL)animated{

@@ -36,7 +36,7 @@
          判断一下附近有多少个基站
          */
         NSString *count = [dic objectForKey:@"count"];
-        NSLog(@"返回附近的基站的数目%@",count);
+//        NSLog(@"返回附近的基站的数目%@",count);
         if ([count isEqualToString:@"0"]) {
             [[NSUserDefaults standardUserDefaults]setValue:@"附近无基站" forKey:@"LLNearestLocation"];
             [[NSUserDefaults standardUserDefaults]setValue:@"附近无基站" forKey:@"LLSecondNearestLocation"];

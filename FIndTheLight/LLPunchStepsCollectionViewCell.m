@@ -16,6 +16,10 @@
     self = [super initWithFrame:frame];
     self.backgroundColor = [UIColor colorWithRed:17.0/255.0 green:38.0/255.0 blue:59.0/255.0 alpha:1];
     
+    UIImageView *stride = [[UIImageView alloc]init];
+    stride.frame = CGRectMake(0, self.bounds.size.height*0.08, 2, self.bounds.size.height*0.84);
+    stride.image = [UIImage imageNamed:@"parting-line@2x.png"];
+    [self addSubview:stride];
     
     _LLPunchDayLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, self.bounds.size.height/3, self.bounds.size.width, self.bounds.size.height/3)];
     _LLPunchDayLabel.textAlignment = NSTextAlignmentCenter;

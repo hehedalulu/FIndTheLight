@@ -11,6 +11,7 @@
 #import <BmobSDK/Bmob.h>
 #import <BmobSDK/BmobFile.h>
 #import <SDWebImage/UIButton+WebCache.h>
+#import "LLHintImageManger.h"
 @interface LLHintViewController ()<iCarouselDataSource, iCarouselDelegate>{
     NSMutableArray *HintImageNameArray;
 }
@@ -25,9 +26,8 @@
 //    self.view.layer.cornerRadius = 8.f;
     self.view.backgroundColor = [UIColor clearColor];
     
-//    HintImageNameArray = [[NSMutableArray alloc]init];
-//    [self initPics];
-    
+
+
 
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapViewdismiss:)];
@@ -41,7 +41,6 @@
 //    UIImageView *backgroundView = [[UIImageView alloc]initWithFrame:CGRectMake(0 ,0, self.view.bounds.size.width, self.view.bounds.size.height)];
     self.view.backgroundColor = [UIColor blackColor];
     self.view.alpha = 0.8;
-//    [self.view addSubview:backgroundView];
 }
 
 -(void)tapViewdismiss:(UITapGestureRecognizer *)sender{
@@ -119,14 +118,31 @@
 -(void)initCarousel{
     
     
-    HintImagesArray = [NSMutableArray array];
-    NSMutableArray *temp = [[NSMutableArray alloc]initWithObjects:
-                            @"WechatIMG249",
-                            @"WechatIMG248",
-                            @"WechatIMG250",
-                            @"WechatIMG251",
-                            @"WechatIMG253",nil];
-    [HintImagesArray addObjectsFromArray:temp];
+    _HintImagesArray = [NSMutableArray array];
+//    NSMutableArray *temp = [[NSMutableArray alloc]initWithObjects:
+//                            @"Library_dongjiu3",
+//                            @"Library_dongjiu3",
+//                            @"Library_dongjiu3",
+//                            @"Library_dongjiu3",
+//                            @"Library_dongjiu3",
+//                            @"Library_dongjiu3",
+//                            @"Library_dongjiu3",
+//                            @"Library_dongjiu3",
+//                            @"Library_dongjiu3",
+//                            @"Library_dongjiu3",
+//                            @"Library_dongjiu3",
+//                            @"Library_dongjiu3",
+//                            @"Library_dongjiu3",
+//                            @"Library_dongjiu3",
+//                            @"Library_dongjiu3",
+//                            @"Library_dongjiu3",nil];
+//    [HintImagesArray addObjectsFromArray:temp];
+    
+    LLHintImageManger *manager =  [[LLHintImageManger alloc]init];
+//    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        _HintImagesArray = [manager ShowImagesArray];
+
+//    });
     
     icarousel = [[iCarousel alloc]initWithFrame:CGRectMake(50,100+[UIScreen mainScreen].bounds.size.height*0.153, [UIScreen mainScreen].bounds.size.width+50, [UIScreen mainScreen].bounds.size.height*0.285)];
     icarousel.dataSource = self;
@@ -164,7 +180,7 @@
 - (NSInteger)numberOfItemsInCarousel:(iCarousel *)carousel
 {
     //return the total number of items in the carousel
-    return [HintImagesArray count];
+    return [_HintImagesArray count];
 }
 
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSInteger)index reusingView:(UIView *)view
@@ -172,23 +188,24 @@
     UIButton *button = (UIButton *)view;
     if (button == nil)
     {
-        //        NSString *imageNameString = [NSString stringWithFormat:@"WechatIMG2%@",];
-//        UIImage *inputimage = [UIImage imageNamed:HintImagesArray[index]];
-        NSString *path = [[NSBundle mainBundle] pathForResource:HintImagesArray[index] ofType:@"jpeg"];
+        NSString *path = [[NSBundle mainBundle] pathForResource:_HintImagesArray[index] ofType:@""];
         
         UIImage *inputimage = [UIImage imageWithContentsOfFile:path];
+//        UIImage *blurImage  = [self coreBlurImage:inputimage withBlurNumber:5];
+/*高斯模糊*/
 //        GPUImageGaussianBlurFilter *passthroughfilter = [[GPUImageGaussianBlurFilter alloc]init];
 //        passthroughfilter.blurRadiusInPixels = 20.0;
 //        
 //        [passthroughfilter forceProcessingAtSize:inputimage.size];
 //        [passthroughfilter useNextFrameForImageCapture];
-
+//
 //        GPUImagePicture *stillImageSource = [[GPUImagePicture alloc]initWithImage:inputimage];
 //        [stillImageSource addTarget:passthroughfilter];
 //        [stillImageSource processImage];
 //        //渲染结果image
 //        UIImage *nearestNeighborImage = [passthroughfilter imageFromCurrentFramebuffer];
         
+
         
         button = [UIButton buttonWithType:UIButtonTypeCustom];
         button.frame = CGRectMake(0.0f, 0.0f, [UIScreen mainScreen].bounds.size.width*0.506, [UIScreen mainScreen].bounds.size.width*0.506);
@@ -207,9 +224,25 @@
     
     //set button label
     //    [button setTitle:_items[index] forState:UIControlStateNormal];
-            NSLog(@" initbtn");
+       //     NSLog(@" initbtn");
     return button;
 }
+
+-(UIImage *)coreBlurImage:(UIImage *)image withBlurNumber:(CGFloat)blur
+{
+    CIContext *context = [CIContext contextWithOptions:nil];
+    CIImage *inputImage= [CIImage imageWithCGImage:image.CGImage];
+    //设置filter
+    CIFilter *filter = [CIFilter filterWithName:@"CIGaussianBlur"];
+    [filter setValue:inputImage forKey:kCIInputImageKey]; [filter setValue:@(blur) forKey: @"inputRadius"];
+    //模糊图片
+    CIImage *result=[filter valueForKey:kCIOutputImageKey];
+    CGImageRef outImage=[context createCGImage:result fromRect:[result extent]];
+    UIImage *blurImage=[UIImage imageWithCGImage:outImage];
+    CGImageRelease(outImage);
+    return blurImage;
+}
+
 - (void)buttonTapped:(UIButton *)sender
 {
     //get item index for button

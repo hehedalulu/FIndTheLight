@@ -2,25 +2,17 @@
 //  LLLocalModel.h
 //  FIndTheLight
 //
-//  Created by Wll on 17/2/15.
+//  Created by Wll on 17/3/8.
 //  Copyright © 2017年 CherryWang. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <Realm/Realm.h>
 #import <UIKit/UIKit.h>
+@interface LLLocalModel : RLMObject
 
-@interface LLLocalModel : NSObject
-@property (nonatomic) NSString *LLLocalModelNameString;
-@property (nonatomic) UIImage *LLLocalModelmage;
-@property (nonatomic) UIImage *LLLocalModelLevelImage;
-@property (nonatomic) NSString *LLLocalLightValueString;
-
--(NSString *)SetLocalNameString;
-
--(NSString *)SetLocalLightValue;
-
--(UIImage *)SetLocalModelImage;
-
--(UIImage *)SetLocalLevelImage;
+@property (nonatomic,copy) NSString *LLLocalModelNameString;
+@property (nonatomic,copy) NSString *LLLocalModelmageName;
+@property (nonatomic,copy) NSString *LLLocalModelLevelImageName;
+@property (nonatomic,copy) NSString *LLLocalLightValueString;
 
 @end

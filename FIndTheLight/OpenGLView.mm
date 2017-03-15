@@ -6,7 +6,7 @@
 
 #import "OpenGLView.h"
 #import "AppDelegate.h"
-
+#import "LLPunchModel.h"
 #include <iostream>
 #include "ar.hpp"
 #include "renderer.hpp"
@@ -34,12 +34,48 @@ public:
     virtual void resizeGL(int width, int height);
     virtual void render();
     virtual bool clear();
+    
+    std::string model1;
+    std::string model2;
+    std::string model3;
+    std::string model4;
+    std::string model5;
+    std::string model6;
+    std::string model7;
+    std::string model8;
+    std::string model9;
+    std::string model10;
+    std::string model11;
+    std::string model12;
+    std::string model13;
+    std::string model14;
+    std::string model15;
+    
+    
+    int picisFind1;//没有扫过1 发射扫过的信号2 已扫过3
+    int picisFind2;
+    int picisFind3;
+    int picisFind4;
+    int picisFind5;
+    int picisFind6;
+    int picisFind7;
+    int picisFind8;
+    int picisFind9;
+    int picisFind10;
+    int picisFind11;
+    int picisFind12;
+    int picisFind13;
+    int picisFind14;
+    int picisFind15;
+
+
+    BOOL arControl;
 private:
     Vec2I view_size;
-    VideoRenderer* renderer[3];
+    VideoRenderer* renderer[15];
     int tracked_target;
     int active_target;
-    int texid[3];
+    int texid[15];
     ARVideo* video;
     VideoRenderer* video_renderer;
 };
@@ -49,7 +85,7 @@ HelloARVideo::HelloARVideo()
     view_size[0] = -1;
     tracked_target = 0;
     active_target = 0;
-    for(int i = 0; i < 3; ++i) {
+    for(int i = 0; i < 15; ++i) {
         texid[i] = 0;
         renderer[i] = new VideoRenderer;
     }
@@ -59,7 +95,7 @@ HelloARVideo::HelloARVideo()
 
 HelloARVideo::~HelloARVideo()
 {
-    for(int i = 0; i < 3; ++i) {
+    for(int i = 0; i < 15; ++i) {
         delete renderer[i];
     }
 }
@@ -67,7 +103,7 @@ HelloARVideo::~HelloARVideo()
 void HelloARVideo::initGL()
 {
     augmenter_ = Augmenter();
-    for(int i = 0; i < 3; ++i) {
+    for(int i = 0; i < 15; ++i) {
         renderer[i]->init();
         texid[i] = renderer[i]->texId();
     }
@@ -80,6 +116,7 @@ void HelloARVideo::resizeGL(int width, int height)
 
 void HelloARVideo::render()
 {
+//    std::cout << lulu << std::endl;
     glClearColor(0.f, 0.f, 0.f, 1.f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -115,105 +152,139 @@ void HelloARVideo::render()
             tracked_target = 0;
             active_target = 0;
         }
-        if (!tracked_target) {
-            if (video == NULL) {
-                if(frame.targets()[0].target().name() == std::string("IMG_9356") && texid[0]) {
-                    video = new ARVideo;
-                    video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[0]);
-                    video_renderer = renderer[0];
+        
+//        arControl = NO;
+        if (arControl) {
+            if (!tracked_target) {
+                if (video == NULL) {
+                    if(frame.targets()[0].target().name() == model1 && texid[0]) {
+                        if (picisFind1 == 0) {//第一次识别到
+                            picisFind1 = 1;
+                        }
+//                        std::cout << isFind << std::endl;
+                    }
+                    else if(frame.targets()[0].target().name() == model2 && texid[1]) {
+//                        video = new ARVideo;
+//                        video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[1]);
+//                        video_renderer = renderer[1];
+                        if (picisFind2 == 0) {//第一次识别到
+                            picisFind2 = 1;
+                        }
+                    }
+                    else if(frame.targets()[0].target().name() == model3 && texid[2]) {
+//                        video = new ARVideo;
+//                        video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[2]);
+//                        video_renderer = renderer[2];
+                        if (picisFind3 == 0) {//第一次识别到
+                            picisFind3 = 1;
+                        }
+                    }
+                    else if(frame.targets()[0].target().name() == model4 && texid[3]) {
+//                        video = new ARVideo;
+//                        video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[3]);
+//                        video_renderer = renderer[3];
+                        if (picisFind4 == 0) {//第一次识别到
+                            picisFind4 = 1;
+                        }
+                    }
+                    else if(frame.targets()[0].target().name() == model5 && texid[4]) {
+//                        video = new ARVideo;
+//                        video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[4]);
+//                        video_renderer = renderer[4];
+                        if (picisFind5 == 0) {//第一次识别到
+                            picisFind5 = 1;
+                        }
+                    }
+                    else if(frame.targets()[0].target().name() == model6 && texid[5]) {
+//                        video = new ARVideo;
+//                        video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[5]);
+//                        video_renderer = renderer[5];
+                        if (picisFind6 == 0) {//第一次识别到
+                            picisFind6 = 1;
+                        }
+                    }
+                    else if(frame.targets()[0].target().name() == model7 && texid[6]) {
+//                        video = new ARVideo;
+//                        video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[6]);
+//                        video_renderer = renderer[6];
+                        if (picisFind7 == 0) {//第一次识别到
+                            picisFind7 = 1;
+                        }
+                    }
+                    else if(frame.targets()[0].target().name() == model8 && texid[7]) {
+//                        video = new ARVideo;
+//                        video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[7]);
+//                        video_renderer = renderer[7];
+                        if (picisFind8 == 0) {//第一次识别到
+                            picisFind8 = 1;
+                        }
+                    }
+                    else if(frame.targets()[0].target().name() == model9 && texid[8]) {
+//                        video = new ARVideo;
+//                        video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[8]);
+//                        video_renderer = renderer[8];
+                        if (picisFind9 == 0) {//第一次识别到
+                            picisFind9 = 1;
+                        }
+                    }
+                    else if(frame.targets()[0].target().name() == model10 && texid[9]) {
+//                        video = new ARVideo;
+//                        video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[9]);
+//                        video_renderer = renderer[9];
+                        if (picisFind10 == 0) {//第一次识别到
+                            picisFind10 = 1;
+                        }
+                    }
+                    else if(frame.targets()[0].target().name() == model11 && texid[10]) {
+//                        video = new ARVideo;
+//                        video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[10]);
+//                        video_renderer = renderer[10];
+                        if (picisFind11 == 0) {//第一次识别到
+                            picisFind11 = 1;
+                        }
+                    }
+                    else if(frame.targets()[0].target().name() == model12 && texid[11]) {
+//                        video = new ARVideo;
+//                        video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[11]);
+//                        video_renderer = renderer[11];
+                        if (picisFind12 == 0) {//第一次识别到
+                            picisFind12 = 1;
+                        }
+                    }
+                    else if(frame.targets()[0].target().name() == model13 && texid[12]) {
+//                        video = new ARVideo;
+//                        video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[12]);
+//                        video_renderer = renderer[12];
+                        if (picisFind13 == 0) {//第一次识别到
+                            picisFind13 = 1;
+                        }
+                    }
+                    else if(frame.targets()[0].target().name() == model14 && texid[13]) {
+//                        video = new ARVideo;
+//                        video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[13]);
+//                        video_renderer = renderer[13];
+                        if (picisFind14 == 0) {//第一次识别到
+                            picisFind14 = 1;
+                        }
+                    }
+                    else if(frame.targets()[0].target().name() == model15 && texid[14]) {
+//                        video = new ARVideo;
+//                        video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[14]);
+//                        video_renderer = renderer[14];
+                        if (picisFind15 == 0) {//第一次识别到
+                            picisFind15 = 1;
+                        }
+                    }
                 }
-//                else if(frame.targets()[0].target().name() == std::string("WechatIMG24") && texid[1]) {
-//                    video = new ARVideo;
-//                    video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[1]);
-//                    video_renderer = renderer[1];
-//                }
-//                else if(frame.targets()[0].target().name() == std::string("idback") && texid[2]) {
-//                    video = new ARVideo;
-//                    video->openStreamingVideo("http://7xl1ve.com5.z0.glb.clouddn.com/sdkvideo/EasyARSDKShow201520.mp4", texid[2]);
-//                    video_renderer = renderer[2];
-//                }
-                else if(frame.targets()[0].target().name() == std::string("IMG_7365") && texid[1]) {
-                    video = new ARVideo;
-                    video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[1]);
-                    video_renderer = renderer[1];
+                if (video) {
+                    video->onFound();
+                    tracked_target = id;
+                    active_target = id;
                 }
-                else if(frame.targets()[0].target().name() == std::string("WechatIMG247") && texid[2]) {
-                    video = new ARVideo;
-                    video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[2]);
-                    video_renderer = renderer[2];
-                }
-//                else if(frame.targets()[0].target().name() == std::string("WechatIMG248") && texid[3]) {
-//                    video = new ARVideo;
-//                    video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[3]);
-//                    video_renderer = renderer[3];
-//                }
-//                else if(frame.targets()[0].target().name() == std::string("WechatIMG250") && texid[4]) {
-//                    video = new ARVideo;
-//                    video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[4]);
-//                    video_renderer = renderer[4];
-//                }
-//                else if(frame.targets()[0].target().name() == std::string("WechatIMG251") && texid[5]) {
-//                    video = new ARVideo;
-//                    video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[5]);
-//                    video_renderer = renderer[5];
-//                }
-//                else if(frame.targets()[0].target().name() == std::string("WechatIMG252") && texid[6]) {
-//                    video = new ARVideo;
-//                    video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[6]);
-//                    video_renderer = renderer[6];
-//                }
-//                else if(frame.targets()[0].target().name() == std::string("WechatIMG253") && texid[7]) {
-//                    video = new ARVideo;
-//                    video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[7]);
-//                    video_renderer = renderer[7];
-//                }
-//                else if(frame.targets()[0].target().name() == std::string("WechatIMG254") && texid[8]) {
-//                    video = new ARVideo;
-//                    video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[8]);
-//                    video_renderer = renderer[8];
-//                }
-//                else if(frame.targets()[0].target().name() == std::string("WechatIMG255") && texid[9]) {
-//                    video = new ARVideo;
-//                    video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[9]);
-//                    video_renderer = renderer[9];
-//                }
-//                else if(frame.targets()[0].target().name() == std::string("WechatIMG256") && texid[10]) {
-//                    video = new ARVideo;
-//                    video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[10]);
-//                    video_renderer = renderer[10];
-//                }
-//                else if(frame.targets()[0].target().name() == std::string("WechatIMG257") && texid[11]) {
-//                    video = new ARVideo;
-//                    video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[11]);
-//                    video_renderer = renderer[11];
-//                }
-//                else if(frame.targets()[0].target().name() == std::string("WechatIMG258") && texid[12]) {
-//                    video = new ARVideo;
-//                    video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[12]);
-//                    video_renderer = renderer[12];
-//                }
-//                else if(frame.targets()[0].target().name() == std::string("IMG_9357") && texid[13]) {
-//                    video = new ARVideo;
-//                    video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[13]);
-//                    video_renderer = renderer[13];
-//                }
-//                else if(frame.targets()[0].target().name() == std::string("IMG_9359") && texid[14]) {
-//                    video = new ARVideo;
-//                    video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[14]);
-//                    video_renderer = renderer[14];
-//                }
-//                else if(frame.targets()[0].target().name() == std::string("WechatIMG249") && texid[15]) {
-//                    video = new ARVideo;
-//                    video->openTransparentVideoFile("new_pumkinlamp.mp4", texid[15]);
-//                    video_renderer = renderer[15];
-//                }
-            }
-            if (video) {
-                video->onFound();
-                tracked_target = id;
-                active_target = id;
             }
         }
+        
+        
         Matrix44F projectionMatrix = getProjectionGL(camera_.cameraCalibration(), 0.2f, 500.f);
         Matrix44F cameraview = getPoseGL(frame.targets()[0].pose());
         ImageTarget target = frame.targets()[0].target().cast_dynamic<ImageTarget>();
@@ -314,29 +385,141 @@ EasyAR::samples::HelloARVideo ar;
 }
 
 - (void)start{
+    
+
+    
+
     ar.fontOrNot = NO;
     ar.initCamera();
-    ar.loadAllFromJsonFile("targets.json");
-    ar.loadFromImage("IMG_9356.JPG");
-    ar.loadFromImage("IMG_7365.JPG");
-    ar.loadFromImage("WechatIMG247.jpeg");
-//    ar.loadFromImage("WechatIMG248.jpeg");
-//    ar.loadFromImage("WechatIMG249.jpeg");
-//    ar.loadFromImage("WechatIMG250.jpeg");
-//    ar.loadFromImage("WechatIMG251.jpeg");
-//    ar.loadFromImage("WechatIMG252.jpeg");
-//    ar.loadFromImage("WechatIMG253.jpeg");
-//    ar.loadFromImage("WechatIMG254.jpeg");
-//    ar.loadFromImage("WechatIMG255.jpeg");
-//    ar.loadFromImage("WechatIMG256.jpeg");
-//    ar.loadFromImage("WechatIMG257.jpeg");
-//    ar.loadFromImage("WechatIMG258.jpeg");
-//    ar.loadFromImage("IMG_9357.JPG");
-//    ar.loadFromImage("IMG_9359.JPG");
+//    ar.loadAllFromJsonFile("targets.json");
+//    ar.loadFromImage("IMG_9356.JPG");
+//    ar.loadFromImage("IMG_7365.JPG");
+//    ar.loadFromImage("Library_dongjiu3.jpg");
+    ARArray = [LLARPicsModel allObjectsInRealm:[RLMRealm defaultRealm]];
+    
+    
+    tempArray = [[NSMutableArray alloc]init];
+    Picsarray = [[NSMutableArray alloc]init];
+    NSMutableArray *tempScanArray = [[NSMutableArray alloc]init];
+    //ar.load这边要求带jpg c++要求不带jpg
+    for (int i=0; i<15; i++) {
+        LLARPicsModel *model = [ARArray objectAtIndex:i];
+        NSString *ARPicString = model.ARPicName;
+        const char*LoadImage = [ARPicString UTF8String];
+        ar.loadFromImage(LoadImage);
+        
+        [Picsarray addObject:ARPicString];
+        NSArray *array = [ARPicString componentsSeparatedByString:@"."];
+        NSString *targetImageName = [array firstObject];
+        [tempArray addObject:targetImageName];
+        int targetScan = model.HasbeenScan;
+        NSString *tempScanString = [NSString stringWithFormat:@"%d",targetScan];
+        [tempScanArray addObject:tempScanString];
+    }
+    
+    for (NSString *string in Picsarray) {
+        NSLog(@"图片模型的hasscan表%@",string);
+        
+    }
+    for (NSString*string1 in tempArray) {
+        NSLog(@"图片模型的.jpg表%@",string1);
+    }
+    //后期如果改成一张识别图不同模型的话 改model就可以
+    const char* target1 = [[tempArray objectAtIndex:0] UTF8String];//Library 东九
+    ar.model1 = target1;
+    NSString *temp1 = [tempScanArray objectAtIndex:0];
+    ar.picisFind1 = [temp1 intValue];
+    
+    const char* target2 = [[tempArray objectAtIndex:1] UTF8String];//library 东九
+    ar.model2 = target2;
+    NSString *temp2 = [tempScanArray objectAtIndex:1];
+    ar.picisFind2 = [temp2 intValue];
+    
+    const char* target3 = [[tempArray objectAtIndex:2] UTF8String];//library 中间
+    ar.model3 = target3;
+    NSString *temp3 = [tempScanArray objectAtIndex:2];
+    ar.picisFind3 = [temp3 intValue];
+    
+    const char* target4 = [[tempArray objectAtIndex:3] UTF8String];//library 中间
+    ar.model4 = target4;
+    NSString *temp4 = [tempScanArray objectAtIndex:3];
+    ar.picisFind4 = [temp4 intValue];
+    
+    const char* target5 = [[tempArray objectAtIndex:4] UTF8String];//library 中间
+    ar.model5 = target5;
+    NSString *temp5 = [tempScanArray objectAtIndex:4];
+    ar.picisFind5 = [temp5 intValue];
+    
+    
+    const char* target6 = [[tempArray objectAtIndex:5] UTF8String];//教学楼 东九
+    ar.model6 = target6;
+    NSString *temp6 = [tempScanArray objectAtIndex:5];
+    ar.picisFind6 = [temp6 intValue];
+    
+    const char* target7 = [[tempArray objectAtIndex:6] UTF8String];//教学楼 东九
+    ar.model7 = target7;
+    NSString *temp7 = [tempScanArray objectAtIndex:6];
+    ar.picisFind7 = [temp7 intValue];
+    
+    const char* target8 = [[tempArray objectAtIndex:7] UTF8String];//教学楼 东九
+    ar.model8 = target8;
+    NSString *temp8 = [tempScanArray objectAtIndex:7];
+    ar.picisFind8 = [temp8 intValue];
+    
+    const char* target9 = [[tempArray objectAtIndex:8] UTF8String];//教学路 西十二
+    ar.model9 = target9;
+    NSString *temp9 = [tempScanArray objectAtIndex:8];
+    ar.picisFind9 = [temp9 intValue];
+    
+    const char* target10 = [[tempArray objectAtIndex:9] UTF8String];//教学路 西十二
+    ar.model10 = target10;
+    NSString *temp10 = [tempScanArray objectAtIndex:9];
+    ar.picisFind10 = [temp10 intValue];
+    
+    const char* target11 = [[tempArray objectAtIndex:10] UTF8String];//食堂 东九
+    ar.model11 = target11;
+    NSString *temp11 = [tempScanArray objectAtIndex:10];
+    ar.picisFind11 = [temp11 intValue];
+    
+    const char* target12 = [[tempArray objectAtIndex:11] UTF8String];//食堂 东九
+    ar.model12 = target12;
+    NSString *temp12 = [tempScanArray objectAtIndex:11];
+    ar.picisFind12 = [temp12 intValue];
+    
+    const char* target13 = [[tempArray objectAtIndex:12] UTF8String];//食堂 西十二
+    ar.model13 = target13;
+    NSString *temp13 = [tempScanArray objectAtIndex:12];
+    ar.picisFind13 = [temp13 intValue];
+    
+    const char* target14 = [[tempArray objectAtIndex:13] UTF8String];//食堂 西十二
+    ar.model14 = target14;
+    NSString *temp14 = [tempScanArray objectAtIndex:13];
+    ar.picisFind14 = [temp14 intValue];
+    
+    const char* target15 = [[tempArray objectAtIndex:14] UTF8String];//食堂 中间
+    ar.model15 = target15;
+    NSString *temp15 = [tempScanArray objectAtIndex:14];
+    ar.picisFind15 = [temp15 intValue];
+    
+    NSNotificationCenter  *center = [ NSNotificationCenter  defaultCenter];
+    [center addObserver:self selector:@selector(ReceiveNetWorkChange:) name:@"Control" object:nil];
     ar.start();
-
+    
+    ar.arControl = YES;
+    
     self.displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(displayLinkCallback:)];
     [self.displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+}
+
+-(void)ReceiveNetWorkChange:(NSNotification *)notification{
+    
+    if ([[notification object] isEqualToString:@"NoNet"]) {
+        NSLog(@"无网络关闭AR功能");
+        ar.arControl = NO;
+    }else{
+        NSLog(@"有网络开启");
+        ar.arControl = YES;
+    }
 }
 
 - (void)stop
@@ -348,8 +531,472 @@ EasyAR::samples::HelloARVideo ar;
 {
     if (!((AppDelegate*)[[UIApplication sharedApplication]delegate]).active)
         return;
-    ar.render();
 
+    ar.render();
+    
+    if (ar.picisFind1 == 1) {
+        __block NSString *test1 = [[NSString alloc]init];
+        __block NSString *test2 = [[NSString alloc]init];
+        self.hasFindPic = YES;
+        ar.picisFind1 = 2;
+        RLMRealm *realm1 = [RLMRealm defaultRealm];
+        [realm1  transactionWithBlock:^{
+            for (LLARPicsModel *model  in ARArray) {
+                if ([model.ARPicName isEqualToString:[Picsarray objectAtIndex:0]]) {
+                    model.HasbeenScan = 2;
+                    test1 = model.ARPicsAMOrPM;
+                    test2 = model.ARPicLocation;
+                    NSLog(@"扫到的模型的名字%@",[Picsarray objectAtIndex:0]);
+                }
+            }
+         [realm1 commitWriteTransaction];
+        }];
+        
+        RLMRealm *realmtest = [RLMRealm defaultRealm];
+        LLPunchModel *Punchmodel = [[LLPunchModel alloc]init];
+        Punchmodel.PunchDate = [self nowdate];
+        Punchmodel.PunchPlace = test2;
+        if ([test1 isEqualToString:@"AM"]) {
+            Punchmodel.LibraryPunchAM = 1;
+        }else{
+            Punchmodel.LibraryPunchPM = 1;
+        }
+        [realmtest transactionWithBlock:^{
+            [realmtest  addObject:Punchmodel];
+            [realmtest commitWriteTransaction];
+        }];
+
+    }
+    if (ar.picisFind2 == 1) {
+        __block NSString *test1 = [[NSString alloc]init];
+        __block NSString *test2 = [[NSString alloc]init];
+        RLMRealm *realm2 = [RLMRealm defaultRealm];
+        self.hasFindPic = YES;
+        ar.picisFind2 = 2;
+        [realm2 transactionWithBlock:^{
+            for (LLARPicsModel *model  in ARArray) {
+                if ([model.ARPicName isEqualToString:[Picsarray objectAtIndex:1]]) {
+                    model.HasbeenScan = 2;
+                    test1 = model.ARPicsAMOrPM;
+                    test2 = model.ARPicLocation;
+                    NSLog(@"改变");
+                }
+            }
+            [realm2 commitWriteTransaction];
+        }];
+        
+        RLMRealm *realmtest = [RLMRealm defaultRealm];
+        LLPunchModel *Punchmodel = [[LLPunchModel alloc]init];
+        Punchmodel.PunchDate = [self nowdate];
+        Punchmodel.PunchPlace = test2;
+        if ([test1 isEqualToString:@"AM"]) {
+            Punchmodel.LibraryPunchAM = 1;
+        }else{
+            Punchmodel.LibraryPunchPM = 1;
+        }
+        [realmtest transactionWithBlock:^{
+            [realmtest  addObject:Punchmodel];
+            [realmtest commitWriteTransaction];
+        }];
+    }
+    if (ar.picisFind3 == 1) {
+        __block NSString *test1 = [[NSString alloc]init];
+        __block NSString *test2 = [[NSString alloc]init];
+        RLMRealm *realm3 = [RLMRealm defaultRealm];
+        self.hasFindPic = YES;
+        ar.picisFind3 = 2;
+        [realm3 transactionWithBlock:^{
+            for (LLARPicsModel *model  in ARArray) {
+                if ([model.ARPicName isEqualToString:[Picsarray objectAtIndex:2]]) {
+                    model.HasbeenScan = 2;
+                    test1 = model.ARPicsAMOrPM;
+                    test2 = model.ARPicLocation;
+                }
+            }
+            [realm3 commitWriteTransaction];
+        }];
+        
+        RLMRealm *realmtest = [RLMRealm defaultRealm];
+        LLPunchModel *Punchmodel = [[LLPunchModel alloc]init];
+        Punchmodel.PunchDate = [self nowdate];
+        Punchmodel.PunchPlace = test2;
+        if ([test1 isEqualToString:@"AM"]) {
+            Punchmodel.LibraryPunchAM = 1;
+        }else{
+            Punchmodel.LibraryPunchPM = 1;
+        }
+        [realmtest transactionWithBlock:^{
+            [realmtest  addObject:Punchmodel];
+            [realmtest commitWriteTransaction];
+        }];
+    }
+    if (ar.picisFind4 == 1) {
+        __block NSString *test1 = [[NSString alloc]init];
+        __block NSString *test2 = [[NSString alloc]init];
+        RLMRealm *realm4 = [RLMRealm defaultRealm];
+        self.hasFindPic = YES;
+        ar.picisFind4 = 2;
+        [realm4 transactionWithBlock:^{
+            for (LLARPicsModel *model  in ARArray) {
+                if ([model.ARPicName isEqualToString:[Picsarray objectAtIndex:3]]) {
+                    model.HasbeenScan = 2;
+                    test1 = model.ARPicsAMOrPM;
+                    test2 = model.ARPicLocation;
+                }
+            }
+            [realm4 commitWriteTransaction];
+        }];
+        
+        RLMRealm *realmtest = [RLMRealm defaultRealm];
+        LLPunchModel *Punchmodel = [[LLPunchModel alloc]init];
+        Punchmodel.PunchDate = [self nowdate];
+        Punchmodel.PunchPlace = test2;
+        if ([test1 isEqualToString:@"AM"]) {
+            Punchmodel.LibraryPunchAM = 1;
+        }else{
+            Punchmodel.LibraryPunchPM = 1;
+        }
+        [realmtest transactionWithBlock:^{
+            [realmtest  addObject:Punchmodel];
+            [realmtest commitWriteTransaction];
+        }];
+    }
+    if (ar.picisFind5 == 1) {
+        __block NSString *test1 = [[NSString alloc]init];
+        __block NSString *test2 = [[NSString alloc]init];
+        RLMRealm *realm5 = [RLMRealm defaultRealm];
+        self.hasFindPic = YES;
+        ar.picisFind5 = 2;
+        [realm5 transactionWithBlock:^{
+            for (LLARPicsModel *model  in ARArray) {
+                if ([model.ARPicName isEqualToString:[Picsarray objectAtIndex:4]]) {
+                    model.HasbeenScan = 2;
+                    test1 = model.ARPicsAMOrPM;
+                    test2 = model.ARPicLocation;
+                }
+            }
+            [realm5 commitWriteTransaction];
+        }];
+        
+        RLMRealm *realmtest = [RLMRealm defaultRealm];
+        LLPunchModel *Punchmodel = [[LLPunchModel alloc]init];
+        Punchmodel.PunchDate = [self nowdate];
+        Punchmodel.PunchPlace = test2;
+        if ([test1 isEqualToString:@"AM"]) {
+            Punchmodel.LibraryPunchAM = 1;
+        }else{
+            Punchmodel.LibraryPunchPM = 1;
+        }
+        [realmtest transactionWithBlock:^{
+            [realmtest  addObject:Punchmodel];
+            [realmtest commitWriteTransaction];
+        }];
+    }
+    if (ar.picisFind6 == 1) {
+        __block NSString *test1 = [[NSString alloc]init];
+        __block NSString *test2 = [[NSString alloc]init];
+        RLMRealm *realm6 = [RLMRealm defaultRealm];
+        self.hasFindPic = YES;
+        ar.picisFind6 = 2;
+        [realm6 transactionWithBlock:^{
+            for (LLARPicsModel *model  in ARArray) {
+                if ([model.ARPicName isEqualToString:[Picsarray objectAtIndex:5]]) {
+                    model.HasbeenScan = 2;
+                    test1 = model.ARPicsAMOrPM;
+                    test2 = model.ARPicLocation;
+                }
+            }
+            [realm6 commitWriteTransaction];
+        }];
+        RLMRealm *realmtest = [RLMRealm defaultRealm];
+        LLPunchModel *Punchmodel = [[LLPunchModel alloc]init];
+        Punchmodel.PunchDate = [self nowdate];
+        Punchmodel.PunchPlace = test2;
+        if ([test1 isEqualToString:@"AM"]) {
+            Punchmodel.TeachPunchAM = 1;
+        }else{
+            Punchmodel.TeachPunchPM = 1;
+        }
+        [realmtest transactionWithBlock:^{
+            [realmtest  addObject:Punchmodel];
+            [realmtest commitWriteTransaction];
+        }];
+    }
+    if (ar.picisFind7 == 1) {
+        __block NSString *test1 = [[NSString alloc]init];
+        __block NSString *test2 = [[NSString alloc]init];
+        RLMRealm *realm7 = [RLMRealm defaultRealm];
+        self.hasFindPic = YES;
+        ar.picisFind7 = 1;
+        [realm7 transactionWithBlock:^{
+            for (LLARPicsModel *model  in ARArray) {
+                if ([model.ARPicName isEqualToString:[Picsarray objectAtIndex:6]]) {
+                    model.HasbeenScan = 2;
+                    test1 = model.ARPicsAMOrPM;
+                    test2 = model.ARPicLocation;
+                }
+            }
+            [realm7 commitWriteTransaction];
+        }];
+        
+        RLMRealm *realmtest = [RLMRealm defaultRealm];
+        LLPunchModel *Punchmodel = [[LLPunchModel alloc]init];
+        Punchmodel.PunchDate = [self nowdate];
+        Punchmodel.PunchPlace = test2;
+        if ([test1 isEqualToString:@"AM"]) {
+            Punchmodel.TeachPunchAM = 1;
+        }else{
+            Punchmodel.TeachPunchPM = 1;
+        }
+        [realmtest transactionWithBlock:^{
+            [realmtest  addObject:Punchmodel];
+            [realmtest commitWriteTransaction];
+        }];
+    }
+    if (ar.picisFind8 == 1) {
+        __block NSString *test1 = [[NSString alloc]init];
+        __block NSString *test2 = [[NSString alloc]init];
+        RLMRealm *realm8 = [RLMRealm defaultRealm];
+        self.hasFindPic = YES;
+        ar.picisFind8 = 2;
+        [realm8 transactionWithBlock:^{
+            for (LLARPicsModel *model  in ARArray) {
+                if ([model.ARPicName isEqualToString:[Picsarray objectAtIndex:7]]) {
+                    model.HasbeenScan = 2;
+                    test1 = model.ARPicsAMOrPM;
+                    test2 = model.ARPicLocation;
+                }
+            }
+            [realm8 commitWriteTransaction];
+        }];
+        
+        RLMRealm *realmtest = [RLMRealm defaultRealm];
+        LLPunchModel *Punchmodel = [[LLPunchModel alloc]init];
+        Punchmodel.PunchDate = [self nowdate];
+        Punchmodel.PunchPlace = test2;
+        if ([test1 isEqualToString:@"AM"]) {
+            Punchmodel.TeachPunchAM = 1;
+        }else{
+            Punchmodel.TeachPunchPM = 1;
+        }
+        [realmtest transactionWithBlock:^{
+            [realmtest  addObject:Punchmodel];
+            [realmtest commitWriteTransaction];
+        }];
+    }
+    if (ar.picisFind9 == 1) {
+        __block NSString *test1 = [[NSString alloc]init];
+        __block NSString *test2 = [[NSString alloc]init];
+        RLMRealm *realm9 = [RLMRealm defaultRealm];
+        self.hasFindPic = YES;
+        ar.picisFind9 = 1;
+        [realm9 transactionWithBlock:^{
+            for (LLARPicsModel *model  in ARArray) {
+                if ([model.ARPicName isEqualToString:[Picsarray objectAtIndex:8]]) {
+                    model.HasbeenScan = 2;
+                    test1 = model.ARPicsAMOrPM;
+                    test2 = model.ARPicLocation;
+                }
+            }
+            [realm9 commitWriteTransaction];
+        }];
+        
+        RLMRealm *realmtest = [RLMRealm defaultRealm];
+        LLPunchModel *Punchmodel = [[LLPunchModel alloc]init];
+        Punchmodel.PunchDate = [self nowdate];
+        Punchmodel.PunchPlace = test2;
+        if ([test1 isEqualToString:@"AM"]) {
+            Punchmodel.TeachPunchAM = 1;
+        }else{
+            Punchmodel.TeachPunchPM = 1;
+        }
+        [realmtest transactionWithBlock:^{
+            [realmtest  addObject:Punchmodel];
+            [realmtest commitWriteTransaction];
+        }];
+    }
+    if (ar.picisFind10 == 1) {
+        __block NSString *test1 = [[NSString alloc]init];
+        __block NSString *test2 = [[NSString alloc]init];
+        RLMRealm *realm10 = [RLMRealm defaultRealm];
+        self.hasFindPic = YES;
+        ar.picisFind10 = 2;
+        [realm10 transactionWithBlock:^{
+            for (LLARPicsModel *model  in ARArray) {
+                if ([model.ARPicName isEqualToString:[Picsarray objectAtIndex:9]]) {
+                    model.HasbeenScan = 2;
+                    test1 = model.ARPicsAMOrPM;
+                    test2 = model.ARPicLocation;
+                }
+            }
+            [realm10 commitWriteTransaction];
+        }];
+        RLMRealm *realmtest = [RLMRealm defaultRealm];
+        LLPunchModel *Punchmodel = [[LLPunchModel alloc]init];
+        Punchmodel.PunchDate = [self nowdate];
+        Punchmodel.PunchPlace = test2;
+        if ([test1 isEqualToString:@"AM"]) {
+            Punchmodel.TeachPunchAM = 1;
+        }else{
+            Punchmodel.TeachPunchPM = 1;
+        }
+        [realmtest transactionWithBlock:^{
+            [realmtest  addObject:Punchmodel];
+            [realmtest commitWriteTransaction];
+        }];
+    }
+    if (ar.picisFind11 == 1) {
+        __block NSString *test1 = [[NSString alloc]init];
+        __block NSString *test2 = [[NSString alloc]init];
+        RLMRealm *realm11 = [RLMRealm defaultRealm];
+        self.hasFindPic = YES;
+        ar.picisFind11 = 2;
+        [realm11 transactionWithBlock:^{
+            for (LLARPicsModel *model  in ARArray) {
+                if ([model.ARPicName isEqualToString:[Picsarray objectAtIndex:10]]) {
+                    model.HasbeenScan = 2;
+                    test1 = model.ARPicsAMOrPM;
+                    test2 = model.ARPicLocation;
+                }
+            }
+            [realm11 commitWriteTransaction];
+        }];
+        
+        RLMRealm *realmtest = [RLMRealm defaultRealm];
+        LLPunchModel *Punchmodel = [[LLPunchModel alloc]init];
+        Punchmodel.PunchDate = [self nowdate];
+        Punchmodel.PunchPlace = test2;
+        if ([test1 isEqualToString:@"AM"]) {
+            Punchmodel.ResturantPunchAM = 1;
+        }else{
+            Punchmodel.ResturantPunchPM = 1;
+        }
+        [realmtest transactionWithBlock:^{
+            [realmtest  addObject:Punchmodel];
+            [realmtest commitWriteTransaction];
+        }];
+    }
+    if (ar.picisFind12 == 1) {
+        __block NSString *test1 = [[NSString alloc]init];
+        __block NSString *test2 = [[NSString alloc]init];
+        RLMRealm *realm12 = [RLMRealm defaultRealm];
+        self.hasFindPic = YES;
+        ar.picisFind12 = 2;
+        [realm12 transactionWithBlock:^{
+            for (LLARPicsModel *model  in ARArray) {
+                if ([model.ARPicName isEqualToString:[Picsarray objectAtIndex:11]]) {
+                    model.HasbeenScan = 2;
+                    test1 = model.ARPicsAMOrPM;
+                    test2 = model.ARPicLocation;
+                }
+            }
+            [realm12 commitWriteTransaction];
+        }];
+        RLMRealm *realmtest = [RLMRealm defaultRealm];
+        LLPunchModel *Punchmodel = [[LLPunchModel alloc]init];
+        Punchmodel.PunchDate = [self nowdate];
+        Punchmodel.PunchPlace = test2;
+        if ([test1 isEqualToString:@"AM"]) {
+            Punchmodel.ResturantPunchAM = 1;
+        }else{
+            Punchmodel.ResturantPunchPM = 1;
+        }
+        [realmtest transactionWithBlock:^{
+            [realmtest  addObject:Punchmodel];
+            [realmtest commitWriteTransaction];
+        }];
+    }
+    if (ar.picisFind13 == 1) {
+        __block NSString *test1 = [[NSString alloc]init];
+        __block NSString *test2 = [[NSString alloc]init];
+        RLMRealm *realm13 = [RLMRealm defaultRealm];
+        self.hasFindPic = YES;
+        ar.picisFind13 = 2;
+        [realm13 transactionWithBlock:^{
+            for (LLARPicsModel *model  in ARArray) {
+                if ([model.ARPicName isEqualToString:[Picsarray objectAtIndex:12]]) {
+                    model.HasbeenScan = 2;
+                    test1 = model.ARPicsAMOrPM;
+                    test2 = model.ARPicLocation;
+                }
+            }
+            [realm13 commitWriteTransaction];
+        }];
+        RLMRealm *realmtest = [RLMRealm defaultRealm];
+        LLPunchModel *Punchmodel = [[LLPunchModel alloc]init];
+        Punchmodel.PunchDate = [self nowdate];
+        Punchmodel.PunchPlace = test2;
+        if ([test1 isEqualToString:@"AM"]) {
+            Punchmodel.ResturantPunchAM = 1;
+        }else{
+            Punchmodel.ResturantPunchPM = 1;
+        }
+        [realmtest transactionWithBlock:^{
+            [realmtest  addObject:Punchmodel];
+            [realmtest commitWriteTransaction];
+        }];
+    }
+    if (ar.picisFind14 == 1) {
+        __block NSString *test1 = [[NSString alloc]init];
+        __block NSString *test2 = [[NSString alloc]init];
+        RLMRealm *realm14 = [RLMRealm defaultRealm];
+        self.hasFindPic = YES;
+        ar.picisFind14 = 2;
+        [realm14 transactionWithBlock:^{
+            for (LLARPicsModel *model  in ARArray) {
+                if ([model.ARPicName isEqualToString:[Picsarray objectAtIndex:13]]) {
+                    model.HasbeenScan = 2;
+                    test1 = model.ARPicsAMOrPM;
+                    test2 = model.ARPicLocation;
+                }
+            }
+            [realm14 commitWriteTransaction];
+        }];
+        RLMRealm *realmtest = [RLMRealm defaultRealm];
+        LLPunchModel *Punchmodel = [[LLPunchModel alloc]init];
+        Punchmodel.PunchDate = [self nowdate];
+        Punchmodel.PunchPlace = test2;
+        if ([test1 isEqualToString:@"AM"]) {
+            Punchmodel.ResturantPunchAM = 1;
+        }else{
+            Punchmodel.ResturantPunchPM = 1;
+        }
+        [realmtest transactionWithBlock:^{
+            [realmtest  addObject:Punchmodel];
+            [realmtest commitWriteTransaction];
+        }];
+    }
+    if (ar.picisFind15 == 1) {
+        __block NSString *test1 = [[NSString alloc]init];
+        __block NSString *test2 = [[NSString alloc]init];
+        RLMRealm *realm15 = [RLMRealm defaultRealm];
+        self.hasFindPic = YES;
+        ar.picisFind15 = 2;
+        [realm15 transactionWithBlock:^{
+            for (LLARPicsModel *model  in ARArray) {
+                if ([model.ARPicName isEqualToString:[Picsarray objectAtIndex:14]]) {
+                    model.HasbeenScan = 2;
+                    test1 = model.ARPicsAMOrPM;
+                    test2 = model.ARPicLocation;
+                }
+            }
+            [realm15 commitWriteTransaction];
+        }];
+        RLMRealm *realmtest = [RLMRealm defaultRealm];
+        LLPunchModel *Punchmodel = [[LLPunchModel alloc]init];
+        Punchmodel.PunchDate = [self nowdate];
+        Punchmodel.PunchPlace = test2;
+        if ([test1 isEqualToString:@"AM"]) {
+            Punchmodel.ResturantPunchAM = 1;
+        }else{
+            Punchmodel.ResturantPunchPM = 1;
+        }
+        [realmtest transactionWithBlock:^{
+            [realmtest  addObject:Punchmodel];
+            [realmtest commitWriteTransaction];
+        }];
+    }
+    
     (void)displayLink;
     glBindRenderbuffer(GL_RENDERBUFFER, _colorRenderBuffer);
     [_context presentRenderbuffer:GL_RENDERBUFFER];
@@ -394,6 +1041,18 @@ EasyAR::samples::HelloARVideo ar;
         default:
             break;
     }
+}
+
+-(BOOL)isRightLocation{
+    return YES;
+}
+
+-(NSString *)nowdate{
+    NSDate *date = [NSDate date];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    formatter.dateFormat = @"yyyy-MM-dd";
+    NSString *datestr = [formatter stringFromDate:date];
+    return datestr;
 }
 
 @end

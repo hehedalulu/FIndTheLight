@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface LLMixFilterViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>
-
+#import "LLFilterModel.h"
+@interface LLMixFilterViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>{
+    LLFilterModel *filtermodel;
+}
 @end

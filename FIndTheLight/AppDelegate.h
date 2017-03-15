@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LLJudgeNetManager.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate>{
+    LLJudgeNetManager *netmanager;
+}
 
 @property (strong, nonatomic) UIWindow *window;
 @property (atomic) bool active;

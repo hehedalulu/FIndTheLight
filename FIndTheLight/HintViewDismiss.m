@@ -28,16 +28,21 @@
             *stop = YES;
         }
     }];
+    
     POPBasicAnimation *opacityAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPLayerOpacity];
     opacityAnimation.toValue = @(0.0);
+    opacityAnimation.duration = 0.1;
+//    fromVC.view.alpha = 0;
     
-    POPBasicAnimation *offscreenAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPLayerPositionY];
-    offscreenAnimation.toValue = @(-fromVC.view.layer.position.y);
+    POPSpringAnimation *offscreenAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionY];
+    offscreenAnimation.toValue = @(-[UIScreen mainScreen].bounds.size.height);
+//    offscreenAnimation.springSpeed = 10;
+    offscreenAnimation.springBounciness = 0;
     [offscreenAnimation setCompletionBlock:^(POPAnimation *anim, BOOL finished) {
         [transitionContext completeTransition:YES];
     }];
     [fromVC.view.layer pop_addAnimation:offscreenAnimation forKey:@"offscreenAnimation"];
-    [dimmingView.layer pop_addAnimation:opacityAnimation forKey:@"opacityAnimation"];
+    [fromVC.view.layer pop_addAnimation:opacityAnimation forKey:@"opacityAnimation"];
 }
 
 @end

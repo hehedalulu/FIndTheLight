@@ -204,7 +204,7 @@
 }
 
 -(void)changeEnergyLabel{
-    EnergyV.text = nil;
+//    EnergyV.text = nil;
         if (_LLMainRoleEnergyValue == nil) {
     EnergyV.text = @"0";
         }else if([_LLMainRoleEnergyValue intValue] >= 10000 ){

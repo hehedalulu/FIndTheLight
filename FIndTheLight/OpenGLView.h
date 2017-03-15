@@ -8,12 +8,21 @@
 #import <QuartzCore/QuartzCore.h>
 #import <OpenGLES/ES2/gl.h>
 #import <OpenGLES/ES2/glext.h>
+#import "LLARPicsModel.h"
+#import "RandomSetARPics.h"
 
-@interface OpenGLView : UIView
+@interface OpenGLView : UIView{
+    BOOL OpenAR;
+    RLMRealm * realm;
+    RLMResults * ARArray;
+    NSMutableArray *Picsarray;
+    NSMutableArray *tempArray;
+}
 
 @property(nonatomic, strong) CAEAGLLayer * eaglLayer;
 @property(nonatomic, strong) EAGLContext *context;
 @property(nonatomic) GLuint colorRenderBuffer;
+@property(assign) bool hasFindPic;
 
 - (void)start;
 - (void)stop;

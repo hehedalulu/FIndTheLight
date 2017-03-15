@@ -27,10 +27,10 @@
 - (IBAction)LLResetLogin:(UIButton *)sender;
 
 
-@property (strong, nonatomic) IBOutlet UIView *alpha3;
-@property(nonatomic,strong)MPMoviePlayerController *moviePlayer3;
-@property(nonatomic ,strong)AVAudioSession *avaudioSession3;
-
+//@property (strong, nonatomic) IBOutlet UIView *alpha3;
+//@property(nonatomic,strong)MPMoviePlayerController *moviePlayer3;
+//@property(nonatomic ,strong)AVAudioSession *avaudioSession3;
+//
 
 @end
 
@@ -42,31 +42,31 @@
     
     
     
-    
-    NSString *urlStr = [[NSBundle mainBundle]pathForResource:@"IMG_7219.MOV" ofType:nil];
-    
-    NSURL *url = [NSURL fileURLWithPath:urlStr];
-    
-    _moviePlayer3 = [[MPMoviePlayerController alloc]initWithContentURL:url];
-    //    _moviePlayer.controlStyle = MPMovieControlStyleDefault;
-    [_moviePlayer3 play];
-    [_moviePlayer3.view setFrame:self.view.bounds];
-    
-    [self.view addSubview:_moviePlayer3.view];
-    _moviePlayer3.shouldAutoplay = YES;
-    [_moviePlayer3 setControlStyle:MPMovieControlStyleNone];
-    [_moviePlayer3 setFullscreen:YES];
-    
-    [_moviePlayer3 setRepeatMode:MPMovieRepeatModeOne];
-    
-    _alpha3.backgroundColor = [UIColor clearColor];
-    
-    [_moviePlayer3.view addSubview:_alpha3];
+//    
+//    NSString *urlStr = [[NSBundle mainBundle]pathForResource:@"IMG_7219.MOV" ofType:nil];
+//    
+//    NSURL *url = [NSURL fileURLWithPath:urlStr];
+//    
+//    _moviePlayer3 = [[MPMoviePlayerController alloc]initWithContentURL:url];
+//    //    _moviePlayer.controlStyle = MPMovieControlStyleDefault;
+//    [_moviePlayer3 play];
+//    [_moviePlayer3.view setFrame:self.view.bounds];
+//    
+//    [self.view addSubview:_moviePlayer3.view];
+//    _moviePlayer3.shouldAutoplay = YES;
+//    [_moviePlayer3 setControlStyle:MPMovieControlStyleNone];
+//    [_moviePlayer3 setFullscreen:YES];
+//    
+//    [_moviePlayer3 setRepeatMode:MPMovieRepeatModeOne];
+//    
+//    _alpha3.backgroundColor = [UIColor clearColor];
+//    
+//    [_moviePlayer3.view addSubview:_alpha3];
 
 }
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    [_moviePlayer3 stop];
+//    [_moviePlayer3 stop];
 }
 
 - (void)didReceiveMemoryWarning {

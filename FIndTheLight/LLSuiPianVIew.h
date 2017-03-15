@@ -7,8 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LLARSuiPianModel.h"
+#import "LLLocalSuiPian.h"
+#import "LLLocalModelRandomSet.h"
+#import "LLARModelRandomSet.h"
 
-@interface LLSuiPianVIew : UIView
+@interface LLSuiPianVIew : UIView{
+//    LLLocalSuiPian *SuiPian;
+//    LLARSuiPianModel *arSuiPian;
+}
 
 @property (nonatomic) UIImageView *LLSuiPianImg;
 
@@ -17,6 +24,10 @@
 @property (nonatomic) UILabel *LLSuipianName;
 
 @property (nonatomic) UILabel *LLSuiPianTotalLabel;
+
+@property (nonatomic,assign) int LLSuiPianType;
+
+@property (nonatomic,copy) NSString *LLSuiPianViewBelongModel;
 
 
 @end

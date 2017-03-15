@@ -2,19 +2,15 @@
 //  LLLocalSuiPian.h
 //  FIndTheLight
 //
-//  Created by Wll on 17/2/16.
+//  Created by Wll on 17/3/8.
 //  Copyright © 2017年 CherryWang. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <Realm/Realm.h>
 #import <UIKit/UIKit.h>
-@interface LLLocalSuiPian : NSObject{
-    LLLocalSuiPian *suiPian;
-}
 
-@property (nonatomic) UIImage  *LLLocalSuiPianImage;
+@interface LLLocalSuiPian : RLMObject
+@property (nonatomic) NSString  *LLLocalSuiPianImageName;
 @property (nonatomic) NSString *LLLocalSuiPianNameString;
 @property (nonatomic) NSString *LLLocalSuiPianCount;
-
--(void)RandomSetLocalSuiPian;
 @end

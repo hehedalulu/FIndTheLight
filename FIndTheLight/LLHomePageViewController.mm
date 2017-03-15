@@ -29,6 +29,8 @@
 #import "LLModelView.h"
 #import "LLSuiPianVIew.h"
 #import "LLVIewAnimation.h"
+#import "LLARControl.h"
+#import "RandomSetARPics.h"
 
 
 #define DefaultLocationTimeout 10
@@ -91,7 +93,7 @@
     LLVIewAnimation *LLanimation;
     LLMusicYeah *llmusic;
     LLAddStepsByEMMotion *addStepsByEMMotion;
-    CADisplayLink *changeWaitingBallState;
+    NSTimer *UpdateState;
 }
 
 
@@ -105,6 +107,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+//    RLMResults * ARArray = [LLARPicsModel allObjectsInRealm:[RLMRealm defaultRealm]];
+//    for (int i =0; ARArray.count; i++) {
+//        LLARPicsModel *model = [ARArray objectAtIndex:i];
+//        NSLog(@"数据库中的LLARPicsModel%@",model.ARPicName);
+//    }
     self.navigationController.navigationBar.hidden = YES;
     [self Tools];
 
@@ -141,9 +148,6 @@
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
             [addStepsByEMMotion PedometerGetSteps];
         });
-        
-
-
     }
 }
 -(void)hasGetHealth{
@@ -192,40 +196,18 @@
     if ([[[NSUserDefaults standardUserDefaults]valueForKey:@"isFirst"] isEqualToString:@"NO"]) {
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
             [self configLocationManager];
+            //更新状态
+            UpdateState = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(changeUpdatestate) userInfo:@"abc" repeats:YES];
+            
+            //            [changeWaitingBallState addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+            [[NSRunLoop currentRunLoop] run];
         });
     }
+
+    
     if (!hasDraw) {
         [self.glView start];
         hasDraw = YES;
-//          后台执行：
-//        dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-//        dispatch_async(queue, ^{
-//            NSLog(@"时时刷新");
-////            changeWaitingBallState = [CADisplayLink displayLinkWithTarget:self selector:@selector(changeUpdatestate)];
-////            [changeWaitingBallState addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-//
-//        
-//        });
-        
-//        NSTimeInterval period = 1.0; //设置时间间隔
-//        
-//        dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-//        
-//        dispatch_source_t _timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
-//        
-//        dispatch_source_set_timer(_timer, dispatch_walltime(NULL, 0), period * NSEC_PER_SEC, 0); //每秒执行
-//        
-//        dispatch_source_set_event_handler(_timer, ^{
-//            
-//            //在这里执行事件
-//            
-//        });
-//        
-//        dispatch_resume(_timer);
-        
-//        dispatch_async(dispatch_get_global_queue(0, 0), ^{
-//            [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(changeUpdatestate) userInfo:@"abc" repeats:YES];
-//        });
     }
     
 //    NSLog(@"---------------------------");
@@ -241,8 +223,8 @@
     [super viewWillAppear:animated];
 //    [self.glView stop];
     NSLog(@"首页将要结束");
-    //释放UpdateStepTimer
-//    [UpdateStepTimer invalidate];
+    //释放Updateimer
+    [UpdateState invalidate];
     [[NSUserDefaults standardUserDefaults]setValue:@"" forKey:@"LLNearestLocation"];
     [[NSUserDefaults standardUserDefaults]setValue:@"" forKey:@"LLSecondNearestLocation"];
     [[NSUserDefaults standardUserDefaults]setValue:@"" forKey:@"LLThirdNearestLocation"];
@@ -361,12 +343,12 @@
     [waitingBall LLBallAlwaysDraw];
     [self.glView addSubview:waitingBall];
     
-    LLCountTimerLabel = [[UILabel alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.821,
-                                                                 [UIScreen mainScreen].bounds.size.width*0.603,
+    LLCountTimerLabel = [[UILabel alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.83,
+                                                                 [UIScreen mainScreen].bounds.size.width*0.59,
                                                                  [UIScreen mainScreen].bounds.size.width*0.2415,
                                                                  [UIScreen mainScreen].bounds.size.width*0.072)];
     LLCountTimerLabel.textColor = [UIColor colorWithDisplayP3Red:212.0/255.0 green:202.0/255.0 blue:255.0/255.0 alpha:1];
-
+    LLCountTimerLabel.font = [UIFont fontWithName:@"MF TongXin (Noncommercial)" size:13];
     [self.glView addSubview:LLCountTimerLabel];
     
     [self loadInterviewTime];
@@ -547,6 +529,7 @@
     
 }
 #pragma mark - 光体不成熟页面动画
+
 -(void)showWaitingBallBoostView{
     llBoostView.hidden = NO;
     [self LoadStepCount];
@@ -671,6 +654,7 @@
 }
 
 #pragma mark - 光体成熟页面动画
+
 -(void)SetWaitingBallMature{
     
     [waitingBall pop_removeAllAnimations];
@@ -691,9 +675,10 @@
     LLDissmissView.hidden = NO;
     sleep(0.4);
     NSLog(@"点击了");
-    
+    llMatureModel.modelViewType = 0;
     [llMatureModel drawRect:CGRectMake(0, 0, self.glView.bounds.size.width, self.glView.bounds.size.height)];
     llMatureModel.backgroundColor = [UIColor clearColor];
+
     [self.glView addSubview:llMatureModel];
 //    TapMatureModelCount = 0;
     tapMatureModel = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapMatureModel)];
@@ -701,9 +686,41 @@
     LLDissmissView.hidden = NO;
     [self.glView addSubview:LLDissmissView];
     
-    
+    llsuiPianView.LLSuiPianType = 0;
+    llsuiPianView.LLSuiPianViewBelongModel = llMatureModel.LLLocalName.text;
     [llsuiPianView drawRect:CGRectMake(0, 0, self.glView.bounds.size.width, self.glView.bounds.size.height)];
     llsuiPianView.backgroundColor = [UIColor clearColor];
+    [self.glView addSubview:llsuiPianView];
+    llsuiPianView.hidden = YES;
+    //本地光体生成后跳出的光体
+    [LLanimation LocalModelAppearAnimationWithImgView:llMatureModel.LLLocalModel];
+    [LLanimation LocalModelLevelAppearAnimationWithImge:llMatureModel.LLLocalModelLevel];
+    [LLanimation LocalModelNameAppearAnimationWithLabel:llMatureModel.LLLocalName];
+    [self performSelector:@selector(LocalModelWaitingBallMove) withObject:nil afterDelay:1.0];
+    [self performSelector:@selector(LocalModelLightValueMove) withObject:nil afterDelay:1.5];
+}
+
+-(void)ShowARModel{
+    LLDissmissView.hidden = NO;
+    sleep(0.4);
+    NSLog(@"AR识别模型");
+    
+    llMatureModel.modelViewType = 1;
+    [llMatureModel drawRect:CGRectMake(0, 0, self.glView.bounds.size.width, self.glView.bounds.size.height)];
+    llMatureModel.backgroundColor = [UIColor clearColor];
+    [self.glView addSubview:llMatureModel];
+    
+    tapMatureModel = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapMatureModel)];
+    [llMatureModel addGestureRecognizer:tapMatureModel];
+    LLDissmissView.hidden = NO;
+    [self.glView addSubview:LLDissmissView];
+    
+    llsuiPianView.LLSuiPianType = 1;
+    llsuiPianView.LLSuiPianViewBelongModel = llMatureModel.LLLocalName.text;
+    [llsuiPianView drawRect:CGRectMake(0, 0, self.glView.bounds.size.width, self.glView.bounds.size.height)];
+    llsuiPianView.backgroundColor = [UIColor clearColor];
+    
+
     [self.glView addSubview:llsuiPianView];
     llsuiPianView.hidden = YES;
     //本地光体生成后跳出的光体
@@ -764,6 +781,15 @@
     [LLanimation LocalSuiPianNameAppearWithLabel:llsuiPianView.LLSuipianName];
     
 }
+
+
+/*
+ ***AR光体 模型的出现
+ 
+ 
+ 
+ 
+ */
 #pragma mark - 定时光体计时器和动画
 
 -(void)CountTimerAnimation:(long int)StopTime{
@@ -786,7 +812,6 @@
     anBasic.beginTime = CACurrentMediaTime() + 0.5f;    //延迟1秒开始
     [LLCountTimerLabel pop_addAnimation:anBasic forKey:@"countdown"];
     
-//    [self performSelector:@selector(showWaitingBallMatureView) withObject:self afterDelay:StopTime];
     [self performSelector:@selector(SetWaitingBallMature) withObject:self afterDelay:StopTime+0.5f];
 
 }
@@ -1149,7 +1174,7 @@
 //    [locationManager setLocatingWithReGeocode:YES];
     
 //    [locationManager startUpdatingLocation];
-    displayView.LLHomeDisplayLabel.text = @"附近无基站";
+//    displayView.LLHomeDisplayLabel.text = @"附近无基站";
     //[self Location];
 
     
@@ -1162,8 +1187,9 @@
         
         if (error)
         {
-            displayView.LLHomeDisplayLabel.text = @"重新定位中…";
-            NSLog(@"locError:{%ld - %@};", (long)error.code, error.localizedDescription);
+            
+            displayView.LLHomeDisplayLabel.text = @"";
+//            NSLog(@"locError:{%ld - %@};", (long)error.code, error.localizedDescription);
             
             if (error.code == AMapLocationErrorLocateFailed)
             {
@@ -1176,13 +1202,14 @@
 //            if (llsearchAroundLocation.LLNearestLocation.count) {
 ////                displayView.LLHomeDisplayLabel.text = @"重新定位中";
 //            }else{
-                displayView.LLHomeDisplayLabel.text = [[NSUserDefaults standardUserDefaults]valueForKey:@"LLNearestLocation"];
+            displayView.LLHomeDisplayLabel.text = nil;
+            displayView.LLHomeDisplayLabel.text = [[NSUserDefaults standardUserDefaults]valueForKey:@"LLNearestLocation"];
  //               NSLog(@"最近的地点%@",[threeLocations objectAtIndex:0]);
 //            }
 //            [self performSelector:@selector(changedisplayLabel) withObject:nil afterDelay:1.0];
         }
         
-        NSLog(@"coordinate.latitude:%f,%f", location.coordinate.latitude,location.coordinate.longitude);
+//        NSLog(@"coordinate.latitude:%f,%f", location.coordinate.latitude,location.coordinate.longitude);
     }];
 }
 
@@ -1314,7 +1341,7 @@
 }
 #pragma mark - FTP实时更新UI
 -(void)changeUpdatestate{
-    NSLog(@"正在定位中");
+//    NSLog(@"正在定位中");
     //更新等待球的状态
     if ([LLCountTimerLabel.text isEqualToString:@"已成熟"]) {
         HasWaitingBallMatured = YES;
@@ -1329,15 +1356,26 @@
         [waitingBall addGestureRecognizer:TapImmatureWaitingBall];
     }
     //更新定位状态
-//    [self Location];
-//    if (displayView.LLHomeDisplayLabel.text == nil||[[NSUserDefaults standardUserDefaults]valueForKey:@"LLNearestLocation"]==nil) {
-//        displayView.LLHomeDisplayLabel.font = [UIFont fontWithName:@"MF TongXin (Noncommercial)" size:17];
-//        displayView.LLHomeDisplayLabel.text = @"正在定位中";
+    [self Location];
+    if (displayView.LLHomeDisplayLabel.text == nil||[[NSUserDefaults standardUserDefaults]valueForKey:@"LLNearestLocation"]==nil) {
+        displayView.LLHomeDisplayLabel.font = [UIFont fontWithName:@"MF TongXin (Noncommercial)" size:17];
+        displayView.LLHomeDisplayLabel.text = @"正在定位中";
 //        NSLog(@"正在定位中");
-//    }
-//    //更新能量的数字
-//    pageInformationView.LLMainRoleEnergyValue = [[NSUserDefaults standardUserDefaults]valueForKey:@"Energy"];
-//    [pageInformationView changeEnergyLabel];
+    }
+    //更新能量的数字
+    
+    pageInformationView.LLMainRoleEnergyValue = [[NSUserDefaults standardUserDefaults]valueForKey:@"Energy"];
+    [pageInformationView changeEnergyLabel];
+    
+    //实时更新屏幕 判断是否监测到获得AR图片
+    if(self.glView.hasFindPic == YES){
+        NSLog(@"扫到图片");
+        self.glView.hasFindPic = NO;
+        [self ShowARModel];
+    }
     
 }
+
+
+
 @end

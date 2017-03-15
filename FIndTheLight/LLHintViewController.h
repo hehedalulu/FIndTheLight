@@ -11,7 +11,8 @@
 
 @interface LLHintViewController : UIViewController{    
     iCarousel *icarousel;
-    NSMutableArray *HintImagesArray;
 }
+
+@property (weak) NSMutableArray *HintImagesArray;
 
 @end

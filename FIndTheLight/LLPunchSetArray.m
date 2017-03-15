@@ -9,6 +9,22 @@
 #import "LLPunchSetArray.h"
 
 @implementation LLPunchSetArray
+-(NSMutableArray *)setDateArrayWithDate:(NSDate *)date{
+    NSMutableArray *DateArray = [[NSMutableArray alloc]init];
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+    [dateFormatter setDateFormat:@"yyyy / MM / dd"];
+    
+    for (int i = 19; i >= 0; i--) {
+        NSTimeInterval  interval = - 24*60*60*i; //1:天数
+        NSDate *addDate = [date dateByAddingTimeInterval:interval];
+        NSString *addString = [NSString stringWithFormat:@"%@",[dateFormatter stringFromDate:addDate]];
+        [DateArray addObject:addString];
+    }
+        return DateArray;
+}
+
+
 
 -(NSMutableArray *)setDayArrayWithDate:(NSDate *)date{
     NSMutableArray *DayArray = [[NSMutableArray alloc]init];
@@ -43,7 +59,7 @@
         NSString *addString = [self ChangeToWeekString:weekString];
         [WeekArray addObject:addString];
     }
-    NSLog(@"%@",WeekArray);
+//    NSLog(@"%@",WeekArray);
    
     
     return WeekArray;
@@ -101,7 +117,7 @@
             NSString *steps = [[NSUserDefaults standardUserDefaults]valueForKey:SearchName];
             [StepsArray addObject:steps];
         }
-        NSLog(@"%@",StepsArray);
+//        NSLog(@"%@",StepsArray);
 //        if( [[NSUserDefaults standardUserDefaults]valueForKey:@"NowDayEnergy"]){
 //            NSString *todayStep = [[NSUserDefaults standardUserDefaults]valueForKey:@"NowDayEnergy"];
 //            [StepsArray addObject:todayStep];
@@ -117,20 +133,20 @@
 //    [self searchStepsWithDays:DaysCount];
     NSDateFormatter *Upformatter = [[NSDateFormatter alloc]init];
     Upformatter.dateFormat = @"yyyy-MM-dd";
-    NSLog(@"%@",date);
+//    NSLog(@"%@",date);
     
     for (int i = DaysCount-1; i>= 0; i--) {
         NSDate *day = [date dateByAddingTimeInterval:-86400*i];
         
         NSString *SearchName = [NSString stringWithFormat:@"%@Step",[Upformatter stringFromDate:day]];
         NSString *steps = [[NSUserDefaults standardUserDefaults]valueForKey:SearchName];
-        NSLog(@"查询的日期%@ 步数%@",SearchName,steps);
+//        NSLog(@"查询的日期%@ 步数%@",SearchName,steps);
         if (!steps) {
             steps = @"0";
         }
         [StepsArray addObject:steps];
     }
-    NSLog(@"%@",StepsArray);
+//    NSLog(@"%@",StepsArray);
     
     return StepsArray;
 }
@@ -139,14 +155,14 @@
     StepsArray = [[NSMutableArray alloc]init];
     NSDateFormatter *Upformatter = [[NSDateFormatter alloc]init];
     Upformatter.dateFormat = @"yyyy-MM-dd";
-    NSLog(@"%@",date);
+//    NSLog(@"%@",date);
     for (int i = DaysCount; i>0; i--) {
         NSDate *day = [date dateByAddingTimeInterval:-86400*i];
         
         NSString *SearchName = [NSString stringWithFormat:@"%@Step",[Upformatter stringFromDate:day]];
         
         NSString *steps = [[NSUserDefaults standardUserDefaults]valueForKey:SearchName];
-        NSLog(@"查询的日期%@ 步数%@",SearchName,steps);
+//        NSLog(@"查询的日期%@ 步数%@",SearchName,steps);
         if (!steps) {
             steps = @"0";
         }

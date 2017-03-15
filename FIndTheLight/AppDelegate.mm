@@ -12,8 +12,16 @@
 #import <BmobSDK/Bmob.h>
 #import "LLPunchSetArray.h"
 #import "LLGetStep.h"
+#import "LLUpdatePics.h"
+#import <Bugly/Bugly.h>
+
+#import "AnimationViewController.h"
+
+#import "LLStepsManger.h"
+#import "HomeLoginViewController.h"
 
 @interface AppDelegate ()
+@property (nonatomic, strong) AnimationViewController *animationViewController;
 
 @end
 
@@ -27,21 +35,24 @@
     [[AMapServices sharedServices] setEnableHTTPS:YES];
     [AMapServices sharedServices].apiKey = @"d4ab078d2a2f09d13723b20ec10c6788";
     [Bmob registerWithAppKey:@"4a45d08fb950978f1139c119c32a061b"];
+    [Bugly startWithAppId:@"539b2c1d85"];
  
     BmobUser *bUser = [BmobUser currentUser];
     if (bUser) {
         //进行操作
         //取出sb
-        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-        UINavigationController *nav = [sb instantiateViewControllerWithIdentifier:@"LLHomePage"];
-        self.window.rootViewController = nav;
+        self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
+        self.window.rootViewController = self.animationViewController;
+//        HomeLoginViewController *home = [[HomeLoginViewController alloc]init];
+//        self.window.rootViewController = home;
         
     }else{
         //对象为空时，可打开用户注册界面
-        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-        UIViewController *first = [sb instantiateViewControllerWithIdentifier:@"LLLoginView"];
-        
-        self.window.rootViewController = first;
+//        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+//        UIViewController *first = [sb instantiateViewControllerWithIdentifier:@"LLLoginView"];
+        HomeLoginViewController *home = [[HomeLoginViewController alloc]init];
+        self.window.rootViewController = home;
+//        self.window.rootViewController = first;
         //        GuideViewController *loginVC = [[GuideViewController alloc]init];
         //        self.window.rootViewController = loginVC;
     }
@@ -49,7 +60,7 @@
     
 //如果是第一次打开
    if (![[NSUserDefaults standardUserDefaults]valueForKey:@"isFirst"]) {
-   
+
     [[NSUserDefaults standardUserDefaults] setValue:@"YES" forKey:@"isFirst"];
     //第一次打开就存一个today 判断是否当天第一次打开应用
     NSDate *firstOpenAPP = [NSDate date];
@@ -96,6 +107,19 @@
         //[[NSUserDefaults standardUserDefaults]setValue:EnergyString forKey:@"Energy"];
         //NSLog(@"现在当天能量为%d，之前总能量是%d,现在总能量为%d",afterEnergy,Energy,result);
     }
+    
+/*监听网络变化*/
+    netmanager = [[LLJudgeNetManager alloc]init];
+    [netmanager registNetChange];
+    [netmanager JudgeNowNetwork];
+    NSLog(@"通知");
+    
+    LLUpdatePics *update =[[LLUpdatePics alloc]init];
+    [update LLupdateARPics];
+    
+    LLStepsManger *stepManger = [[LLStepsManger alloc]init];
+    [stepManger initLLStepsModel];
+    
     return YES;
 }
 
@@ -159,4 +183,18 @@
     
 }
 
+
+- (AnimationViewController *)animationViewController{
+    if (!_animationViewController) {
+        _animationViewController = [[AnimationViewController alloc]init];
+        //设置本地视频路径
+        _animationViewController.moviePath = [[NSBundle mainBundle] pathForResource:@"fourdesire" ofType:@"mp4"];
+        _animationViewController.playFinished = ^{
+            UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+            UINavigationController *nav = [sb instantiateViewControllerWithIdentifier:@"LLHomePage"];
+             [UIApplication sharedApplication].keyWindow.rootViewController = nav;
+        };
+    }
+    return _animationViewController;
+}
 @end

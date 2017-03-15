@@ -42,20 +42,20 @@
     
     POPSpringAnimation *positionAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionY];
     positionAnimation.toValue = @(transitionContext.containerView.center.y);
-    positionAnimation.springBounciness = 10;
+    positionAnimation.springBounciness = 0;
     [positionAnimation setCompletionBlock:^(POPAnimation *anim, BOOL finished) {
         [transitionContext completeTransition:YES];
     }];
     
-    POPSpringAnimation *scaleAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerScaleXY];
-    scaleAnimation.springBounciness = 20;
-    scaleAnimation.fromValue = [NSValue valueWithCGPoint:CGPointMake(1.2, 1.4)];
+//    POPSpringAnimation *scaleAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerScaleXY];
+//    scaleAnimation.springBounciness = 0;
+//    scaleAnimation.fromValue = [NSValue valueWithCGPoint:CGPointMake(1.2, 1.4)];
     
     POPBasicAnimation *opacityAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPLayerOpacity];
     opacityAnimation.toValue = @(0.2);
-    
+    opacityAnimation.duration = 0.2;
     [toView.layer pop_addAnimation:positionAnimation forKey:@"positionAnimation"];
-    [toView.layer pop_addAnimation:scaleAnimation forKey:@"scaleAnimation"];
+//    [toView.layer pop_addAnimation:scaleAnimation forKey:@"scaleAnimation"];
     [dimmingView.layer pop_addAnimation:opacityAnimation forKey:@"opacityAnimation"];
 }
 

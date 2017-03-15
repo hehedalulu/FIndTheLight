@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LLPunchViewController : UIViewController<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
+@interface LLPunchViewController : UIViewController<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>{
+    UILabel *todaylabel;
+    NSString  *ThedayStep;
+    NSDateFormatter *dateformatter;
+    UIView *punchView;
+}
 
 @end

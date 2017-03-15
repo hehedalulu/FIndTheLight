@@ -22,6 +22,7 @@ PODS:
   - AMapSearch (4.4.1):
     - AMapFoundation (~> 1.2)
   - BmobSDK (2.0.1)
+  - Bugly (2.4.2)
   - GPUImage (0.1.7)
   - JCAlertView (1.1.5)
   - Masonry (1.0.2)
@@ -30,6 +31,9 @@ PODS:
   - PopMenu (2.4):
     - pop
     - XHRealTimeBlur
+  - Realm (2.1.2):
+    - Realm/Headers (= 2.1.2)
+  - Realm/Headers (2.1.2)
   - SDAutoLayout (2.1.7)
   - SDWebImage (3.8.2):
     - SDWebImage/Core (= 3.8.2)
@@ -44,12 +48,14 @@ DEPENDENCIES:
   - AMapLocation
   - AMapSearch
   - BmobSDK
+  - Bugly
   - GPUImage
   - JCAlertView
   - Masonry
   - MJRefresh
   - pop (~> 1.0)
   - PopMenu
+  - Realm
   - SDAutoLayout (~> 2.1.1)
   - SDWebImage
   - XZMRefresh
@@ -62,18 +68,20 @@ SPEC CHECKSUMS:
   AMapLocation: e3390d00210f088a8ba5d6a04f135c2116a39581
   AMapSearch: 16a50b493ad419e8b6b81bafdeca7570db52f28e
   BmobSDK: 315013af15af31697a3b92cad2c74effed849b85
+  Bugly: b09cd3c7e54048a0e079be88a7a99610f14eab8f
   GPUImage: 733a5f0fab92df9de1c37ba9df520a833ccb406d
   JCAlertView: c65a7b298b8b497b3db783d82f719b88f4914869
   Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
   MJRefresh: b96cdb21c4aa75a7b07654311ab2f315c497e806
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
   PopMenu: 26b97baeaf250070f4f61b93727ca86d127d7bc5
+  Realm: efe855f4d977c8ce5a82d3116d9f1ff155a6550c
   SDAutoLayout: e9b36d04b8c0b504762a04d76fbbe5108944297a
   SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
   XHRealTimeBlur: 661fadd5691ba2d349758e8fd5fbdb499ac55f8c
   XZMRefresh: 2c0f1b70d9fe97a1d0286373e29986d44f0a7b1a
   YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
 
-PODFILE CHECKSUM: 5cc98cabf4124844673caa057881d313c9979caf
+PODFILE CHECKSUM: 88f9ab89c0d7131650a71fc5dcedee3ed943040d
 
 COCOAPODS: 1.0.1
