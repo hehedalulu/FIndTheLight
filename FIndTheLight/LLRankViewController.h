@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LLRankViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>
+@interface LLRankViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>{
+    BOOL showRankViewOnce;
+}
 
 @end

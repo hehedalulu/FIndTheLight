@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "LLARSuiPianModel.h"
-#import "LLLocalSuiPian.h"
+//#import "LLARSuiPianModel.h"
+//#import "LLLocalSuiPian.h"
+#import "LLSuiPian.h"
 #import "LLLocalModelRandomSet.h"
 #import "LLARModelRandomSet.h"
 

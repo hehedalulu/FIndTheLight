@@ -117,11 +117,12 @@
         _LLMixFilterProgressImg.image = [UIImage imageNamed:@"circleprogress.png"];
         [self addSubview:_LLMixFilterProgressImg];
         [self DrawCircle];
+        
         _LLMixFilterProgress = [[UILabel alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.88,
                                                                         [UIScreen mainScreen].bounds.size.width*0.018,
                                                                         [UIScreen mainScreen].bounds.size.width*0.060,
                                                                         [UIScreen mainScreen].bounds.size.width*0.055)];
-        _LLMixFilterProgress.text = @"60%";
+        _LLMixFilterProgress.text = [NSString stringWithFormat:@"%d％",_LLMixFilterProgressPercent];
         _LLMixFilterProgress.textAlignment = NSTextAlignmentCenter;
         _LLMixFilterProgress.textColor = [UIColor colorWithRed:194.0/255.0 green:221.0/255.0 blue:255.0/255.0 alpha:1];
         _LLMixFilterProgress.font = [UIFont systemFontOfSize:12];
@@ -155,6 +156,7 @@
                                                            [UIScreen mainScreen].bounds.size.width*0.065)];
     [_LLMixBtn setBackgroundImage:[UIImage imageNamed:@"mix_able.png"] forState:UIControlStateNormal];
     [_LLMixBtn setBackgroundImage:[UIImage imageNamed:@"mix_unable.png"] forState:UIControlStateDisabled];
+    [_LLMixBtn addTarget:self action:@selector(test) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_LLMixBtn];
 
     
@@ -182,7 +184,6 @@
     _LLMixSuiPianLabel1.font = [UIFont systemFontOfSize:10];
     [self addSubview:_LLMixSuiPianLabel1];
     
-    
     UILabel *KuCunLabel1 = [[UILabel alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.45,
                                                                    [UIScreen mainScreen].bounds.size.width*0.125,
                                                                    [UIScreen mainScreen].bounds.size.width*0.12,
@@ -196,30 +197,30 @@
                                                                             [UIScreen mainScreen].bounds.size.width*0.16,
                                                                             [UIScreen mainScreen].bounds.size.width*0.2724,
                                                                             [UIScreen mainScreen].bounds.size.width*0.022)];
-    _LLMixSuiPianProgressBgV1.image = [UIImage imageNamed:@"progress@2x.png"];
+    _LLMixSuiPianProgressBgV1.image = [UIImage imageNamed:@"Mixprogress.png"];
     [self addSubview:_LLMixSuiPianProgressBgV1];
-    
+
     double percentageWidth1 = (double)(_SuiPianProgress1/_SuiPianNeedProg1)*[UIScreen mainScreen].bounds.size.width*0.2724;
     UIImageView *progressImg1 = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, percentageWidth1, [UIScreen mainScreen].bounds.size.width*0.022)];
     [progressImg1.layer setCornerRadius:[UIScreen mainScreen].bounds.size.width*0.022/2];
     progressImg1.backgroundColor = [UIColor colorWithRed:82.0/255.0 green:131.0/255.0 blue:191.0/255.0 alpha:1];
     [_LLMixSuiPianProgressBgV1 addSubview:progressImg1];
-    
-    UILabel *JinduLabel1 = [[UILabel alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.67,
+
+    _JinduLabel1 = [[UILabel alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.67,
                                                                   [UIScreen mainScreen].bounds.size.width*0.16,
                                                                   [UIScreen mainScreen].bounds.size.width*0.20,
                                                                   [UIScreen mainScreen].bounds.size.width*0.022)];
-    JinduLabel1.textColor = [UIColor colorWithRed:223.0/255.0 green:215.0/255.0 blue:255.0/255.0 alpha:1];
-    JinduLabel1.font = [UIFont systemFontOfSize:10];
+    _JinduLabel1.textColor = [UIColor colorWithRed:223.0/255.0 green:215.0/255.0 blue:255.0/255.0 alpha:1];
+    _JinduLabel1.font = [UIFont systemFontOfSize:10];
     if (self.SuiPianProgress1 >= self.SuiPianNeedProg1) {
-        JinduLabel1.text = @"完成";
+        _JinduLabel1.text = @"完成";
     }else{
-        JinduLabel1.text = [NSString stringWithFormat:@"%d/%d",self.SuiPianProgress1,self.SuiPianNeedProg1];
+        _JinduLabel1.text = [NSString stringWithFormat:@"%d/%d",self.SuiPianProgress1,self.SuiPianNeedProg1];
     }
     
-    [self addSubview:JinduLabel1];
-    //碎片2
-    
+    [self addSubview:_JinduLabel1];
+//    //碎片2
+//    
     _LLMixSuiPianImage2 = [[UIImageView alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.30,
                                                                        [UIScreen mainScreen].bounds.size.width*0.22,
                                                                        [UIScreen mainScreen].bounds.size.width*0.045,
@@ -240,7 +241,7 @@
     _LLMixSuiPianLabel2.textColor = [UIColor colorWithRed:223.0/255.0 green:215.0/255.0 blue:255.0/255.0 alpha:1];
     _LLMixSuiPianLabel2.font = [UIFont systemFontOfSize:10];
     [self addSubview:_LLMixSuiPianLabel2];
-    
+
     UILabel *KuCunLabel2 = [[UILabel alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.45,
                                                                     [UIScreen mainScreen].bounds.size.width*0.205,
                                                                     [UIScreen mainScreen].bounds.size.width*0.12,
@@ -254,7 +255,7 @@
                                                                              [UIScreen mainScreen].bounds.size.width*0.24,
                                                                              [UIScreen mainScreen].bounds.size.width*0.2724,
                                                                              [UIScreen mainScreen].bounds.size.width*0.022)];
-    _LLMixSuiPianProgressBgV2.image = [UIImage imageNamed:@"progress@2x.png"];
+    _LLMixSuiPianProgressBgV2.image = [UIImage imageNamed:@"Mixprogress.png"];
     [self addSubview:_LLMixSuiPianProgressBgV2];
     double percentageWidth2 = ((double)_SuiPianProgress2/_SuiPianNeedProg2)*[UIScreen mainScreen].bounds.size.width*0.2724;
 //    NSLog(@"第二个进度条%f",percentageWidth2);
@@ -262,21 +263,21 @@
     [progressImg2.layer setCornerRadius:[UIScreen mainScreen].bounds.size.width*0.022/2];
     progressImg2.backgroundColor = [UIColor colorWithRed:82.0/255.0 green:131.0/255.0 blue:191.0/255.0 alpha:1];
     [_LLMixSuiPianProgressBgV2 addSubview:progressImg2];
-    
-    UILabel *JinduLabel2 = [[UILabel alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.67,
+
+    _JinduLabel2 = [[UILabel alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.67,
                                                                      [UIScreen mainScreen].bounds.size.width*0.24,
                                                                     [UIScreen mainScreen].bounds.size.width*0.20,
                                                                     [UIScreen mainScreen].bounds.size.width*0.022)];
-    JinduLabel2.textColor = [UIColor colorWithRed:223.0/255.0 green:215.0/255.0 blue:255.0/255.0 alpha:1];
-    JinduLabel2.font = [UIFont systemFontOfSize:10];
+    _JinduLabel2.textColor = [UIColor colorWithRed:223.0/255.0 green:215.0/255.0 blue:255.0/255.0 alpha:1];
+    _JinduLabel2.font = [UIFont systemFontOfSize:10];
     
     if (self.SuiPianProgress2 >= self.SuiPianNeedProg2) {
-        JinduLabel2.text = @"完成";
+        _JinduLabel2.text = @"完成";
     }else{
-        JinduLabel2.text = [NSString stringWithFormat:@"%d/%d",self.SuiPianProgress2,self.SuiPianNeedProg2];
+        _JinduLabel2.text = [NSString stringWithFormat:@"%d/%d",self.SuiPianProgress2,self.SuiPianNeedProg2];
     }
-    [self addSubview:JinduLabel2];
-    
+    [self addSubview:_JinduLabel2];
+
     //碎片3
     _LLMixSuiPianImage3 = [[UIImageView alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.30,
                                                                        [UIScreen mainScreen].bounds.size.width*0.30,
@@ -298,7 +299,7 @@
     _LLMixSuiPianLabel3.textColor = [UIColor colorWithRed:223.0/255.0 green:215.0/255.0 blue:255.0/255.0 alpha:1];
     _LLMixSuiPianLabel3.font = [UIFont systemFontOfSize:10];
     [self addSubview:_LLMixSuiPianLabel3];
-    
+
     UILabel *KuCunLabel3 = [[UILabel alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.45,
                                                                     [UIScreen mainScreen].bounds.size.width*0.285,
                                                                     [UIScreen mainScreen].bounds.size.width*0.12,
@@ -313,7 +314,7 @@
                                                                              [UIScreen mainScreen].bounds.size.width*0.32,
                                                                              [UIScreen mainScreen].bounds.size.width*0.2724,
                                                                              [UIScreen mainScreen].bounds.size.width*0.022)];
-    _LLMixSuiPianProgressBgV3.image = [UIImage imageNamed:@"progress@2x.png"];
+    _LLMixSuiPianProgressBgV3.image = [UIImage imageNamed:@"Mixprogress.png"];
     [self addSubview:_LLMixSuiPianProgressBgV3];
     
     double percentageWidth3 = (double)(_SuiPianProgress3/_SuiPianNeedProg3)*[UIScreen mainScreen].bounds.size.width*0.2724;
@@ -321,18 +322,18 @@
     [progressImg3.layer setCornerRadius:[UIScreen mainScreen].bounds.size.width*0.022/2];
     progressImg3.backgroundColor = [UIColor colorWithRed:82.0/255.0 green:131.0/255.0 blue:191.0/255.0 alpha:1];
     [_LLMixSuiPianProgressBgV3 addSubview:progressImg3];
-    UILabel *JinduLabel3 = [[UILabel alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.67,
+    _JinduLabel3 = [[UILabel alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width*0.67,
                                                                     [UIScreen mainScreen].bounds.size.width*0.32,
                                                                     [UIScreen mainScreen].bounds.size.width*0.20,
                                                                     [UIScreen mainScreen].bounds.size.width*0.022)];
-    JinduLabel3.textColor = [UIColor colorWithRed:223.0/255.0 green:215.0/255.0 blue:255.0/255.0 alpha:1];
-    JinduLabel3.font = [UIFont systemFontOfSize:10];
+    _JinduLabel3.textColor = [UIColor colorWithRed:223.0/255.0 green:215.0/255.0 blue:255.0/255.0 alpha:1];
+    _JinduLabel3.font = [UIFont systemFontOfSize:10];
     if (self.SuiPianProgress3 >= self.SuiPianNeedProg3) {
-        JinduLabel3.text = @"完成";
+        _JinduLabel3.text = @"完成";
     }else{
-        JinduLabel3.text = [NSString stringWithFormat:@"%d/%d",self.SuiPianProgress3,self.SuiPianNeedProg3];
+        _JinduLabel3.text = [NSString stringWithFormat:@"%d/%d",self.SuiPianProgress3,self.SuiPianNeedProg3];
     }
-    [self addSubview:JinduLabel3];
+    [self addSubview:_JinduLabel3];
     
 
 }
@@ -362,9 +363,24 @@
     [shaplayer1 setPath:path1.CGPath];
     [shaplayer1 setFillColor:[UIColor colorWithRed:33.0/255.0 green:58.0/255.0 blue:92.0/255.0 alpha:0.5].CGColor];
     [shaplayer1 setZPosition:center.x];
-   [_LLMixFilterProgressImg.layer addSublayer:shaplayer1];
-    
- 
+    [_LLMixFilterProgressImg.layer addSublayer:shaplayer1];
+}
+
+-(void)test{
+    NSLog(@"点击合成按钮");
+    UIView *customView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 150)];
+    customView.backgroundColor = [UIColor blueColor];
+    UIButton *btn = [[UIButton alloc]initWithFrame:CGRectMake(10, 10, 50, 50)];
+    [btn setBackgroundColor:[UIColor grayColor]];
+    [customView addSubview:btn];
+    [btn addTarget:self action:@selector(hello) forControlEvents:UIControlEventTouchUpInside];
+    customAlert = [[JCAlertView alloc] initWithCustomView:customView dismissWhenTouchedBackground:YES];
+    [customAlert show];
+}
+-(void)hello{
+    [customAlert dismissWithCompletion:^{
+        NSLog(@"结束啦");
+    }];
 }
 
 @end

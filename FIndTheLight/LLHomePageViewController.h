@@ -29,13 +29,20 @@
 
 #import "LLMusicYeah.h"
 
+
+#import "LLFIlterSceneManager.h"
+#import "LLCustomeSKView.h"
+#import "LLFilterScene.h"
+
 @interface LLHomePageViewController : UIViewController<AMapLocationManagerDelegate,UIViewControllerTransitioningDelegate>{
     AMapLocationManager *locationManager;
     
     FilterDefaultRain *scene;
     FilterDefaultCloud *rainscene;
     FilterDefaultSunshine *sunshine;
-    SKView *skView;
+    LLCustomeSKView *skView;
+    LLFIlterSceneManager *Filtermanager;
+    LLFilterScene *rightScene;
 }
 
 @property (nonatomic, weak) UIView * LLsecondView;

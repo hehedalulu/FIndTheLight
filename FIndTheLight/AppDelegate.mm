@@ -55,6 +55,11 @@
 //        self.window.rootViewController = first;
         //        GuideViewController *loginVC = [[GuideViewController alloc]init];
         //        self.window.rootViewController = loginVC;
+        LLSuiPianManager *suipianmanger = [[LLSuiPianManager alloc]init];
+        [suipianmanger SetSuiPianValue];
+
+        LLFilterManager *filtermanager = [[LLFilterManager alloc]init];
+        [filtermanager SetFilterValue];
     }
 
     

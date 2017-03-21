@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "LLJudgeNetManager.h"
+#import "LLSuiPianManager.h"
+#import "LLFilterManager.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>{
     LLJudgeNetManager *netmanager;

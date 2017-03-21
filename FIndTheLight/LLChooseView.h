@@ -8,14 +8,24 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LLChooseView : UIView<UIScrollViewDelegate>
-//@property(nonatomic,strong) UISlider *LLsilderchange;
-//- (CGFloat)filterchange:(UISlider *) slider;
-{
+@protocol LLChooseViewDelegate <NSObject>
+@optional
+-(void)changeBgScene:(NSString *)SceneName;
+
+@end
+
+@interface LLChooseView : UIView<UIScrollViewDelegate,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>{
     UIScrollView *backgroundScrollView;
     NSMutableArray *LLFilterImageNameArray;
     NSMutableArray *LLFilterUnchosenNameArray;
+    UICollectionView *LLchooseCollectView;
+    
+    BOOL isSelectedItem;
+    NSIndexPath *SelectedIndex;
 }
 @property (nonatomic,strong) NSMutableArray *LLNameFilterArray;
 @property (nonatomic,strong) UIButton *LLChoseViewBtn;
+@property (nonatomic) NSString *LLChooseViewFiterName;
+@property (nonatomic,weak) id<LLChooseViewDelegate> chooseViewdelegate;
+
 @end

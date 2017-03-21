@@ -8,13 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import "LLARModel.h"
-#import "LLARSuiPianModel.h"
+//#import "LLARSuiPianModel.h"
+#import "LLSuiPian.h"
 
 @interface LLARModelRandomSet : NSObject
 
 -(LLARModel*)LLARRandomSetModel;
 
--(LLARSuiPianModel*)LLARRandomSetSuiPianWithModelName:(NSString*)ModelName;
+-(LLSuiPian*)LLARRandomSetSuiPianWithModelName:(NSString*)ModelName;
 
 
 @end

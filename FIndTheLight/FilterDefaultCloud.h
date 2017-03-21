@@ -12,7 +12,14 @@
     BOOL hasCreatCloud;
     SKAction *actionWaitNextMonster;
     SKAction *actionAddMonster;
+    NSTimeInterval timeinterval;
+    
+    SKSpriteNode *Cloud1;
+    SKSpriteNode *Cloud2;
+    SKSpriteNode *Cloud3;
+    SKSpriteNode *Cloud4;
+    
 }
-//@property (nonatomic)CGFloat waitTime;
+@property (nonatomic)NSTimeInterval waitTime;
 
 @end

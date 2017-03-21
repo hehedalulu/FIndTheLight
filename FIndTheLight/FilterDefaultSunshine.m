@@ -22,7 +22,7 @@
 }
 
 -(void)CreatSunshine{
-//    self.backgroundColor =[SKColor lightGrayColor];
+
     self.backgroundColor = [SKColor clearColor];
     //彩虹
     SKSpriteNode *rainbow = [SKSpriteNode spriteNodeWithImageNamed:@"rainbow.png"];

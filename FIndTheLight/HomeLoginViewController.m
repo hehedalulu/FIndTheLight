@@ -375,7 +375,7 @@
         YanZhengMaFeild.hidden = YES;
         pointer.frame = CGRectMake([UIScreen mainScreen].bounds.size.width*0.26,
                                    [UIScreen mainScreen].bounds.size.width*0.08,
-                                   [UIScreen mainScreen].bounds.size.width*0.018,
+                                   [UIScreen mainScreen].bounds.size.width*0.03,
                                    [UIScreen mainScreen].bounds.size.width*0.02);
 
     }else{
@@ -391,7 +391,7 @@
         YanZhengMaFeild.hidden = NO;
         pointer.frame = CGRectMake([UIScreen mainScreen].bounds.size.width*0.68,
                                    [UIScreen mainScreen].bounds.size.width*0.08,
-                                   [UIScreen mainScreen].bounds.size.width*0.018,
+                                   [UIScreen mainScreen].bounds.size.width*0.03,
                                    [UIScreen mainScreen].bounds.size.width*0.02);
         
     }
@@ -419,7 +419,7 @@
         [UIView animateWithDuration:0.5 animations:^{
             pointer.frame = CGRectMake([UIScreen mainScreen].bounds.size.width*0.26,
                                        [UIScreen mainScreen].bounds.size.width*0.08,
-                                       [UIScreen mainScreen].bounds.size.width*0.018,
+                                       [UIScreen mainScreen].bounds.size.width*0.03,
                                        [UIScreen mainScreen].bounds.size.width*0.02);
         }];
     }
@@ -446,7 +446,7 @@
         [UIView animateWithDuration:0.5 animations:^{
             pointer.frame = CGRectMake([UIScreen mainScreen].bounds.size.width*0.68,
                                        [UIScreen mainScreen].bounds.size.width*0.08,
-                                       [UIScreen mainScreen].bounds.size.width*0.018,
+                                       [UIScreen mainScreen].bounds.size.width*0.03,
                                        [UIScreen mainScreen].bounds.size.width*0.02);
         }];
     }

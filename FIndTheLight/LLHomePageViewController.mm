@@ -37,7 +37,7 @@
 #define DefaultReGeocodeTimeout 5
 
 
-@interface LLHomePageViewController ()<UIGestureRecognizerDelegate>{
+@interface LLHomePageViewController ()<UIGestureRecognizerDelegate,LLChooseViewDelegate>{
     BOOL ghostSelfInformationNotShow;
     UIButton *Screenshotbtn;
     CGFloat Pointer;
@@ -56,9 +56,7 @@
     __block UILabel *LLCountTimerLabel;
     BOOL HasShowtheMatureView;
     BOOL HasWaitingBallMatured;
-//    LLMatureView *llmature;
-    
-//    UIImageView *LLMatureBackgroudView;
+
     UIView *LLDissmissView;
     LLWaitingBall *waitingBall;
     long int LLWaitingBallMatureTime;
@@ -94,6 +92,7 @@
     LLMusicYeah *llmusic;
     LLAddStepsByEMMotion *addStepsByEMMotion;
     NSTimer *UpdateState;
+    UIView *testDisView;
 }
 
 
@@ -117,11 +116,15 @@
 
     if (!hasDraw) {
         self.glView = [[OpenGLView alloc] initWithFrame:self.view.bounds];
+        self.glView.userInteractionEnabled = YES;
+        
         [self.view addSubview:self.glView];
         [self.glView setOrientation:[UIApplication sharedApplication].statusBarOrientation];
+        
         [self drawview];
-        [self drawChooseView];
         [self ShowHiddenView];
+        [self drawChooseView];
+        
  
     }
 
@@ -245,20 +248,23 @@
 #pragma mark - DrawView
 
 -(void)drawview{
-    
-    //滤镜
-    scene = [[FilterDefaultRain alloc]initWithSize:CGSizeMake(414, 736)];
-    scene.Filter_rainNumber = 2000;
-    skView = [[SKView alloc]initWithFrame:CGRectMake(0, 0, 414, 736)];
-    
     skViewBgImg = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 414, 736)];
-//    NSString *path = [[NSBundle mainBundle] pathForResource:@"filter" ofType:@"png"];
-//    skViewBgImg.image = [UIImage imageWithContentsOfFile:path];
+    //    NSString *path = [[NSBundle mainBundle] pathForResource:@"filter" ofType:@"png"];
+    //    skViewBgImg.image = [UIImage imageWithContentsOfFile:path];
     skViewBgImg.image = [UIImage imageNamed:@"FilterLighting_bg_img"];
     skViewBgImg.alpha = 0.8;
     [self.glView addSubview:skViewBgImg];
+    //滤镜
+    Filtermanager =[[LLFIlterSceneManager alloc]init];
+    [Filtermanager setSKView];
+    Filtermanager.skView.LLCustomeFilterName = [self BackFilter];
+    Filtermanager.LLSKViewLightValue = 50;
+    [Filtermanager setFilter];
+    skView =[Filtermanager setSKView];
     
-    [skView presentScene:scene];
+    rightScene = [Filtermanager ComfirmLevelValueBackScene];
+    [skView presentScene:rightScene];
+   
     skView.backgroundColor = [UIColor clearColor];
     [self.glView addSubview:skView];
     
@@ -286,11 +292,10 @@
     
     ghostSelfInformationNotShow = NO;
     
-    displayView = [[LLHomePageDisplayView alloc]init];
-    displayView.frame = CGRectMake(self.view.bounds.size.width*0.03,
-                                   self.view.bounds.size.width*0.08,
-                                   self.view.bounds.size.width*0.282,
-                                   self.view.bounds.size.width*0.145);
+    displayView = [[LLHomePageDisplayView alloc]initWithFrame:CGRectMake(self.view.bounds.size.width*0.03,
+                                                                         self.view.bounds.size.width*0.08,
+                                                                         self.view.bounds.size.width*0.256,
+                                                                         self.view.bounds.size.width*0.145)];
     displayView.backgroundColor = [UIColor clearColor];
 
     [self.glView addSubview:displayView];
@@ -362,9 +367,6 @@
         [waitingBall addGestureRecognizer:TapMaturedWaitingBall];
         
     }
-
-    
-
 }
 
 
@@ -385,13 +387,9 @@
 
 //______________________________________________________________________________
 
-
-
-
-
-
-
 -(void)ShowHiddenView{
+    
+
     
     LLDissmissView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
 //    LLDissmissView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.7];
@@ -413,13 +411,6 @@
     NSNotificationCenter * center2 = [NSNotificationCenter defaultCenter];
     //添加当前类对象为一个观察者，name和object设置为nil，表示接收一切通知
     [center2 addObserver:self selector:@selector(LocalSuiPianAppearFinish:) name:@"LocalSuiPianAppearFinish" object:nil];
-    
-//    LLMatureBackgroudView = [[UIImageView alloc]initWithFrame:CGRectMake(self.view.center.x, self.view.center.y, 0, 0)];
-//    [LLMatureBackgroudView.layer setCornerRadius:10];
-//    LLMatureBackgroudView.backgroundColor = [UIColor colorWithRed:39.0/255.0 green:56.0/255.0 blue:87.0/255.0 alpha:1];
-//    [self.glView addSubview:LLMatureBackgroudView];
-    
-//    llmature = [[LLMatureView alloc]init];
     HasShowtheMatureView = NO;
 //    [llmature drawRect:CGRectMake(0,0, 0, 0)];
 //    [LLMatureBackgroudView addSubview:llmature];
@@ -432,7 +423,7 @@
     LLDismissBoostView.hidden = YES;
     [self.glView addSubview:LLDismissBoostView];
     
-    //
+
     llBoostView = [[LLBoostView alloc]init];
     llBoostView.frame = CGRectMake([UIScreen mainScreen].bounds.size.width*0.19,
                                    self.glView.bounds.size.width*0.35,
@@ -445,8 +436,16 @@
     dismissBoostViewGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(dismissBoostView)];
     dismissBoostViewGesture.delegate = self;
     [self.glView addGestureRecognizer:dismissBoostViewGesture];
-//    [self gestureRecognizer:dismissBoostViewGesture shouldReceiveTouch:touch];
 
+    
+    testDisView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
+    testDisView.userInteractionEnabled  =YES;
+    testDisView.backgroundColor = [UIColor clearColor];
+    testDisView.hidden = YES;
+    [self.glView addSubview:testDisView];
+    
+    closeChooseViewTap =[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showFilterChooseView)];
+    closeChooseViewTap.delegate = self;
 }
 
 -(void)changeNearLocation:(UITapGestureRecognizer *)gesture{
@@ -481,18 +480,20 @@
 }
 
 
-
-- (BOOL)gestureRecognizer:(UITapGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{
-    
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{
     if([touch.view isKindOfClass:[LLBoostView class]]){;
-            return NO;
-    }else if([touch.view isKindOfClass:[LLChooseView class]]){;
+        return NO;
+    }
+    if([touch.view isKindOfClass:[UIImageView class]]){
+        NSLog(@"点击到chooseview");
+        return NO;
+    }
+    if (touch.view == chooseview){
+        NSLog(@"点击到chooseviewcollection");
         return NO;
     }
     return YES;
 }
-
-
 
 
 
@@ -785,10 +786,6 @@
 
 /*
  ***AR光体 模型的出现
- 
- 
- 
- 
  */
 #pragma mark - 定时光体计时器和动画
 
@@ -887,81 +884,75 @@
 
 -(void)drawChooseView{
     chooseview = [[LLChooseView alloc]initWithFrame:CGRectMake(0, self.view.bounds.size.height*1.26, self.view.bounds.size.width, self.view.bounds.size.height*0.26)];
+    chooseview.chooseViewdelegate = self;
+    chooseview.LLChooseViewFiterName = [self BackFilter];
     chooseview.backgroundColor = [UIColor colorWithRed:0.0/255.0 green:0.0/255.0 blue:0.0/255.0 alpha:0.5];
     //    = [chooseview filterchange:chooseview.LLsilderchange];
-    
+    chooseview.userInteractionEnabled = YES;
     UISlider *_LLsilderchange = [[UISlider alloc]initWithFrame:CGRectMake(self.view.bounds.size.width*0.04, self.view.bounds.size.width*0.013, self.view.bounds.size.width*0.92, self.view.bounds.size.width*0.070)];
     [_LLsilderchange setMinimumTrackTintColor:[UIColor clearColor]];
     [_LLsilderchange setMaximumTrackTintColor:[UIColor clearColor]];
+    
     UIImageView *SliderBackgroudImge = [[UIImageView alloc]initWithFrame:CGRectMake(self.view.bounds.size.width*0.04, self.view.bounds.size.width*0.036, self.view.bounds.size.width*0.92, self.view.bounds.size.width*0.063)];
     SliderBackgroudImge.image = [UIImage imageNamed:@"rail"];
+    SliderBackgroudImge.userInteractionEnabled = YES;
     [chooseview addSubview:SliderBackgroudImge];
     
     [_LLsilderchange setThumbImage:[UIImage imageNamed:@"icon_light"] forState:UIControlStateNormal];
     _LLsilderchange.maximumValue = 100;
     _LLsilderchange.minimumValue = 0;
     _LLsilderchange.value = 0;
-    [_LLsilderchange addTarget:self action:@selector(changeDefaultScene:) forControlEvents:UIControlEventValueChanged];
+    [_LLsilderchange addTarget:self action:@selector(changeDefaultScene:) forControlEvents:UIControlEventTouchUpInside];
     [chooseview addSubview:_LLsilderchange];
-    [chooseview.LLChoseViewBtn addTarget:self action:@selector(changefilter:) forControlEvents:UIControlEventTouchUpInside];
-    
     [self.glView addSubview:chooseview];
 }
 
--(void)changefilter:(UIButton *)button{
-    NSLog(@"点击的滤镜的名%ld",(long)chooseview.LLChoseViewBtn.tag);
+//chooseview代理方法
+/*
+  用chooseView上面的参数切换当前滤镜
+ */
+-(void)changeBgScene:(NSString *)SceneName{
+    NSLog(@"传过来的滤镜名字%@",SceneName);
+    [skView removeFromSuperview];
+
+    
+    [Filtermanager ChangeFilterwithNewFilter:SceneName];
+    Filtermanager.LLSKViewLightValue = 50;
+    [Filtermanager setFilter];
+    skView = [Filtermanager setSKView];
+    
+    rightScene = [Filtermanager ComfirmLevelValueBackScene];
+    [skView presentScene:rightScene];
+    
+    skView.backgroundColor = [UIColor clearColor];
+    [self.glView insertSubview:skView aboveSubview:skViewBgImg];
+    
+    [[NSUserDefaults standardUserDefaults]setValue:SceneName forKey:@"NowChooseFilter"];
+    
 }
+
+
 
 -(void)changeDefaultScene:(UISlider *)slider{
     NSLog(@"%f",slider.value);
     skViewBgImg.alpha = 0.8 - slider.value/100*0.7;
-    if (slider.value<=30&&slider.value>=0) {
-        [sunshine removeFromParent];
-        [rainscene removeFromParent];
-        sunshine = nil;
-        rainscene = nil;
-        if (scene==nil) {
-            scene = [[FilterDefaultRain alloc]initWithSize:skView.bounds.size];
-            //            SKTransition *changetomovecloud = [SKTransition doorsOpenVerticalWithDuration:0.5];
-            //            [skView presentScene:scene transition:changetomovecloud];
-            [skView presentScene:scene];
-        }
-        NSLog(@"在大雨区域");
-        scene.Filter_rainNumber = 300-slider.value*10;
-        [scene update:0.01];
-        
-        
-    }else if (slider.value>30&&slider.value<=75){
-        [scene removeFromParent];
-        [sunshine removeFromParent];
-        scene    = nil;
-        sunshine = nil;
-        NSLog(@"在多云区域");
-        if (rainscene==nil) {
-            rainscene = [[FilterDefaultCloud alloc]initWithSize:skView.bounds.size];
-            //            SKTransition *changetomovecloud = [SKTransition doorsOpenVerticalWithDuration:0.5];
-            //            [skView presentScene:rainscene transition:changetomovecloud];
-            [skView presentScene:rainscene];
-        }
-//        rainscene.waitTime = (slider.value-30)/30+1.5;
-//        NSLog(@"%f",rainscene.waitTime);
-//        [rainscene update:0.05];
-    }else{
-        [rainscene removeFromParent];
-        [scene removeFromParent];
-        rainscene = nil;
-        scene = nil;
-        NSLog(@"在太阳区域");
-        if (sunshine==nil) {
-            sunshine = [[FilterDefaultSunshine alloc]initWithSize:skView.bounds.size];
-            //            SKTransition *changetomovecloud = [SKTransition doorsOpenVerticalWithDuration:0.5];
-            //            [skView presentScene:sunshine transition:changetomovecloud];
-            [skView presentScene:sunshine];
-        }
-    }
-    
+    double changeValue = slider.value*3;
+    [rightScene removeFromParent];
+//    rightScene
+    rightScene = [Filtermanager ChangeSKViewWithChangeValue:changeValue];
+    [skView presentScene:rightScene];
 }
-
+//判断当前滤镜
+-(NSString *)BackFilter{
+    NSString *filterName = [[NSString alloc]init];
+    if ([[NSUserDefaults standardUserDefaults]valueForKey:@"NowChooseFilter"]) {
+        //如果userdefault里面有就是当前滤镜
+        filterName = [[NSUserDefaults standardUserDefaults]valueForKey:@"NowChooseFilter"];
+    }else{
+        filterName = @"filter1";
+    }
+    return  filterName;
+}
 - (BOOL)shouldAutorotate {
     return YES;
 }
@@ -977,28 +968,30 @@
 
 //滤镜选择的动画
 -(void)showFilterChooseView{
+
     [llmusic playSound:@"changeFIlter" type:@"wav"];
     if (showTheFilterChooseView) {
         [self closechooseView];
         NSLog(@"chooseview关闭了");
         showTheFilterChooseView = NO;
-        [sunshine removeFromParent];
-        [rainscene removeFromParent];
-        [scene removeFromParent];
-        sunshine = nil;
-        rainscene = nil;
-        scene   = nil;
-        scene = [[FilterDefaultRain alloc]initWithSize:skView.bounds.size];
-            //            SKTransition *changetomovecloud = [SKTransition doorsOpenVerticalWithDuration:0.5];
-            //            [skView presentScene:scene transition:changetomovecloud];
-            [skView presentScene:scene];
-        NSLog(@"回到大雨区域");
-        scene.Filter_rainNumber = 300;
-        [scene update:0.01];
         Screenshotbtn.hidden = NO;
         showthehintBtn.hidden = NO;
         LLHomeMenubtn.hidden = NO;
-        [self.glView removeGestureRecognizer:closeChooseViewTap];
+        testDisView.hidden = YES;
+       
+        [skView removeFromSuperview];
+        [Filtermanager ChangeFilterwithNewFilter:[self BackFilter]];
+        Filtermanager.LLSKViewLightValue = 50;
+        [Filtermanager setFilter];
+        skView = [Filtermanager setSKView];
+        
+        rightScene = [Filtermanager ComfirmLevelValueBackScene];
+        [skView presentScene:rightScene];
+        
+        skView.backgroundColor = [UIColor clearColor];
+        [self.glView insertSubview:skView aboveSubview:skViewBgImg];
+        
+        [testDisView removeGestureRecognizer:closeChooseViewTap];
     }else{
         [self showchooseView];
         showTheFilterChooseView = YES;
@@ -1006,16 +999,12 @@
         Screenshotbtn.hidden = YES;
         showthehintBtn.hidden = YES;
         LLHomeMenubtn.hidden = YES;
-        
-        closeChooseViewTap =[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showFilterChooseView)];
-        closeChooseViewTap.delegate = self;
-        [self.glView addGestureRecognizer:closeChooseViewTap];
+        testDisView.hidden = NO;
+        [testDisView addGestureRecognizer:closeChooseViewTap];
         
     }
 }
-//-(void)showtestfilter{
-//    [filterAlwaysView LLfilerAlwaysDraw];
-//}
+
 -(void)showchooseView{
     
     [self drawChooseView];
@@ -1076,7 +1065,7 @@
     menubtnUP.springBounciness = 4;
     menubtnUP.springSpeed = 6;
     [LLHomeMenubtn pop_addAnimation:menubtnUP forKey:@"menubtndown"];
-    chooseview.hidden = YES;
+    [chooseview removeFromSuperview];
     
 }
 
@@ -1108,9 +1097,6 @@
                                             animated:YES
                                           completion:NULL];
 }
-
-
-
 
 #pragma mark - 截图
 -(void)Screenshot{
@@ -1153,8 +1139,7 @@
 }
 
 #pragma mark - 定位
-- (void)configLocationManager
-{
+- (void)configLocationManager{
     locationManager = [[AMapLocationManager alloc] init];
     
     [locationManager setDelegate:self];
@@ -1275,7 +1260,6 @@
            //[weakSelf pushRankView];
             [weakSelf performSegueWithIdentifier:@"LLRank" sender:nil];
         }else if ([selectedItem.title isEqualToString:@"光体箱"]){
-            //[weakSelf pushRankView];
             [weakSelf performSegueWithIdentifier:@"LLBox" sender:nil];
         }else if ([selectedItem.title isEqualToString:@"设置"]){
             //[weakSelf pushRankView];
@@ -1304,11 +1288,6 @@
     //[testVC dealloc];
 }
 -(void)pushMixFilterView{
-//    LLMixFilterViewController *testVC = [LLMixFilterViewController new];
-//    testVC.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-//    [self.navigationController presentViewController:testVC
-//                                            animated:YES
-//                                          completion:NULL];
     [self performSegueWithIdentifier:@"LLMixFilter" sender:nil];
     
 }
@@ -1363,7 +1342,6 @@
 //        NSLog(@"正在定位中");
     }
     //更新能量的数字
-    
     pageInformationView.LLMainRoleEnergyValue = [[NSUserDefaults standardUserDefaults]valueForKey:@"Energy"];
     [pageInformationView changeEnergyLabel];
     

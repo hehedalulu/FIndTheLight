@@ -41,16 +41,16 @@
     if (self.LLSuiPianType == 0) {//本地光体
         LLLocalModelRandomSet *randomset = [[LLLocalModelRandomSet alloc]init];
         //传进model的名字
-        LLLocalSuiPian *localsuipain = [randomset LLLocalRandomSetSuiPianWithModelName:self.LLSuiPianViewBelongModel];
-        _LLSuiPianImg.image = [UIImage imageNamed:localsuipain.LLLocalSuiPianImageName];
-        _LLSuipianName.text = localsuipain.LLLocalSuiPianNameString;
+        LLSuiPian *localsuipain = [randomset LLLocalRandomSetSuiPianWithModelName:self.LLSuiPianViewBelongModel];
+        _LLSuiPianImg.image = [UIImage imageNamed:localsuipain.LLSuiPianPicName];
+        _LLSuipianName.text = localsuipain.LLSuiPianName;
         NSLog(@"测试碎片的名字%@",_LLSuipianName.text);
         _LLSuiPianTotalLabel.text = @"库存 3 个";
     }else{
         LLARModelRandomSet *randomset = [[LLARModelRandomSet alloc]init];
-        LLARSuiPianModel *armodel = [randomset LLARRandomSetSuiPianWithModelName:self.LLSuiPianViewBelongModel];
-        _LLSuiPianImg.image = [UIImage imageNamed:armodel.LLLARSuiPianImageName];
-        _LLSuipianName.text = armodel.LLARSuiPianNameString;
+        LLSuiPian *armodel = [randomset LLARRandomSetSuiPianWithModelName:self.LLSuiPianViewBelongModel];
+        _LLSuiPianImg.image = [UIImage imageNamed:armodel.LLSuiPianPicName];
+        _LLSuipianName.text = armodel.LLSuiPianName;
         _LLSuiPianTotalLabel.text = @"库存 3 个";
         
     }

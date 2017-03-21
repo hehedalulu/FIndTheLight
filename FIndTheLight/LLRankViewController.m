@@ -21,6 +21,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+    showRankViewOnce = YES;
     self.view.backgroundColor = [UIColor colorWithRed:23.0/255.0 green:27.0/255.0 blue:47.0/255.0 alpha:1];
     
     
@@ -156,11 +157,7 @@
 -(void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section{
     view.tintColor = [UIColor clearColor];
 }
-//-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section:(NSInteger)section{
-//    
-//    return 5;
-//    
-//}
+
 
 //-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
 //    return 20;
@@ -177,9 +174,10 @@
     //    [self.tabelView customizeCell:cell];
     //    [self.tabelView appearCell:cell andDirection:directionRight andRow:indexPath.row];
     //    [self.tabelView appearCell:cell andDirection:directionRight];
-    [lltableView appearCell:cell andScale:0.1];
-    
-    
+//    if (showRankViewOnce) {
+//         [lltableView appearCell:cell andScale:0.1];
+//        showRankViewOnce = NO;
+//    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

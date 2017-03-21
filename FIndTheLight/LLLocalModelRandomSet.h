@@ -8,9 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import "LLLocalModel.h"
-#import "LLLocalSuiPian.h"
+//#import "LLLocalSuiPian.h"
+#import "LLSuiPian.h"
 
 @interface LLLocalModelRandomSet : NSObject
 -(LLLocalModel *)LLLoacalRandomSetModel;
--(LLLocalSuiPian*)LLLocalRandomSetSuiPianWithModelName:(NSString*)ModelName;
+-(LLSuiPian*)LLLocalRandomSetSuiPianWithModelName:(NSString*)ModelName;
 @end

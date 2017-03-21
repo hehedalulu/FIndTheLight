@@ -67,7 +67,6 @@
 }
 
 -(void)update:(NSTimeInterval)currentTime{
-    
     rain.particleBirthRate = _Filter_rainNumber;
     
 }

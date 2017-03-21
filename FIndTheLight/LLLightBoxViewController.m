@@ -141,12 +141,6 @@
                                  @"optical_layer_unknown.png",
                                  @"optical_layer_normal.png",
                                  @"optical_layer_unknown.png",
-                                 @"optical_layer_unknown.png",
-                                 @"optical_layer_unknown.png",
-                                 @"optical_layer_unknown.png",
-                                 @"optical_layer_unknown.png",
-                                 @"optical_layer_unknown.png",
-                                 @"optical_layer_unknown.png",
                                  nil];
     
     LightBoxNameArray = [[NSMutableArray alloc]initWithObjects:
@@ -155,12 +149,6 @@
                                     @"南瓜",
                                     @"未知",
                                     @"星星",
-                                    @"未知",
-                                    @"未知",
-                                    @"未知",
-                                    @"未知",
-                                    @"未知",
-                                    @"未知",
                                     @"未知",
                                         nil];
     

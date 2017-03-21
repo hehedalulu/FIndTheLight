@@ -43,7 +43,7 @@
                         <segue destination="UGt-wU-YA9" kind="show" identifier="LLRank" animates="NO" id="QrS-zd-l8O"/>
                         <segue destination="2gt-Qn-XvF" kind="show" identifier="LLMixFilter" animates="NO" id="oK7-sk-q5r"/>
                         <segue destination="JaL-bh-oQE" kind="show" identifier="LLPunch" animates="NO" id="kYO-dY-g44"/>
-                        <segue destination="JD4-Sr-s66" kind="show" identifier="LLBox" id="xzU-rB-EIm"/>
+                        <segue destination="JD4-Sr-s66" kind="show" identifier="LLBox" animates="NO" id="xzU-rB-EIm"/>
                         <segue destination="Ssp-Xd-ycb" kind="show" identifier="LLSet" animates="NO" id="zmK-n4-YAg"/>
                     </connections>
                 </viewController>
@@ -158,7 +158,7 @@
                         <color key="backgroundColor" red="0.97884615379999995" green="0.79050270950000001" blue="0.67766181719999996" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <connections>
-                        <segue destination="kon-qW-LBy" kind="show" identifier="backtoregist" id="18q-na-5h1"/>
+                        <segue destination="kon-qW-LBy" kind="show" identifier="backtoregist" animates="NO" id="18q-na-5h1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ndE-Vq-FSv" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -516,7 +516,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="HnJ-0E-mc6"/>
-        <segue reference="Gaf-Za-qLc"/>
+        <segue reference="THj-6y-e0e"/>
+        <segue reference="18q-na-5h1"/>
     </inferredMetricsTieBreakers>
 </document>

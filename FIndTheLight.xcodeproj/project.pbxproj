@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		5B0D39011E52285E0018328A /* LLSuiPianVIew.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B0D39001E52285E0018328A /* LLSuiPianVIew.m */; };
 		5B0D39031E522A0B0018328A /* suipian.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B0D39021E522A0B0018328A /* suipian.png */; };
+		5B14F6E61E80E7EC00E3B067 /* LLMixView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B14F6E51E80E7EB00E3B067 /* LLMixView.m */; };
 		5B2948051E07EBD90062E9EC /* IMG_7365.JPG in Resources */ = {isa = PBXBuildFile; fileRef = 5B2948041E07EBD80062E9EC /* IMG_7365.JPG */; };
 		5B29482D1E099AA40062E9EC /* LLGetNowTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B29482C1E099AA40062E9EC /* LLGetNowTime.m */; };
 		5B2948321E09CCAE0062E9EC /* LLBoostView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B2948311E09CCAE0062E9EC /* LLBoostView.m */; };
@@ -223,7 +224,6 @@
 		5B7B33BB1E0140C600BB02D5 /* LLTimerLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7B33BA1E0140C600BB02D5 /* LLTimerLabel.m */; };
 		5B7B33BE1E0268F000BB02D5 /* LLmeasureCountTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7B33BD1E0268F000BB02D5 /* LLmeasureCountTimer.m */; };
 		5B850CB11E467A8800BDDD23 /* FilterDefaultRain.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B850CB01E467A8800BDDD23 /* FilterDefaultRain.m */; };
-		5B850CB31E467BBC00BDDD23 /* filter_lightening.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 5B850CB21E467BBC00BDDD23 /* filter_lightening.atlas */; };
 		5B850CB61E467C0B00BDDD23 /* FilterDefaultCloud.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B850CB51E467C0B00BDDD23 /* FilterDefaultCloud.m */; };
 		5B850CBC1E467C5600BDDD23 /* cloud1.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B850CB81E467C5600BDDD23 /* cloud1.png */; };
 		5B850CBD1E467C5600BDDD23 /* cloud2.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B850CB91E467C5600BDDD23 /* cloud2.png */; };
@@ -235,6 +235,8 @@
 		5B850CC91E467CC500BDDD23 /* sun.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B850CC61E467CC500BDDD23 /* sun.png */; };
 		5B850CCC1E467CE300BDDD23 /* MyParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = 5B850CCA1E467CE300BDDD23 /* MyParticle.sks */; };
 		5B850CCD1E467CE300BDDD23 /* SmallRain.sks in Resources */ = {isa = PBXBuildFile; fileRef = 5B850CCB1E467CE300BDDD23 /* SmallRain.sks */; };
+		5B867EA01E78FE18006316DA /* LLSuiPian.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B867E9F1E78FE18006316DA /* LLSuiPian.m */; };
+		5B867EA31E791769006316DA /* LLFilterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B867EA21E791769006316DA /* LLFilterManager.m */; };
 		5B919C541E585F3800280F03 /* LLMixTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B919C531E585F3800280F03 /* LLMixTableViewCell.m */; };
 		5B919C961E5873E600280F03 /* LLFilterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B919C951E5873E600280F03 /* LLFilterModel.m */; };
 		5B919C991E58748500280F03 /* LLFilterSuiPian.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B919C981E58748500280F03 /* LLFilterSuiPian.m */; };
@@ -266,8 +268,8 @@
 		5B919CD21E588E7A00280F03 /* mix_unable@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B919CB41E588E7A00280F03 /* mix_unable@3x.png */; };
 		5B919CD31E588E7A00280F03 /* notfound@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B919CB51E588E7A00280F03 /* notfound@2x.png */; };
 		5B919CD41E588E7A00280F03 /* notfound@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B919CB61E588E7A00280F03 /* notfound@3x.png */; };
-		5B919CD51E588E7A00280F03 /* progress@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B919CB71E588E7A00280F03 /* progress@2x.png */; };
-		5B919CD61E588E7A00280F03 /* progress@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B919CB81E588E7A00280F03 /* progress@3x.png */; };
+		5B919CD51E588E7A00280F03 /* Mixprogress@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B919CB71E588E7A00280F03 /* Mixprogress@2x.png */; };
+		5B919CD61E588E7A00280F03 /* Mixprogress@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B919CB81E588E7A00280F03 /* Mixprogress@3x.png */; };
 		5B919CDE1E58ADD500280F03 /* _UITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B919CDD1E58ADD500280F03 /* _UITests.m */; };
 		5B919CF21E58C6E100280F03 /* default-photo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B919CE61E58C6E100280F03 /* default-photo@2x.png */; };
 		5B919CF31E58C6E100280F03 /* default-photo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B919CE71E58C6E100280F03 /* default-photo@3x.png */; };
@@ -305,6 +307,14 @@
 		5B9ED8DB1E51A1EA00016EA2 /* optical_rank@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B9ED8D51E51A1EA00016EA2 /* optical_rank@2x.png */; };
 		5B9ED8DC1E51A1EA00016EA2 /* optical_rank@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B9ED8D61E51A1EA00016EA2 /* optical_rank@3x.png */; };
 		5B9ED8DF1E51A79500016EA2 /* LLVIewAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B9ED8DE1E51A79500016EA2 /* LLVIewAnimation.m */; };
+		5BA9EB7D1E7A98BB00EC0531 /* cloud4.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BA9EB7C1E7A98BB00EC0531 /* cloud4.png */; };
+		5BA9EB801E7CB9BE00EC0531 /* LLChooseViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BA9EB7F1E7CB9BD00EC0531 /* LLChooseViewCell.m */; };
+		5BA9EB8A1E7D236100EC0531 /* LLCustomeSKView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BA9EB891E7D236100EC0531 /* LLCustomeSKView.m */; };
+		5BA9EB8D1E7D24F600EC0531 /* LLFIlterSceneManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BA9EB8C1E7D24F600EC0531 /* LLFIlterSceneManager.m */; };
+		5BA9EB901E7EB73300EC0531 /* LLFilterScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BA9EB8F1E7EB73300EC0531 /* LLFilterScene.m */; };
+		5BA9EB921E7EC27D00EC0531 /* FilterLighting.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 5BA9EB911E7EC27C00EC0531 /* FilterLighting.atlas */; };
+		5BA9EB951E7EC32300EC0531 /* Fliterrainbow.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 5BA9EB931E7EC32300EC0531 /* Fliterrainbow.atlas */; };
+		5BA9EB961E7EC32300EC0531 /* smallrain.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 5BA9EB941E7EC32300EC0531 /* smallrain.atlas */; };
 		5BBC21891DE81DAA008DAAD4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BBC21881DE81DAA008DAAD4 /* main.m */; };
 		5BBC218C1DE81DAA008DAAD4 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5BBC218B1DE81DAA008DAAD4 /* AppDelegate.mm */; };
 		5BBC21921DE81DAA008DAAD4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BBC21901DE81DAA008DAAD4 /* Main.storyboard */; };
@@ -379,6 +389,7 @@
 		5BD2ABB31E6C3F21004E9E91 /* restaurant_zhongjian2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5BD2AB971E6C3F21004E9E91 /* restaurant_zhongjian2.jpg */; };
 		5BD2ABB41E6C3F21004E9E91 /* restaurant_zhongjian3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5BD2AB981E6C3F21004E9E91 /* restaurant_zhongjian3.jpg */; };
 		5BD2ABB71E6CE64C004E9E91 /* LLLightBoxDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD2ABB61E6CE64C004E9E91 /* LLLightBoxDetailView.m */; };
+		5BE98CCB1E79389400CABD45 /* LLSuiPianManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BE98CCA1E79389400CABD45 /* LLSuiPianManager.m */; };
 		5BEBD9B01E5356E400C69A53 /* newview.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEBD9AF1E5356E400C69A53 /* newview.m */; };
 		5BEBD9BB1E55733000C69A53 /* LocalSuiPian1.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BEBD9B91E55733000C69A53 /* LocalSuiPian1.png */; };
 		5BEBD9BC1E55733000C69A53 /* LocalSuiPian2.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BEBD9BA1E55733000C69A53 /* LocalSuiPian2.png */; };
@@ -412,7 +423,6 @@
 		5BF545371E6F967500198E8E /* LLARModelRandomSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BF545361E6F967500198E8E /* LLARModelRandomSet.m */; };
 		5BF545391E6F981200198E8E /* pumpkin.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BF545381E6F981200198E8E /* pumpkin.png */; };
 		5BF5453B1E6F984900198E8E /* starstar.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BF5453A1E6F984900198E8E /* starstar.png */; };
-		5BF545441E6F9A1C00198E8E /* LLARSuiPianModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BF545431E6F9A1C00198E8E /* LLARSuiPianModel.m */; };
 		5BF545461E6F9D2B00198E8E /* tengman.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BF545451E6F9D2B00198E8E /* tengman.png */; };
 		5BF545481E6F9D9B00198E8E /* jianjiao.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BF545471E6F9D9B00198E8E /* jianjiao.png */; };
 		5BF5454A1E6F9DF100198E8E /* nanguabing.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BF545491E6F9DF100198E8E /* nanguabing.png */; };
@@ -420,7 +430,6 @@
 		5BF5454E1E6F9EA600198E8E /* faguangTail.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BF5454D1E6F9EA600198E8E /* faguangTail.png */; };
 		5BF545541E6FA03600198E8E /* LLLocalModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BF545531E6FA03600198E8E /* LLLocalModel.m */; };
 		5BF545571E6FA09F00198E8E /* LLLocalModelRandomSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BF545561E6FA09F00198E8E /* LLLocalModelRandomSet.m */; };
-		5BF5455A1E6FA19200198E8E /* LLLocalSuiPian.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BF545591E6FA19200198E8E /* LLLocalSuiPian.m */; };
 		5BF5455C1E6FA24500198E8E /* zuanshi.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BF5455B1E6FA24500198E8E /* zuanshi.png */; };
 		5BF5455E1E6FA30500198E8E /* naiqi.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BF5455D1E6FA30500198E8E /* naiqi.png */; };
 		5BF545601E6FA37C00198E8E /* boli.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BF5455F1E6FA37C00198E8E /* boli.png */; };
@@ -459,6 +468,8 @@
 		5B0D38FF1E52285E0018328A /* LLSuiPianVIew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLSuiPianVIew.h; sourceTree = "<group>"; };
 		5B0D39001E52285E0018328A /* LLSuiPianVIew.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLSuiPianVIew.m; sourceTree = "<group>"; };
 		5B0D39021E522A0B0018328A /* suipian.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = suipian.png; sourceTree = "<group>"; };
+		5B14F6E41E80E7EB00E3B067 /* LLMixView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLMixView.h; sourceTree = "<group>"; };
+		5B14F6E51E80E7EB00E3B067 /* LLMixView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLMixView.m; sourceTree = "<group>"; };
 		5B2948041E07EBD80062E9EC /* IMG_7365.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_7365.JPG; sourceTree = "<group>"; };
 		5B29482B1E099AA40062E9EC /* LLGetNowTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLGetNowTime.h; sourceTree = "<group>"; };
 		5B29482C1E099AA40062E9EC /* LLGetNowTime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLGetNowTime.m; sourceTree = "<group>"; };
@@ -705,7 +716,6 @@
 		5B7B33BD1E0268F000BB02D5 /* LLmeasureCountTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLmeasureCountTimer.m; sourceTree = "<group>"; };
 		5B850CAF1E467A8800BDDD23 /* FilterDefaultRain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterDefaultRain.h; sourceTree = "<group>"; };
 		5B850CB01E467A8800BDDD23 /* FilterDefaultRain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterDefaultRain.m; sourceTree = "<group>"; };
-		5B850CB21E467BBC00BDDD23 /* filter_lightening.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = filter_lightening.atlas; sourceTree = "<group>"; };
 		5B850CB41E467C0B00BDDD23 /* FilterDefaultCloud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterDefaultCloud.h; sourceTree = "<group>"; };
 		5B850CB51E467C0B00BDDD23 /* FilterDefaultCloud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterDefaultCloud.m; sourceTree = "<group>"; };
 		5B850CB81E467C5600BDDD23 /* cloud1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud1.png; sourceTree = "<group>"; };
@@ -719,6 +729,10 @@
 		5B850CC61E467CC500BDDD23 /* sun.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sun.png; sourceTree = "<group>"; };
 		5B850CCA1E467CE300BDDD23 /* MyParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyParticle.sks; sourceTree = "<group>"; };
 		5B850CCB1E467CE300BDDD23 /* SmallRain.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = SmallRain.sks; sourceTree = "<group>"; };
+		5B867E9E1E78FE18006316DA /* LLSuiPian.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLSuiPian.h; sourceTree = "<group>"; };
+		5B867E9F1E78FE18006316DA /* LLSuiPian.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLSuiPian.m; sourceTree = "<group>"; };
+		5B867EA11E791769006316DA /* LLFilterManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLFilterManager.h; sourceTree = "<group>"; };
+		5B867EA21E791769006316DA /* LLFilterManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLFilterManager.m; sourceTree = "<group>"; };
 		5B919C521E585F3800280F03 /* LLMixTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLMixTableViewCell.h; sourceTree = "<group>"; };
 		5B919C531E585F3800280F03 /* LLMixTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLMixTableViewCell.m; sourceTree = "<group>"; };
 		5B919C941E5873E600280F03 /* LLFilterModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLFilterModel.h; sourceTree = "<group>"; };
@@ -753,8 +767,8 @@
 		5B919CB41E588E7A00280F03 /* mix_unable@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mix_unable@3x.png"; sourceTree = "<group>"; };
 		5B919CB51E588E7A00280F03 /* notfound@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notfound@2x.png"; sourceTree = "<group>"; };
 		5B919CB61E588E7A00280F03 /* notfound@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notfound@3x.png"; sourceTree = "<group>"; };
-		5B919CB71E588E7A00280F03 /* progress@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress@2x.png"; sourceTree = "<group>"; };
-		5B919CB81E588E7A00280F03 /* progress@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress@3x.png"; sourceTree = "<group>"; };
+		5B919CB71E588E7A00280F03 /* Mixprogress@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Mixprogress@2x.png"; sourceTree = "<group>"; };
+		5B919CB81E588E7A00280F03 /* Mixprogress@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Mixprogress@3x.png"; sourceTree = "<group>"; };
 		5B919CDB1E58ADD500280F03 /* 光UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "光UITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B919CDD1E58ADD500280F03 /* _UITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = _UITests.m; sourceTree = "<group>"; };
 		5B919CDF1E58ADD500280F03 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -798,6 +812,18 @@
 		5B9ED8D61E51A1EA00016EA2 /* optical_rank@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "optical_rank@3x.png"; sourceTree = "<group>"; };
 		5B9ED8DD1E51A79500016EA2 /* LLVIewAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLVIewAnimation.h; sourceTree = "<group>"; };
 		5B9ED8DE1E51A79500016EA2 /* LLVIewAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLVIewAnimation.m; sourceTree = "<group>"; };
+		5BA9EB7C1E7A98BB00EC0531 /* cloud4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud4.png; sourceTree = "<group>"; };
+		5BA9EB7E1E7CB9BD00EC0531 /* LLChooseViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLChooseViewCell.h; sourceTree = "<group>"; };
+		5BA9EB7F1E7CB9BD00EC0531 /* LLChooseViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLChooseViewCell.m; sourceTree = "<group>"; };
+		5BA9EB881E7D236100EC0531 /* LLCustomeSKView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLCustomeSKView.h; sourceTree = "<group>"; };
+		5BA9EB891E7D236100EC0531 /* LLCustomeSKView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLCustomeSKView.m; sourceTree = "<group>"; };
+		5BA9EB8B1E7D24F600EC0531 /* LLFIlterSceneManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLFIlterSceneManager.h; sourceTree = "<group>"; };
+		5BA9EB8C1E7D24F600EC0531 /* LLFIlterSceneManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLFIlterSceneManager.m; sourceTree = "<group>"; };
+		5BA9EB8E1E7EB73300EC0531 /* LLFilterScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLFilterScene.h; sourceTree = "<group>"; };
+		5BA9EB8F1E7EB73300EC0531 /* LLFilterScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLFilterScene.m; sourceTree = "<group>"; };
+		5BA9EB911E7EC27C00EC0531 /* FilterLighting.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = FilterLighting.atlas; sourceTree = "<group>"; };
+		5BA9EB931E7EC32300EC0531 /* Fliterrainbow.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Fliterrainbow.atlas; sourceTree = "<group>"; };
+		5BA9EB941E7EC32300EC0531 /* smallrain.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = smallrain.atlas; sourceTree = "<group>"; };
 		5BBC21841DE81DAA008DAAD4 /* FIndTheLight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FIndTheLight.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BBC21881DE81DAA008DAAD4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		5BBC218A1DE81DAA008DAAD4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -886,6 +912,8 @@
 		5BD2AB981E6C3F21004E9E91 /* restaurant_zhongjian3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = restaurant_zhongjian3.jpg; sourceTree = "<group>"; };
 		5BD2ABB51E6CE64C004E9E91 /* LLLightBoxDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLLightBoxDetailView.h; sourceTree = "<group>"; };
 		5BD2ABB61E6CE64C004E9E91 /* LLLightBoxDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLLightBoxDetailView.m; sourceTree = "<group>"; };
+		5BE98CC91E79389400CABD45 /* LLSuiPianManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLSuiPianManager.h; sourceTree = "<group>"; };
+		5BE98CCA1E79389400CABD45 /* LLSuiPianManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLSuiPianManager.m; sourceTree = "<group>"; };
 		5BEBD9AE1E5356E400C69A53 /* newview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = newview.h; sourceTree = "<group>"; };
 		5BEBD9AF1E5356E400C69A53 /* newview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = newview.m; sourceTree = "<group>"; };
 		5BEBD9B91E55733000C69A53 /* LocalSuiPian1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LocalSuiPian1.png; sourceTree = "<group>"; };
@@ -925,8 +953,6 @@
 		5BF545361E6F967500198E8E /* LLARModelRandomSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLARModelRandomSet.m; sourceTree = "<group>"; };
 		5BF545381E6F981200198E8E /* pumpkin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pumpkin.png; sourceTree = "<group>"; };
 		5BF5453A1E6F984900198E8E /* starstar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = starstar.png; sourceTree = "<group>"; };
-		5BF545421E6F9A1C00198E8E /* LLARSuiPianModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLARSuiPianModel.h; sourceTree = "<group>"; };
-		5BF545431E6F9A1C00198E8E /* LLARSuiPianModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLARSuiPianModel.m; sourceTree = "<group>"; };
 		5BF545451E6F9D2B00198E8E /* tengman.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tengman.png; sourceTree = "<group>"; };
 		5BF545471E6F9D9B00198E8E /* jianjiao.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jianjiao.png; sourceTree = "<group>"; };
 		5BF545491E6F9DF100198E8E /* nanguabing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nanguabing.png; sourceTree = "<group>"; };
@@ -936,8 +962,6 @@
 		5BF545531E6FA03600198E8E /* LLLocalModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLLocalModel.m; sourceTree = "<group>"; };
 		5BF545551E6FA09F00198E8E /* LLLocalModelRandomSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLLocalModelRandomSet.h; sourceTree = "<group>"; };
 		5BF545561E6FA09F00198E8E /* LLLocalModelRandomSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLLocalModelRandomSet.m; sourceTree = "<group>"; };
-		5BF545581E6FA19200198E8E /* LLLocalSuiPian.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLLocalSuiPian.h; sourceTree = "<group>"; };
-		5BF545591E6FA19200198E8E /* LLLocalSuiPian.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLLocalSuiPian.m; sourceTree = "<group>"; };
 		5BF5455B1E6FA24500198E8E /* zuanshi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = zuanshi.png; path = defaultModel/zuanshi.png; sourceTree = "<group>"; };
 		5BF5455D1E6FA30500198E8E /* naiqi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = naiqi.png; sourceTree = "<group>"; };
 		5BF5455F1E6FA37C00198E8E /* boli.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = boli.png; sourceTree = "<group>"; };
@@ -1014,6 +1038,41 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		5B14F6E11E80E76100E3B067 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				5B3BB8661E339026004DA752 /* LLMixFilterViewController.h */,
+				5B3BB8671E339026004DA752 /* LLMixFilterViewController.m */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		5B14F6E21E80E79200E3B067 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				5B5C98AF1E78DB08007E8A09 /* LLFilter.h */,
+				5B5C98B01E78DB08007E8A09 /* LLFilter.m */,
+				5B867E9E1E78FE18006316DA /* LLSuiPian.h */,
+				5B867E9F1E78FE18006316DA /* LLSuiPian.m */,
+				5BE98CC91E79389400CABD45 /* LLSuiPianManager.h */,
+				5BE98CCA1E79389400CABD45 /* LLSuiPianManager.m */,
+				5B867EA11E791769006316DA /* LLFilterManager.h */,
+				5B867EA21E791769006316DA /* LLFilterManager.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		5B14F6E31E80E7B000E3B067 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				5B14F6E41E80E7EB00E3B067 /* LLMixView.h */,
+				5B14F6E51E80E7EB00E3B067 /* LLMixView.m */,
+				5B919C521E585F3800280F03 /* LLMixTableViewCell.h */,
+				5B919C531E585F3800280F03 /* LLMixTableViewCell.m */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
 		5B2947921E05B8D60062E9EC /* MatureView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1066,14 +1125,11 @@
 		5B3BB8641E338FD6004DA752 /* 滤镜合成 */ = {
 			isa = PBXGroup;
 			children = (
-				5B3BB8661E339026004DA752 /* LLMixFilterViewController.h */,
-				5B3BB8671E339026004DA752 /* LLMixFilterViewController.m */,
-				5B919C521E585F3800280F03 /* LLMixTableViewCell.h */,
-				5B919C531E585F3800280F03 /* LLMixTableViewCell.m */,
+				5B14F6E31E80E7B000E3B067 /* View */,
+				5B14F6E21E80E79200E3B067 /* Model */,
+				5B14F6E11E80E76100E3B067 /* Controller */,
 				5B919C941E5873E600280F03 /* LLFilterModel.h */,
 				5B919C951E5873E600280F03 /* LLFilterModel.m */,
-				5B5C98AF1E78DB08007E8A09 /* LLFilter.h */,
-				5B5C98B01E78DB08007E8A09 /* LLFilter.m */,
 				5B919C971E58748500280F03 /* LLFilterSuiPian.h */,
 				5B919C981E58748500280F03 /* LLFilterSuiPian.m */,
 				5B919C9A1E588E7A00280F03 /* mix */,
@@ -1105,21 +1161,22 @@
 				5B7B329C1E01118000BB02D5 /* WaitingBall */,
 				5B729A451DF4116F000FE6E9 /* iCarousel */,
 				5B729A411DF39A0D000FE6E9 /* ChooseFilter */,
-				5B43B76A1DF2741000D3CFE9 /* FilterView */,
 				5BBC21B41DE81EA8008DAAD4 /* DisplayView */,
 			);
 			name = View;
 			sourceTree = "<group>";
 		};
-		5B43B76A1DF2741000D3CFE9 /* FilterView */ = {
+		5B43B76A1DF2741000D3CFE9 /* 默认滤镜FilterView */ = {
 			isa = PBXGroup;
 			children = (
+				5BA9EB931E7EC32300EC0531 /* Fliterrainbow.atlas */,
+				5BA9EB941E7EC32300EC0531 /* smallrain.atlas */,
+				5BA9EB911E7EC27C00EC0531 /* FilterLighting.atlas */,
 				5B850CCA1E467CE300BDDD23 /* MyParticle.sks */,
 				5B850CCB1E467CE300BDDD23 /* SmallRain.sks */,
 				5B729A491DF42665000FE6E9 /* 7005.mp3 */,
 				5B850CAF1E467A8800BDDD23 /* FilterDefaultRain.h */,
 				5B850CB01E467A8800BDDD23 /* FilterDefaultRain.m */,
-				5B850CB21E467BBC00BDDD23 /* filter_lightening.atlas */,
 				5B850CB41E467C0B00BDDD23 /* FilterDefaultCloud.h */,
 				5B850CB51E467C0B00BDDD23 /* FilterDefaultCloud.m */,
 				5B850CB71E467C5600BDDD23 /* cloud */,
@@ -1127,7 +1184,7 @@
 				5B850CC11E467C7600BDDD23 /* FilterDefaultSunshine.m */,
 				5B850CC31E467CC500BDDD23 /* sunshine */,
 			);
-			name = FilterView;
+			name = "默认滤镜FilterView";
 			sourceTree = "<group>";
 		};
 		5B4695901E4ED8D200D6B7DC /* 光体箱 */ = {
@@ -1191,6 +1248,8 @@
 			children = (
 				5B729A421DF39A35000FE6E9 /* LLChooseView.h */,
 				5B729A431DF39A35000FE6E9 /* LLChooseView.m */,
+				5BA9EB7E1E7CB9BD00EC0531 /* LLChooseViewCell.h */,
+				5BA9EB7F1E7CB9BD00EC0531 /* LLChooseViewCell.m */,
 				5B4695981E4EE58800D6B7DC /* chosen */,
 				5B4695A31E4EE58800D6B7DC /* lock */,
 			);
@@ -1465,6 +1524,7 @@
 				5B850CB91E467C5600BDDD23 /* cloud2.png */,
 				5B850CBA1E467C5600BDDD23 /* cloud3.png */,
 				5B850CBB1E467C5600BDDD23 /* filter_cloud5.png */,
+				5BA9EB7C1E7A98BB00EC0531 /* cloud4.png */,
 			);
 			path = cloud;
 			sourceTree = "<group>";
@@ -1510,8 +1570,8 @@
 				5B919CB41E588E7A00280F03 /* mix_unable@3x.png */,
 				5B919CB51E588E7A00280F03 /* notfound@2x.png */,
 				5B919CB61E588E7A00280F03 /* notfound@3x.png */,
-				5B919CB71E588E7A00280F03 /* progress@2x.png */,
-				5B919CB81E588E7A00280F03 /* progress@3x.png */,
+				5B919CB71E588E7A00280F03 /* Mixprogress@2x.png */,
+				5B919CB81E588E7A00280F03 /* Mixprogress@3x.png */,
 			);
 			path = mix;
 			sourceTree = "<group>";
@@ -1572,6 +1632,20 @@
 			path = defaultModel;
 			sourceTree = "<group>";
 		};
+		5BA9EB871E7D216300EC0531 /* 滤镜 */ = {
+			isa = PBXGroup;
+			children = (
+				5BA9EB881E7D236100EC0531 /* LLCustomeSKView.h */,
+				5BA9EB891E7D236100EC0531 /* LLCustomeSKView.m */,
+				5BA9EB8E1E7EB73300EC0531 /* LLFilterScene.h */,
+				5BA9EB8F1E7EB73300EC0531 /* LLFilterScene.m */,
+				5BA9EB8B1E7D24F600EC0531 /* LLFIlterSceneManager.h */,
+				5BA9EB8C1E7D24F600EC0531 /* LLFIlterSceneManager.m */,
+				5B43B76A1DF2741000D3CFE9 /* 默认滤镜FilterView */,
+			);
+			name = "滤镜";
+			sourceTree = "<group>";
+		};
 		5BBC217B1DE81DAA008DAAD4 = {
 			isa = PBXGroup;
 			children = (
@@ -1608,6 +1682,7 @@
 				5B3BB8641E338FD6004DA752 /* 滤镜合成 */,
 				5B3BB8691E33908B004DA752 /* 排行榜 */,
 				5B4695901E4ED8D200D6B7DC /* 光体箱 */,
+				5BA9EB871E7D216300EC0531 /* 滤镜 */,
 				5B4695941E4ED9D500D6B7DC /* 设置 */,
 				5BBC21B11DE81E63008DAAD4 /* HomePage */,
 				5BBC21871DE81DAA008DAAD4 /* Supporting Files */,
@@ -1881,8 +1956,6 @@
 			children = (
 				5BF545521E6FA03600198E8E /* LLLocalModel.h */,
 				5BF545531E6FA03600198E8E /* LLLocalModel.m */,
-				5BF545581E6FA19200198E8E /* LLLocalSuiPian.h */,
-				5BF545591E6FA19200198E8E /* LLLocalSuiPian.m */,
 				5BF545551E6FA09F00198E8E /* LLLocalModelRandomSet.h */,
 				5BF545561E6FA09F00198E8E /* LLLocalModelRandomSet.m */,
 				5BEBD9B51E54B31C00C69A53 /* Model */,
@@ -1973,8 +2046,6 @@
 			children = (
 				5BF545321E6F94AD00198E8E /* LLARModel.h */,
 				5BF545331E6F94AD00198E8E /* LLARModel.m */,
-				5BF545421E6F9A1C00198E8E /* LLARSuiPianModel.h */,
-				5BF545431E6F9A1C00198E8E /* LLARSuiPianModel.m */,
 				5BF545351E6F967500198E8E /* LLARModelRandomSet.h */,
 				5BF545361E6F967500198E8E /* LLARModelRandomSet.m */,
 				5BF5454F1E6F9EFE00198E8E /* ARPic */,
@@ -2129,7 +2200,7 @@
 				5B7B33831E01122600BB02D5 /* waitingBall-50.png in Resources */,
 				5B7B33661E01122600BB02D5 /* waitingBall-24.png in Resources */,
 				5BEBD9D61E559D9A00C69A53 /* day@2x.png in Resources */,
-				5B919CD51E588E7A00280F03 /* progress@2x.png in Resources */,
+				5B919CD51E588E7A00280F03 /* Mixprogress@2x.png in Resources */,
 				5B7B33451E01122600BB02D5 /* waitingBall-120.png in Resources */,
 				5B919CCF1E588E7A00280F03 /* mix_able@2x.png in Resources */,
 				5B919CBB1E588E7A00280F03 /* complete@2x.png in Resources */,
@@ -2175,6 +2246,7 @@
 				5B7B337E1E01122600BB02D5 /* waitingBall-46.png in Resources */,
 				5B7B33891E01122600BB02D5 /* waitingBall-56.png in Resources */,
 				5BF5457A1E712AFE00198E8E /* instruction_divison.png in Resources */,
+				5BA9EB7D1E7A98BB00EC0531 /* cloud4.png in Resources */,
 				5BEBD9DA1E559D9A00C69A53 /* Punchnotfound@2x.png in Resources */,
 				5B919CBA1E588E7A00280F03 /* circleprogress@3x.png in Resources */,
 				5B7B338A1E01122600BB02D5 /* waitingBall-57.png in Resources */,
@@ -2187,6 +2259,7 @@
 				5B4695B81E4EE58800D6B7DC /* snow_lock@2x.png in Resources */,
 				5BBC22091DE82084008DAAD4 /* namecard.jpg in Resources */,
 				5BBC22061DE82084008DAAD4 /* IMG_9357.JPG in Resources */,
+				5BA9EB921E7EC27D00EC0531 /* FilterLighting.atlas in Resources */,
 				5BD2ABAC1E6C3F21004E9E91 /* restaurant_dongjiu3.jpg in Resources */,
 				5B7B33461E01122600BB02D5 /* waitingBall-121.png in Resources */,
 				5B9B09FB1E13F307006CA8A3 /* layer@3x.png in Resources */,
@@ -2261,6 +2334,7 @@
 				5B7B33961E01122600BB02D5 /* waitingBall-68.png in Resources */,
 				5B4695B01E4EE58800D6B7DC /* ocean_chosen@2x.png in Resources */,
 				5BF5454C1E6F9E6C00198E8E /* chibang.png in Resources */,
+				5BA9EB951E7EC32300EC0531 /* Fliterrainbow.atlas in Resources */,
 				5B7342AB1E7516FD001FDF1C /* btn_qq@2x.png in Resources */,
 				5BD2ABA61E6C3F21004E9E91 /* TeachBuilding_xishier1.jpg in Resources */,
 				5B7B33681E01122600BB02D5 /* waitingBall-26.png in Resources */,
@@ -2302,7 +2376,7 @@
 				5B7B33801E01122600BB02D5 /* waitingBall-48.png in Resources */,
 				5BF5455E1E6FA30500198E8E /* naiqi.png in Resources */,
 				5B7B33311E01122600BB02D5 /* waitingBall-102.png in Resources */,
-				5B919CD61E588E7A00280F03 /* progress@3x.png in Resources */,
+				5B919CD61E588E7A00280F03 /* Mixprogress@3x.png in Resources */,
 				5B7B33971E01122600BB02D5 /* waitingBall-69.png in Resources */,
 				5B7B338F1E01122600BB02D5 /* waitingBall-61.png in Resources */,
 				5BEBD9E41E559D9A00C69A53 /* step-number-layer@2x.png in Resources */,
@@ -2389,6 +2463,7 @@
 				5B7B33B41E01122700BB02D5 /* waitingBall-95.png in Resources */,
 				5B7B33741E01122600BB02D5 /* waitingBall-37.png in Resources */,
 				5B7B33AA1E01122700BB02D5 /* waitingBall-86.png in Resources */,
+				5BA9EB961E7EC32300EC0531 /* smallrain.atlas in Resources */,
 				5B7B337A1E01122600BB02D5 /* waitingBall-42.png in Resources */,
 				5B7B33881E01122600BB02D5 /* waitingBall-55.png in Resources */,
 				5B3BB8BD1E353142004DA752 /* liuliu.JPG in Resources */,
@@ -2428,7 +2503,6 @@
 				5BBC220B1DE82085008DAAD4 /* targets.json in Resources */,
 				5B919D151E5973CE00280F03 /* center_button_off@2x.png in Resources */,
 				5B919CD21E588E7A00280F03 /* mix_unable@3x.png in Resources */,
-				5B850CB31E467BBC00BDDD23 /* filter_lightening.atlas in Resources */,
 				5B919CBD1E588E7A00280F03 /* cover@2x.png in Resources */,
 				5BF545641E6FA43D00198E8E /* aiyi.png in Resources */,
 				5B7B33361E01122600BB02D5 /* waitingBall-107.png in Resources */,
@@ -2526,20 +2600,25 @@
 			files = (
 				5B29482D1E099AA40062E9EC /* LLGetNowTime.m in Sources */,
 				5BD2AAFC1E6B1188004E9E91 /* LLARControl.m in Sources */,
+				5B867EA01E78FE18006316DA /* LLSuiPian.m in Sources */,
 				5B729A571DF58B2D000FE6E9 /* LLGetStep.m in Sources */,
 				5B2948321E09CCAE0062E9EC /* LLBoostView.m in Sources */,
 				5BBC22321DE82925008DAAD4 /* LLHomePageViewController.mm in Sources */,
 				5B919D0E1E5930CE00280F03 /* LLCustomeSwitch.m in Sources */,
+				5B14F6E61E80E7EC00E3B067 /* LLMixView.m in Sources */,
 				5B7342981E744768001FDF1C /* HomeLoginViewController.m in Sources */,
 				5B9B09FE1E164B56006CA8A3 /* LLSelfInformation.m in Sources */,
+				5BA9EB801E7CB9BE00EC0531 /* LLChooseViewCell.m in Sources */,
 				5BEBD9E91E55BDCF00C69A53 /* LLMusicYeah.m in Sources */,
 				5B5C98B11E78DB09007E8A09 /* LLFilter.m in Sources */,
 				5BBC221E1DE82085008DAAD4 /* renderer.cc in Sources */,
 				5B73429C1E744B81001FDF1C /* LLEveryDaystep.m in Sources */,
+				5BA9EB8D1E7D24F600EC0531 /* LLFIlterSceneManager.m in Sources */,
 				5B3BB8AE1E33CB24004DA752 /* LLPunchStepsCollectionViewCell.m in Sources */,
 				5BBC22021DE82084008DAAD4 /* ar.cc in Sources */,
 				5B7B33BB1E0140C600BB02D5 /* LLTimerLabel.m in Sources */,
 				5B0D39011E52285E0018328A /* LLSuiPianVIew.m in Sources */,
+				5BA9EB901E7EB73300EC0531 /* LLFilterScene.m in Sources */,
 				5B850CC21E467C7600BDDD23 /* FilterDefaultSunshine.m in Sources */,
 				5B7B32991DFF95D100BB02D5 /* LLFindPasswordViewController.m in Sources */,
 				5BF545541E6FA03600198E8E /* LLLocalModel.m in Sources */,
@@ -2553,13 +2632,14 @@
 				5B7B32931DFF86A100BB02D5 /* LLloginViewController.m in Sources */,
 				5B729A6E1DF7CD04000FE6E9 /* HintViewPresent.m in Sources */,
 				5B3D86A01E75396900791872 /* LLPunchManger.m in Sources */,
+				5BA9EB8A1E7D236100EC0531 /* LLCustomeSKView.m in Sources */,
 				5BBC218C1DE81DAA008DAAD4 /* AppDelegate.mm in Sources */,
 				5B919C991E58748500280F03 /* LLFilterSuiPian.m in Sources */,
 				5B73429F1E744C7C001FDF1C /* LLStepsManger.m in Sources */,
+				5B867EA31E791769006316DA /* LLFilterManager.m in Sources */,
 				5B4695971E4ED9FC00D6B7DC /* LLSetViewController.m in Sources */,
 				5B7B32961DFF95B300BB02D5 /* LLRegistViewController.m in Sources */,
 				5B919C541E585F3800280F03 /* LLMixTableViewCell.m in Sources */,
-				5BF5455A1E6FA19200198E8E /* LLLocalSuiPian.m in Sources */,
 				5B850CB61E467C0B00BDDD23 /* FilterDefaultCloud.m in Sources */,
 				5B3BB86C1E3390AC004DA752 /* LLRankViewController.m in Sources */,
 				5B3BB8631E338251004DA752 /* LLPunchViewController.m in Sources */,
@@ -2572,11 +2652,11 @@
 				5B7B33BE1E0268F000BB02D5 /* LLmeasureCountTimer.m in Sources */,
 				5BD2AAF81E6AC926004E9E91 /* LLJudgeNetManager.m in Sources */,
 				5B7954E81E5C8402001CE220 /* AnimationViewController.m in Sources */,
+				5BE98CCB1E79389400CABD45 /* LLSuiPianManager.m in Sources */,
 				5BF5452D1E6EA7C000198E8E /* LLARPicsModel.m in Sources */,
 				5BF545571E6FA09F00198E8E /* LLLocalModelRandomSet.m in Sources */,
 				5BF545341E6F94AD00198E8E /* LLARModel.m in Sources */,
 				5BBC21891DE81DAA008DAAD4 /* main.m in Sources */,
-				5BF545441E6F9A1C00198E8E /* LLARSuiPianModel.m in Sources */,
 				5BBC222E1DE8248E008DAAD4 /* LLHomePageDisplayView.m in Sources */,
 				5B46958F1E4D95CE00D6B7DC /* LLPunchSetArray.m in Sources */,
 				5BEBD9B01E5356E400C69A53 /* newview.m in Sources */,

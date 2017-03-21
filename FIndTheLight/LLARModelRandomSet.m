@@ -7,7 +7,7 @@
 //
 
 #import "LLARModelRandomSet.h"
-
+#import "LLFilter.h"
 @implementation LLARModelRandomSet
 
 -(LLARModel *)LLARRandomSetModel{
@@ -25,36 +25,88 @@
         model.LLARModelImageName = @"starstar.png";
         model.LLARModelLevelImageName = @"optical_rank.png";
     }
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    [realm transactionWithBlock:^{
+        //存储数据
+        [realm  addObject:model];
+        //写入数据库
+        [realm commitWriteTransaction];
+    }];
     return model;
 }
 
 
--(LLARSuiPianModel*)LLARRandomSetSuiPianWithModelName:(NSString*)ModelName{
-    LLARSuiPianModel *SuiPianmodel = [[LLARSuiPianModel alloc]init];
+-(LLSuiPian*)LLARRandomSetSuiPianWithModelName:(NSString*)ModelName{
+    __block LLSuiPian *SuiPianmodel = [[LLSuiPian alloc]init];
     int possible = arc4random() % 101;
     if ([ModelName isEqualToString:@"pumpkin"]) {
         if (possible >= 0 && possible <= 30) {
-            SuiPianmodel.LLARSuiPianNameString = @"Tengman";
-            SuiPianmodel.LLLARSuiPianImageName = @"tengman.png";
+            SuiPianmodel.LLSuiPianName = @"Tengman";
+            SuiPianmodel.LLSuiPianPicName = @"tengman.png";
         }else if(possible >= 30 && possible <= 40){
-            SuiPianmodel.LLARSuiPianNameString = @"jianjiao";
-            SuiPianmodel.LLLARSuiPianImageName = @"jianjiao.png";
+            SuiPianmodel.LLSuiPianName = @"jianjiao";
+            SuiPianmodel.LLSuiPianPicName = @"jianjiao.png";
         }else{
-            SuiPianmodel.LLARSuiPianNameString = @"nanguabing";
-            SuiPianmodel.LLLARSuiPianImageName = @"nanguabing.png";
+            SuiPianmodel.LLSuiPianName = @"nanguabing";
+            SuiPianmodel.LLSuiPianPicName = @"nanguabing.png";
         }
     }else if([ModelName isEqualToString:@"star"]){
         if(possible >= 0 && possible <= 80){
-            SuiPianmodel.LLARSuiPianNameString = @"chibang";
-            SuiPianmodel.LLLARSuiPianImageName = @"chibang.png";
+            SuiPianmodel.LLSuiPianName = @"chibang";
+            SuiPianmodel.LLSuiPianPicName = @"chibang.png";
         }else{
-            SuiPianmodel.LLARSuiPianNameString = @"faguangTail";
-            SuiPianmodel.LLLARSuiPianImageName = @"faguangTail.png";
+            SuiPianmodel.LLSuiPianName = @"faguangTail";
+            SuiPianmodel.LLSuiPianPicName = @"faguangTail.png";
         }
     }
     
+    
+    
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    RLMResults *SuiPianArray = [LLSuiPian allObjectsInRealm:[RLMRealm defaultRealm]];
+    RLMResults *FilterArray = [LLFilter allObjectsInRealm:[RLMRealm defaultRealm]];
+    [realm transactionWithBlock:^{
+        for (LLSuiPian  *suipian  in SuiPianArray) {
+            if ([suipian.LLSuiPianName isEqualToString:SuiPianmodel.LLSuiPianName]) {
+                suipian.LLSuiPianCount++;
+                if (!suipian.SuiPianHasShow) {
+                    suipian.SuiPianHasShow = YES;
+                    SuiPianmodel = suipian;
+//                    [self doSomeSuiPianChange:suipian];
+                }
+            }
+        }
+        
+        for (LLFilter  *filter  in FilterArray) {
+            if ([filter.suiPian1 isEqualToObject:SuiPianmodel]||[filter.suiPian2 isEqualToObject:SuiPianmodel]||[filter.suiPian3 isEqualToObject:SuiPianmodel]) {
+                if(!filter.LLFilterHasbeenFound){
+                    filter.LLFilterHasbeenFound = YES;
+                }
+            }
+        }
+        
+        [realm commitWriteTransaction];
+    }];
     return SuiPianmodel;
 }
+
+//-(void)doSomeSuiPianChange:(LLSuiPian*)SuiPianmodel{
+//        //遍历滤镜
+//        //滤镜的进度增加
+//        //出现新的滤镜 滤镜开启
+//        RLMRealm *realm = [RLMRealm defaultRealm];
+//        RLMResults *FilterArray = [LLFilter allObjectsInRealm:[RLMRealm defaultRealm]];
+//        [realm transactionWithBlock:^{
+//            for (LLFilter  *filter  in FilterArray) {
+//                if ([filter.suiPian1 isEqualToObject:SuiPianmodel]||[filter.suiPian2 isEqualToObject:SuiPianmodel]||[filter.suiPian3 isEqualToObject:SuiPianmodel]) {
+//                    if(!filter.LLFilterHasbeenFound){
+//                        filter.LLFilterHasbeenFound = YES;
+//                    }
+//                }
+//            }
+//            [realm commitWriteTransaction];
+//        }];
+//}
 
 
 -(int)JudgeLightValue{

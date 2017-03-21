@@ -182,7 +182,6 @@
             HKQuantity *quantity = result.quantity;
             NSMutableString *stepCount = (NSMutableString *)quantity;
             NSString *stepStr =[NSString stringWithFormat:@"%@",stepCount];
-            
             //获取51 count此类字符串前面的数字
             NSString *str = [stepStr componentsSeparatedByString:@" "][0];
             int stepNum = [str intValue];
@@ -190,9 +189,6 @@
             //把一天中所有时间段中的步数加到一起
         }
 //        NSLog(@"%d",count);
-
-//
-        
 //        LLEveryDaystep *model = [[LLEveryDaystep alloc]init];
         
         NSString *StepsCount = [NSString stringWithFormat:@"%d",count];

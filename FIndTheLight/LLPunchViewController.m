@@ -667,7 +667,6 @@
     [bezierbackView removeFromSuperview];
     [punchView removeFromSuperview];
     ThedayStep = step.text;
-//    DrawCircleWithEnergy =
     [self DrawCircleWithEnergy:ThedayStep];
 //    nsda
     NSDate *thisdate = [dateformatter dateFromString:model.LLEverydayDate];

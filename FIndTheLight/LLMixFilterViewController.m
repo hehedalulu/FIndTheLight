@@ -8,10 +8,15 @@
 
 #import "LLMixFilterViewController.h"
 #import "LLMixTableViewCell.h"
+#import "LLFilter.h"
+#import "LLSuiPian.h"
+
 @interface LLMixFilterViewController (){
     UITableView *llfilterTableView;
     BOOL isOpen;
     NSIndexPath * selectedIndex;
+//    int canOpenIndex;
+    NSMutableArray *canOpenArray;
     
 }
 
@@ -21,6 +26,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    canOpenArray  = [[NSMutableArray alloc]initWithObjects:@"NO",@"NO",@"NO",@"NO",@"NO", nil];
     self.navigationController.interactivePopGestureRecognizer.enabled = NO;
     self.view.backgroundColor = [UIColor colorWithRed:23.0/255.0 green:27.0/255.0 blue:47.0/255.0 alpha:1];
     
@@ -94,22 +100,22 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     if (indexPath.section == selectedIndex.section && selectedIndex != nil ) {
-        if (isOpen == YES) {
-            
-//            CGFloat f = 10;
-            
-            if (indexPath.section == 9){
-                
-//                return 183.8+(f - 21);
-                return [UIScreen mainScreen].bounds.size.width*0.3815;
+
+//        }else{
+            if (isOpen == YES) {
+                if(indexPath.section==2|indexPath.section==3|indexPath.section==4){
+                    return [UIScreen mainScreen].bounds.size.width*0.218;
+                }else{
+                    if ([[canOpenArray objectAtIndex:indexPath.section] isEqualToString:@"YES"]) {
+                        return [UIScreen mainScreen].bounds.size.width*0.3815;
+                    }else{
+                        return [UIScreen mainScreen].bounds.size.width*0.218;
+                    }
+                }
+            }else{
+                return [UIScreen mainScreen].bounds.size.width*0.218;
             }
-            
-//            return 185+(f - 21);
-            return [UIScreen mainScreen].bounds.size.width*0.3815;
-            
-        }else{
-            return [UIScreen mainScreen].bounds.size.width*0.218;
-        }
+//        }
     }
     return  [UIScreen mainScreen].bounds.size.width*0.218;
     
@@ -117,124 +123,157 @@
 - (LLMixTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     LLMixTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"id1"];
     
-    
     cell = [[LLMixTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"id1"];
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     tableView.separatorStyle = NO;
-    //init每一行滤镜的模型
-    filtermodel = [[LLFilterModel alloc]init];
-    switch (indexPath.section) {
-        case 0:{
-            filtermodel.LLFilterModelName = @"开学季";
-            break;
-        }
-        case 1:{
-            filtermodel.LLFilterModelName = @"测试滤镜1";
-            break;
-        }
-        case 2:{
-            filtermodel.LLFilterModelName = @"未知滤镜";
-            break;
-        }
-        case 3:{
-            filtermodel.LLFilterModelName = @"未知滤镜";
-            break;
-        }
-        case 4:{
-            filtermodel.LLFilterModelName = @"未知滤镜";
-            break;
-        }
-        default:
-            break;
-    }
-    [filtermodel setModelContent];
     
-    cell.LLMixFilterName.text = filtermodel.LLFilterModelName;
-    //碎片1
-    if (filtermodel.suiPian1.SuiPianHasShow == NO) {
+    RLMRealm * realm = [RLMRealm defaultRealm];
+    RLMResults<LLFilter *> *tempArray = [LLFilter allObjectsInRealm:[RLMRealm defaultRealm]];
+    NSMutableArray *FilterArray = [[NSMutableArray alloc]init];
+    
+    [realm transactionWithBlock:^{
+        for (LLFilter *model  in tempArray) {
+                [FilterArray addObject:model];
+        }
+        [realm commitWriteTransaction]; //注意  这里不能写在for循环里面 写入数据库， 要在循环改变完只好
+    }];
+    LLFilter *Filter = [FilterArray objectAtIndex:indexPath.section];
+    
+    cell.LLMixFilterName.text = Filter.LLFilterName;
+    cell.LLMixIcon.image = [UIImage imageNamed:Filter.LLFilterPicName];
+
+    if (Filter.suiPian1) {
+        if (Filter.suiPian1.SuiPianHasShow) {
+            cell.LLMixSuiPianLabel1.text = Filter.suiPian1.LLSuiPianName;
+            cell.LLMixSuiPianImage1.image = [UIImage imageNamed:Filter.suiPian1.LLSuiPianPicName];
+        }else{
+            cell.LLMixSuiPianLabel1.text = @"未知";
+            cell.LLMixSuiPianImage1.image = [UIImage imageNamed:@"notfound.png"];
+        }
+        if (Filter.suiPian2.SuiPianHasShow) {
+            cell.LLMixSuiPianLabel2.text = Filter.suiPian2.LLSuiPianName;
+            cell.LLMixSuiPianImage2.image = [UIImage imageNamed:Filter.suiPian2.LLSuiPianPicName];
+        }else{
+            cell.LLMixSuiPianLabel2.text = @"未知";
+            cell.LLMixSuiPianImage2.image = [UIImage imageNamed:@"notfound.png"];
+        }
+        if (Filter.suiPian3.SuiPianHasShow) {
+            cell.LLMixSuiPianLabel3.text = Filter.suiPian3.LLSuiPianName;
+            cell.LLMixSuiPianImage3.image = [UIImage imageNamed:Filter.suiPian3.LLSuiPianPicName];
+        }else{
+            cell.LLMixSuiPianLabel3.text = @"未知";
+            cell.LLMixSuiPianImage3.image = [UIImage imageNamed:@"notfound.png"];
+        }
+    }else{
+        cell.LLMixSuiPianLabel1.text = @"未知";
+        cell.LLMixSuiPianLabel2.text = @"未知";
+        cell.LLMixSuiPianLabel3.text = @"未知";
         cell.LLMixSuiPianImage1.image = [UIImage imageNamed:@"notfound.png"];
-    }else{
-        cell.LLMixSuiPianImage1.image = [UIImage imageNamed:@"icon_rank.png"];
-    }
-    cell.LLMixSuiPianLabel1.text = filtermodel.suiPian1.LLFilterSuiPianName;
-    
-    //碎片2
-    if (filtermodel.suiPian2.SuiPianHasShow == NO) {
         cell.LLMixSuiPianImage2.image = [UIImage imageNamed:@"notfound.png"];
-    }else{
-        cell.LLMixSuiPianImage2.image = [UIImage imageNamed:@"icon_flower.png"];
-    }
-    cell.LLMixSuiPianLabel2.text = filtermodel.suiPian2.LLFilterSuiPianName;
-    
-    //碎片3
-    if (filtermodel.suiPian3.SuiPianHasShow == NO) {
         cell.LLMixSuiPianImage3.image = [UIImage imageNamed:@"notfound.png"];
-    }else{
-        cell.LLMixSuiPianImage3.image = [UIImage imageNamed:@"icon_glass.png"];
     }
-    cell.LLMixSuiPianLabel3.text = filtermodel.suiPian3.LLFilterSuiPianName;
+    
+    if(indexPath.section==2|indexPath.section==3|indexPath.section==4){
+        cell.LLMixFilterProgressImg.hidden = YES;
+        cell.LLMixFilterProgress.hidden = YES;
+//
+    }
+
     
     if (indexPath.section == selectedIndex.section && selectedIndex != nil) {
-        //如果是展开
-        if (isOpen == YES) {
-            cell.LLMixCellBgV.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width,  [UIScreen mainScreen].bounds.size.width*0.3815);
-            [cell removeView];
-            cell.SuiPianProgress1 = filtermodel.LLMixSuiPianHad1;
-            cell.SuiPianNeedProg1 = filtermodel.LLMixSuiPianNeed1;
-            cell.SuiPianStoreCount1 = filtermodel.suiPian1.LLSuiPianTotalCount;
-            cell.SuiPianProgress2 = filtermodel.LLMixSuiPianHad2;
-            cell.SuiPianNeedProg2 = filtermodel.LLMixSuiPianNeed2;
-            cell.SuiPianStoreCount2 = filtermodel.suiPian2.LLSuiPianTotalCount;
-            cell.SuiPianProgress3 = filtermodel.LLMixSuiPianHad3;
-            cell.SuiPianNeedProg3 = filtermodel.LLMixSuiPianNeed3;
-            cell.SuiPianStoreCount3 = filtermodel.suiPian3.LLSuiPianTotalCount;
-            
-            [cell initNewView];
-            cell.LLMixFilterName.text = filtermodel.LLFilterModelName;
-            //碎片1
-            if (filtermodel.suiPian1.SuiPianHasShow == NO) {
-                cell.LLMixSuiPianImage1.image = [UIImage imageNamed:@"notfound.png"];
-            }else{
-                cell.LLMixSuiPianImage1.image = [UIImage imageNamed:@"icon_rank.png"];
+//        //如果是展开
+        if(indexPath.section==2|indexPath.section==3|indexPath.section==4){
+//            cell.LLMixFilterProgressImg.hidden = YES;
+//            cell.LLMixFilterProgress.hidden = YES;
+            cell.LLMixCellBgV.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width,
+                                                 [UIScreen mainScreen].bounds.size.width*0.218);
+        }else{//已经找到一个碎片且未合成可以展开
+            if (Filter.LLFilterHasbeenFound&&(!(Filter.LLFilterHasBeenMixed))) {
+                if (isOpen == YES) {
+                    [cell removeView];
+                    cell.SuiPianStoreCount1 = Filter.suiPian1.LLSuiPianCount;
+                    cell.SuiPianProgress1 = Filter.LLsuiPian1Had;
+                    cell.SuiPianNeedProg1 = Filter.LLsuiPian1Need;
+                    cell.SuiPianStoreCount2 = Filter.suiPian2.LLSuiPianCount;
+                    cell.SuiPianProgress2 = Filter.LLsuiPian2Had;
+                    cell.SuiPianNeedProg2 = Filter.LLsuiPian2Need;
+                    cell.SuiPianStoreCount3 = Filter.suiPian3.LLSuiPianCount;
+                    cell.SuiPianProgress3 = Filter.LLsuiPian3Had;
+                    cell.SuiPianNeedProg3 = Filter.LLsuiPian3Need;
+                    cell.LLMixFilterProgressPercent = Filter.LLFilterProgress;
+                    [cell initNewView];
+                    if (Filter.suiPian1) {
+                        if (Filter.suiPian1.SuiPianHasShow) {
+                            cell.LLMixSuiPianLabel1.text = Filter.suiPian1.LLSuiPianName;
+                            cell.LLMixSuiPianImage1.image = [UIImage imageNamed:Filter.suiPian1.LLSuiPianPicName];
+                        }else{
+                            cell.LLMixSuiPianLabel1.text = @"未知";
+                            cell.LLMixSuiPianImage1.image = [UIImage imageNamed:@"notfound.png"];
+                        }
+                        if (Filter.suiPian2.SuiPianHasShow) {
+                            cell.LLMixSuiPianLabel2.text = Filter.suiPian2.LLSuiPianName;
+                            cell.LLMixSuiPianImage2.image = [UIImage imageNamed:Filter.suiPian2.LLSuiPianPicName];
+                        }else{
+                            cell.LLMixSuiPianLabel2.text = @"未知";
+                            cell.LLMixSuiPianImage2.image = [UIImage imageNamed:@"notfound.png"];
+                        }
+                        if (Filter.suiPian3.SuiPianHasShow) {
+                            cell.LLMixSuiPianLabel3.text = Filter.suiPian3.LLSuiPianName;
+                            cell.LLMixSuiPianImage3.image = [UIImage imageNamed:Filter.suiPian3.LLSuiPianPicName];
+                        }else{
+                            cell.LLMixSuiPianLabel3.text = @"未知";
+                            cell.LLMixSuiPianImage3.image = [UIImage imageNamed:@"notfound.png"];
+                        }
+                    }else{
+                        cell.LLMixSuiPianLabel1.text = @"未知";
+                        cell.LLMixSuiPianLabel2.text = @"未知";
+                        cell.LLMixSuiPianLabel3.text = @"未知";
+                        cell.LLMixSuiPianImage1.image = [UIImage imageNamed:@"notfound.png"];
+                        cell.LLMixSuiPianImage2.image = [UIImage imageNamed:@"notfound.png"];
+                        cell.LLMixSuiPianImage3.image = [UIImage imageNamed:@"notfound.png"];
+                    }
+                    cell.LLMixCellBgV.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width,
+                                                         [UIScreen mainScreen].bounds.size.width*0.3815);
+                    NSLog(@"new cell");
+                    [canOpenArray replaceObjectAtIndex:indexPath.section withObject:@"YES"];
+                }else{
+                    cell.LLMixCellBgV.frame = CGRectMake(0, 0,
+                                                         [UIScreen mainScreen].bounds.size.width,
+                                                         [UIScreen mainScreen].bounds.size.width*0.218);
+                    //收起
+                    NSLog(@"old cell");
+                }
+            }else if(!Filter.LLFilterHasbeenFound){//如果这个滤镜没有被发现过
+                cell.LLMixFilterProgressImg.hidden = YES;
+                cell.LLMixFilterProgress.hidden = YES;
+                cell.LLMixCellBgV.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width,
+                                                     [UIScreen mainScreen].bounds.size.width*0.218);
+            }else if(Filter.LLFilterHasBeenMixed){
+                cell.LLMixFilterProgressImg.hidden = YES;
+                cell.LLMixFilterProgress.hidden = YES;
+                cell.LLMixCellBgV.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width,
+                                                     [UIScreen mainScreen].bounds.size.width*0.218);
             }
-            cell.LLMixSuiPianLabel1.text = filtermodel.suiPian1.LLFilterSuiPianName;
-
-            
-            
-            //碎片2
-            if (filtermodel.suiPian2.SuiPianHasShow == NO) {
-                cell.LLMixSuiPianImage2.image = [UIImage imageNamed:@"notfound.png"];
-            }else{
-                cell.LLMixSuiPianImage2.image = [UIImage imageNamed:@"icon_flower.png"];
-            }
-            cell.LLMixSuiPianLabel2.text = filtermodel.suiPian2.LLFilterSuiPianName;
-
-            
-            //碎片3
-            if (filtermodel.suiPian3.SuiPianHasShow == NO) {
-                cell.LLMixSuiPianImage3.image = [UIImage imageNamed:@"notfound.png"];
-            }else{
-                cell.LLMixSuiPianImage3.image = [UIImage imageNamed:@"icon_glass.png"];
-            }
-            cell.LLMixSuiPianLabel3.text = filtermodel.suiPian3.LLFilterSuiPianName;
-
-            
-            
-            NSLog(@"第二个碎片%d 需要%d",filtermodel.LLMixSuiPianHad2,filtermodel.LLMixSuiPianNeed2);
-            
-            NSLog(@"new cell");
-        }else{
-            cell.LLMixCellBgV.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.width*0.218);
-            //收起
-            NSLog(@"old cell");
         }
-        
-        //不是自身
-    } else {
     }
-    
-
+    if(!Filter.LLFilterHasbeenFound){//如果这个滤镜没有被发现过
+        cell.LLMixFilterProgressImg.hidden = YES;
+        cell.LLMixFilterProgress.hidden = YES;
+        cell.LLMixCellBgV.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width,
+                                             [UIScreen mainScreen].bounds.size.width*0.218);
+    }else if(Filter.LLFilterHasBeenMixed){
+        cell.LLMixFilterProgressImg.hidden = YES;
+        cell.LLMixFilterProgress.hidden = YES;
+        cell.LLMixSuiPianLabel1.hidden = YES;
+        cell.LLMixSuiPianLabel2.hidden = YES;
+        cell.LLMixSuiPianLabel3.hidden = YES;
+        cell.LLMixSuiPianImage1.hidden = YES;
+        cell.LLMixSuiPianImage2.hidden = YES;
+        cell.LLMixSuiPianImage3.hidden = YES;
+        cell.LLMixCellBgV.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width,
+                                             [UIScreen mainScreen].bounds.size.width*0.218);
+    }
     [tableView setTableHeaderView:[[UIView alloc]initWithFrame:CGRectZero]];
     
     return cell;
@@ -244,26 +283,28 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     [tableView deselectRowAtIndexPath:indexPath animated:NO];// 取消选中效果
-    
-    
     NSArray *indexPaths = [NSArray arrayWithObject:indexPath];
     //判断选中不同row状态时候
     if (selectedIndex != nil && indexPath.section == selectedIndex.section) {
         //将选中的和所有索引都加进数组中
-        //        indexPaths = [NSArray arrayWithObjects:indexPath,selectedIndex, nil];
+//        indexPaths = [NSArray arrayWithObjects:indexPath,selectedIndex, nil];
         isOpen = !isOpen;
         
     }else if (selectedIndex != nil && indexPath.section != selectedIndex.section) {
         indexPaths = [NSArray arrayWithObjects:indexPath,selectedIndex, nil];
-        isOpen = YES;
-        
+            isOpen = YES;
     }
-    
+
     //记下选中的索引
     selectedIndex = indexPath;
+    NSLog(@"选中的下标%@",indexPath);
     //刷新
     [tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
 }
 
+
+-(void)Mixfilter{
+    
+}
 
 @end

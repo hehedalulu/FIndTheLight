@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "JCAlertView.h"
 //#import "LLFilterModel.h"
 @interface LLMixTableViewCell : UITableViewCell{
 //    LLFilterModel *filterModel;
@@ -19,6 +20,7 @@
     
     int SuiPianNeed3;
     int SuiPianHad3;
+    JCAlertView *customAlert;
 }
 
 @property (nonatomic) UIImageView *LLMixCellBgV;
@@ -44,22 +46,24 @@
 @property (nonatomic) int SuiPianProgress1;
 @property (nonatomic) int SuiPianNeedProg1;
 @property (nonatomic) int SuiPianStoreCount1;
+@property UILabel *JinduLabel1;
 
 @property (nonatomic) UIImageView *LLMixSuiPianProgressBgV2;
 @property (nonatomic) int SuiPianProgress2;
 @property (nonatomic) int SuiPianNeedProg2;
 @property (nonatomic) int SuiPianStoreCount2;
-
+@property UILabel *JinduLabel2;
 
 @property (nonatomic) UIImageView *LLMixSuiPianProgressBgV3;
 @property (nonatomic) int SuiPianProgress3;
 @property (nonatomic) int SuiPianNeedProg3;
 @property (nonatomic) int SuiPianStoreCount3;
-
+@property UILabel *JinduLabel3;
 
 @property (nonatomic) UIImageView *LLMixFilterProgressImg;
 
 @property (nonatomic) UILabel *LLMixFilterProgress;
+@property (assign) int LLMixFilterProgressPercent;
 -(void)removeView;
 -(void)initNewView;
 

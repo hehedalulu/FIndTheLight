@@ -4,7 +4,6 @@ pod 'Masonry'
 pod 'JCAlertView'
 pod 'BmobSDK'
 pod 'SDWebImage'
-pod 'SDAutoLayout', '~> 2.1.1'
 pod 'AMap2DMap' #2D地图SDK
 pod 'AMapSearch' #搜索服务SDK
 pod 'AMapLocation'

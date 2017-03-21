@@ -15,21 +15,12 @@
  llBoostView.LLBoostcontentView.frame = CGRectMake(100, 200, 200, 200);
  */
 
-- (void)drawRect:(CGRect)rect {
-
+-(void)drawRect:(CGRect)rect {
     
-//    [self DrawinNeed];
 }
 
 -(void)DrawinNeed{
-//    LLGetStep *getstep = [[LLGetStep alloc]init];
-//    [getstep CreatHealth];
-    
-//    NSString *nowEnergy = [[NSUserDefaults standardUserDefaults]valueForKey:@"energy"];
-//    _LLNowEnergy = [nowEnergy intValue];
-//    NSLog(@"拿到的能量值是%d",_LLNowEnergy);
-//    _LLMatureNeedEnergy = 3600;
-    //    _LLNowEnergy =
+
     _LLBoostcontentView = [[UIImageView alloc]initWithFrame:CGRectMake(self.bounds.size.width/2, self.bounds.size.height/2, 0, 0)];
     _LLBoostcontentView.image = [UIImage imageNamed:@"layer.png"];
     _LLBoostcontentView.clipsToBounds = YES;
